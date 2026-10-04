@@ -2,34 +2,34 @@
 import { reactive, ref } from 'vue'
 import { MapPin, Phone, Mail, Clock } from '@lucide/vue'
 
-type Field = 'name' | 'email' | 'phone' | 'subject' | 'message'
+type ContactField = 'name' | 'email' | 'phone' | 'subject' | 'message'
 
 const form = reactive({ name: '', email: '', phone: '', subject: '', message: '' })
-const errors = reactive<Partial<Record<Field, string>>>({})
-const status = ref<'idle' | 'sending' | 'sent' | 'failed'>('idle')
+const errors = reactive<Partial<Record<ContactField, string>>>({})
+const submitStatus = ref<'idle' | 'sending' | 'sent' | 'failed'>('idle')
 
-const rules: Record<Field, (v: string) => string> = {
-  name: (v) => (v.trim() ? '' : 'Please enter your full name.'),
-  email: (v) =>
-    !v.trim()
+const rules: Record<ContactField, (value: string) => string> = {
+  name: (value) => (value.trim() ? '' : 'Please enter your full name.'),
+  email: (value) =>
+    !value.trim()
       ? 'Email is required.'
-      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         ? 'Please enter a valid email address.'
         : '',
-  phone: (v) => {
-    if (!v.trim()) return '' // optional
-    const digits = v.replace(/[\s-]/g, '').replace(/^0/, '')
+  phone: (value) => {
+    if (!value.trim()) return '' // optional
+    const digits = value.replace(/[\s-]/g, '').replace(/^0/, '')
     return /^1\d{8,9}$/.test(digits) ? '' : 'Enter a valid Malaysian mobile number.'
   },
-  subject: (v) => (v ? '' : 'Please choose a subject.'),
-  message: (v) => (v.trim().length >= 10 ? '' : 'Message must be at least 10 characters.'),
+  subject: (value) => (value ? '' : 'Please choose a subject.'),
+  message: (value) => (value.trim().length >= 10 ? '' : 'Message must be at least 10 characters.'),
 }
 
-const validate = (field: Field) => {
+const validateField = (field: ContactField) => {
   errors[field] = rules[field](form[field])
 }
 
-async function handleSubmit() {
+const submitForm = () => {
   console.log(form)
 }
 </script>
@@ -50,32 +50,32 @@ async function handleSubmit() {
           ></div>
           <ul class="contact-details">
             <li class="contact-detail contact-detail-address">
-              <MapPin class="contact-detail-icon" :size="18" aria-hidden="true" />
+              <MapPin class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
               Halls A–C, Kuala Lumpur
             </li>
             <li class="contact-detail">
-              <Phone class="contact-detail-icon" :size="18" aria-hidden="true" />
+              <Phone class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
               <a href="tel:+60327158800" class="contact-link">+60 3-2715 8800</a>
             </li>
             <li class="contact-detail">
-              <Mail class="contact-detail-icon" :size="18" aria-hidden="true" />
+              <Mail class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
               <a href="mailto:hello@careerconnect.example.my" class="contact-link">
                 hello@careerconnect.example.my
               </a>
             </li>
             <li class="contact-detail">
-              <Clock class="contact-detail-icon" :size="18" aria-hidden="true" />
+              <Clock class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
               12–14 Dec 2026 · 9:00 AM – 6:00 PM
             </li>
           </ul>
         </div>
 
         <!-- Right: form card -->
-        <form class="card contact-form" novalidate @submit.prevent="handleSubmit">
-          <p v-if="status === 'failed'" class="alert alert-error contact-form-full" role="alert">
+        <form class="card contact-form" novalidate v-on:submit.prevent="submitForm">
+          <p v-if="submitStatus === 'failed'" class="alert alert-error contact-form-full" role="alert">
             We couldn’t send your message. Please try again.
           </p>
-          <p v-if="status === 'sent'" class="alert alert-success contact-form-full" role="status">
+          <p v-if="submitStatus === 'sent'" class="alert alert-success contact-form-full" role="status">
             Message sent. We’ll reply within 2 working days.
           </p>
 
@@ -90,8 +90,8 @@ async function handleSubmit() {
               name="name"
               type="text"
               autocomplete="name"
-              :aria-invalid="!!errors.name"
-              @blur="validate('name')"
+              v-bind:aria-invalid="!!errors.name"
+              v-on:blur="validateField('name')"
             />
             <p v-if="errors.name" class="field-error" role="alert">{{ errors.name }}</p>
           </div>
@@ -107,8 +107,8 @@ async function handleSubmit() {
               name="email"
               type="email"
               autocomplete="email"
-              :aria-invalid="!!errors.email"
-              @blur="validate('email')"
+              v-bind:aria-invalid="!!errors.email"
+              v-on:blur="validateField('email')"
             />
             <p v-if="errors.email" class="field-error" role="alert">{{ errors.email }}</p>
           </div>
@@ -125,8 +125,8 @@ async function handleSubmit() {
               type="tel"
               autocomplete="tel"
               placeholder="12-345 6789"
-              :aria-invalid="!!errors.phone"
-              @blur="validate('phone')"
+              v-bind:aria-invalid="!!errors.phone"
+              v-on:blur="validateField('phone')"
             />
             <p v-if="errors.phone" class="field-error" role="alert">{{ errors.phone }}</p>
           </div>
@@ -140,8 +140,8 @@ async function handleSubmit() {
               v-model="form.subject"
               class="input"
               name="subject"
-              :aria-invalid="!!errors.subject"
-              @blur="validate('subject')"
+              v-bind:aria-invalid="!!errors.subject"
+              v-on:blur="validateField('subject')"
             >
               <option value="" disabled>Select a subject</option>
               <option>General</option>
@@ -162,8 +162,8 @@ async function handleSubmit() {
               class="input"
               name="message"
               rows="5"
-              :aria-invalid="!!errors.message"
-              @blur="validate('message')"
+              v-bind:aria-invalid="!!errors.message"
+              v-on:blur="validateField('message')"
             ></textarea>
             <p v-if="errors.message" class="field-error" role="alert">{{ errors.message }}</p>
           </div>
@@ -171,9 +171,9 @@ async function handleSubmit() {
           <button
             type="submit"
             class="btn btn-primary contact-submit"
-            :disabled="status === 'sending'"
+            v-bind:disabled="submitStatus === 'sending'"
           >
-            {{ status === 'sending' ? 'Sending…' : 'Send Message' }}
+            {{ submitStatus === 'sending' ? 'Sending…' : 'Send Message' }}
           </button>
         </form>
       </div>
@@ -200,7 +200,7 @@ async function handleSubmit() {
 .contact-map {
   flex: 1;
   min-height: 200px;
-  background: #e2e8f0;
+  background: var(--border);
 }
 
 .contact-details {

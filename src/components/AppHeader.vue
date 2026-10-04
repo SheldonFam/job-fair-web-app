@@ -1,33 +1,26 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { Check, ChevronDown, Globe, Menu } from '@lucide/vue'
+import { navLinks } from '@/data/navigation'
 
 defineEmits<{ openExhibitor: []; openNav: [] }>()
 
-const links = [
-  { id: 'about', label: 'About' },
-  { id: 'floorplan', label: 'Floor Plan' },
-  { id: 'exhibitors', label: 'Exhibitors' },
-  { id: 'sessions', label: 'Sessions' },
-  { id: 'contact', label: 'Contact' },
-]
-
 const languages = [
-  { code: 'en', short: 'EN', name: 'English' },
-  { code: 'ms', short: 'BM', name: 'Bahasa Melayu' },
-  { code: 'zh', short: '中文', name: '中文' },
+  { code: 'en', shortLabel: 'EN', name: 'English' },
+  { code: 'ms', shortLabel: 'BM', name: 'Bahasa Melayu' },
+  { code: 'zh', shortLabel: '中文', name: '中文' },
 ]
 
 // UI only for now: this remembers the choice but does not translate the page yet
 const selectedLanguage = ref('en')
-const isLangOpen = ref(false)
+const isLanguageOpen = ref(false)
 const currentLanguage = computed(
-  () => languages.find((lang) => lang.code === selectedLanguage.value) ?? languages[0]!,
+  () => languages.find((language) => language.code === selectedLanguage.value) ?? languages[0]!,
 )
 
 const pickLanguage = (code: string) => {
   selectedLanguage.value = code
-  isLangOpen.value = false
+  isLanguageOpen.value = false
 }
 </script>
 
@@ -41,52 +34,51 @@ const pickLanguage = (code: string) => {
 
       <nav class="header-nav" aria-label="Main">
         <ul class="header-nav-list">
-          <li v-for="link in links" :key="link.id">
-            <a :href="`#${link.id}`" class="header-nav-link">{{ link.label }}</a>
+          <li v-for="link in navLinks" v-bind:key="link.sectionId">
+            <a v-bind:href="`#${link.sectionId}`" class="header-nav-link">{{ link.label }}</a>
           </li>
         </ul>
       </nav>
 
       <div class="header-actions">
-        <div class="language" @keydown.esc="isLangOpen = false">
+        <div class="language" v-on:keydown.esc="isLanguageOpen = false">
           <button
             type="button"
             class="language-button"
             aria-haspopup="listbox"
-            :aria-expanded="isLangOpen"
+            v-bind:aria-expanded="isLanguageOpen"
             aria-label="Change language"
-            @click="isLangOpen = !isLangOpen"
+            v-on:click="isLanguageOpen = !isLanguageOpen"
           >
-            <Globe :size="18" aria-hidden="true" />
-            <span :lang="currentLanguage.code">{{ currentLanguage.short }}</span>
+            <Globe v-bind:size="18" aria-hidden="true" />
+            <span v-bind:lang="currentLanguage.code">{{ currentLanguage.shortLabel }}</span>
             <ChevronDown
               class="language-chevron"
-              :class="{ 'is-open': isLangOpen }"
-              :size="16"
+              v-bind:class="{ 'is-open': isLanguageOpen }"
+              v-bind:size="16"
               aria-hidden="true"
             />
           </button>
 
-          <template v-if="isLangOpen">
-            <!-- invisible layer: a click anywhere outside closes the list -->
-            <div class="language-backdrop" @click="isLangOpen = false"></div>
+          <template v-if="isLanguageOpen">
+            <div class="language-backdrop" v-on:click="isLanguageOpen = false"></div>
 
             <ul class="language-menu" role="listbox" aria-label="Change language">
-              <li v-for="lang in languages" :key="lang.code" role="presentation">
+              <li v-for="language in languages" v-bind:key="language.code" role="presentation">
                 <button
                   type="button"
                   role="option"
                   class="language-option"
-                  :class="{ 'is-selected': selectedLanguage === lang.code }"
-                  :aria-selected="selectedLanguage === lang.code"
-                  :lang="lang.code"
-                  @click="pickLanguage(lang.code)"
+                  v-bind:class="{ 'is-selected': selectedLanguage === language.code }"
+                  v-bind:aria-selected="selectedLanguage === language.code"
+                  v-bind:lang="language.code"
+                  v-on:click="pickLanguage(language.code)"
                 >
-                  {{ lang.name }}
+                  {{ language.name }}
                   <Check
-                    v-if="selectedLanguage === lang.code"
+                    v-if="selectedLanguage === language.code"
                     class="language-check"
-                    :size="18"
+                    v-bind:size="18"
                     aria-hidden="true"
                   />
                 </button>
@@ -98,18 +90,18 @@ const pickLanguage = (code: string) => {
         <button
           type="button"
           class="btn btn-dark btn-sm header-cta"
-          @click="$emit('openExhibitor')"
+          v-on:click="$emit('openExhibitor')"
         >
           Be Our Exhibitor
         </button>
 
         <button
           type="button"
-          class="header-menu-button"
+          class="icon-button header-menu-button"
           aria-label="Open menu"
-          @click="$emit('openNav')"
+          v-on:click="$emit('openNav')"
         >
-          <Menu :size="22" aria-hidden="true" />
+          <Menu v-bind:size="22" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -242,7 +234,7 @@ const pickLanguage = (code: string) => {
   min-height: 44px;
   padding: 0 12px;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--radius-small);
   background: none;
   font-size: 15px;
   color: var(--heading);
@@ -251,7 +243,7 @@ const pickLanguage = (code: string) => {
 }
 
 .language-option:hover {
-  background: var(--surface-hover);
+  background: var(--surface-muted);
 }
 
 .language-option.is-selected {
@@ -266,19 +258,6 @@ const pickLanguage = (code: string) => {
 /* mobile menu button: hidden on desktop */
 .header-menu-button {
   display: none;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: var(--radius);
-  background: var(--surface-hover);
-  color: var(--heading);
-  cursor: pointer;
-}
-
-.header-menu-button:hover {
-  background: var(--border);
 }
 
 @media (max-width: 1024px) {

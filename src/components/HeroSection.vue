@@ -12,7 +12,7 @@ defineEmits<{ openExhibitor: [] }>()
           <span class="hero-pill-badge">12–14 December 2026 · 9:00 AM – 6:00 PM</span>
           <span class="hero-pill-venue">
             Halls A–C, Kuala Lumpur
-            <ArrowRight class="hero-pill-arrow" :size="16" aria-hidden="true" />
+            <ArrowRight class="hero-pill-arrow" v-bind:size="16" aria-hidden="true" />
           </span>
         </a>
 
@@ -24,8 +24,8 @@ defineEmits<{ openExhibitor: [] }>()
 
         <div class="hero-actions">
           <a href="#sessions" class="btn btn-primary btn-lg">Reserve a Session</a>
-          <button type="button" class="hero-link" @click="$emit('openExhibitor')">
-            Be Our Exhibitor <ArrowRight :size="18" aria-hidden="true" />
+          <button type="button" class="hero-link" v-on:click="$emit('openExhibitor')">
+            Be Our Exhibitor <ArrowRight v-bind:size="18" aria-hidden="true" />
           </button>
         </div>
 
@@ -33,7 +33,11 @@ defineEmits<{ openExhibitor: [] }>()
       </div>
 
       <!-- Placeholder. Swap for: <img class="hero-photo" src="@/assets/hero.jpg" alt="..." /> -->
-      <div class="hero-photo" role="img" aria-label="Job seekers talking to recruiters at a job fair">
+      <div
+        class="hero-photo"
+        role="img"
+        aria-label="Job seekers talking to recruiters at a job fair"
+      >
         [Hero photo: job seekers talking to recruiters]
       </div>
     </div>
@@ -76,7 +80,7 @@ defineEmits<{ openExhibitor: [] }>()
 
 .hero-pill-badge {
   padding: 2px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--primary-light);
   color: var(--primary-dark);
   font-weight: 600;
@@ -140,7 +144,7 @@ defineEmits<{ openExhibitor: [] }>()
   aspect-ratio: 5 / 5.2;
   padding: 16px;
   border-radius: 24px;
-  background: var(--surface-hover);
+  background: var(--surface-muted);
   font-size: 13px;
   text-align: center;
 }

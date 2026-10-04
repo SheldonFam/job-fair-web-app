@@ -38,7 +38,7 @@ const email = ref('')
         </ul>
       </div>
 
-      <form @submit.prevent>
+      <form v-on:submit.prevent>
         <label for="newsletter-email" class="footer-title">Get job fair updates</label>
         <div class="footer-newsletter">
           <input
@@ -65,9 +65,14 @@ const email = ref('')
 </template>
 
 <style scoped>
+/* the footer is the only dark area, so its colours are named here */
 .footer {
+  --footer-text: #cbd5e1;
+  --footer-muted: #94a3b8;
+  --footer-line: #1e293b;
+
   background: var(--heading);
-  color: #cbd5e1;
+  color: var(--footer-text);
   font-size: 14px;
 }
 
@@ -82,7 +87,7 @@ const email = ref('')
   margin-bottom: 8px;
   font-size: 18px;
   font-weight: 800;
-  color: #fff;
+  color: var(--white);
 }
 
 /* column headings (also used on the newsletter label) */
@@ -93,7 +98,7 @@ const email = ref('')
   font-weight: 600;
   line-height: 1.6;
   letter-spacing: 0;
-  color: #fff;
+  color: var(--white);
 }
 
 .footer-list {
@@ -109,7 +114,7 @@ const email = ref('')
 }
 
 .footer-link:hover {
-  color: #fff;
+  color: var(--white);
   text-decoration: underline;
 }
 
@@ -124,14 +129,14 @@ const email = ref('')
   min-width: 0;
   min-height: 48px;
   padding: 0 12px;
-  border: 1px solid #475569;
+  border: 1px solid var(--body);
   border-radius: var(--radius);
-  background: #1e293b;
-  color: #fff;
+  background: var(--footer-line);
+  color: var(--white);
 }
 
 .footer-input::placeholder {
-  color: #94a3b8;
+  color: var(--footer-muted);
 }
 
 /* a lighter outline so keyboard focus is visible on the dark background */
@@ -146,9 +151,9 @@ const email = ref('')
   justify-content: space-between;
   gap: 16px;
   padding-block: 20px;
-  border-top: 1px solid #1e293b;
+  border-top: 1px solid var(--footer-line);
   font-size: 13px;
-  color: #94a3b8;
+  color: var(--footer-muted);
 }
 
 .footer-legal {

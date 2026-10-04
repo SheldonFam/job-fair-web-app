@@ -23,15 +23,21 @@
   --border: #e2e8f0;
   --border-medium: #cbd5e1;
   --border-strong: #94a3b8;
-  --surface: #ffffff;
+  --white: #ffffff;
+  --surface: var(--white);
   --surface-alt: #f8fafc;
-  --surface-hover: #f1f5f9;
+  --surface-muted: #f1f5f9;
+  --accent: #f59e0b;
+  --success: #16a34a;
   --danger: #dc2626;
   --danger-text: #b91c1c;
+  --overlay: rgba(15, 23, 42, 0.5);
 
   /* shape */
+  --radius-small: 6px;
   --radius: 8px;
   --radius-card: 12px;
+  --radius-pill: 999px;
 
   /* shadow */
   --shadow-card: 0 0 0 1px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.05);
@@ -118,6 +124,10 @@ h3 {
   color: var(--heading);
   font-weight: 600;
   line-height: 1.2;
+}
+
+h1,
+h2 {
   letter-spacing: -0.025em;
 }
 
@@ -184,7 +194,7 @@ a {
 
 .btn-primary {
   background: var(--primary);
-  color: #fff;
+  color: var(--white);
 }
 .btn-primary:hover {
   background: var(--primary-dark);
@@ -192,10 +202,27 @@ a {
 
 .btn-dark {
   background: var(--heading);
-  color: #fff;
+  color: var(--white);
 }
 .btn-dark:hover {
   background: #1e293b;
+}
+
+.btn-amber {
+  background: var(--accent);
+  color: var(--heading);
+}
+.btn-amber:hover {
+  background: #fbbf24;
+}
+
+.btn-outline {
+  background: var(--surface);
+  color: var(--heading);
+  box-shadow: var(--shadow-card);
+}
+.btn-outline:hover {
+  background: var(--surface-alt);
 }
 
 .btn-sm {
@@ -213,6 +240,23 @@ a {
   background: var(--border);
   color: var(--muted);
   cursor: not-allowed;
+}
+
+/* square button that only holds an icon (menu, close) */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  color: var(--heading);
+  cursor: pointer;
+}
+.icon-button:hover {
+  background: var(--border);
 }
 
 /* ---------- 6. Card ---------- */
@@ -320,14 +364,14 @@ select.input {
   select.input option {
     min-height: 44px;
     padding: 8px 12px;
-    border-radius: 6px;
+    border-radius: var(--radius-small);
   }
   select.input option:disabled {
     display: none;
   }
   select.input option:hover,
   select.input option:focus-visible {
-    background: var(--surface-hover);
+    background: var(--surface-muted);
     outline: none;
   }
   select.input option:checked {
