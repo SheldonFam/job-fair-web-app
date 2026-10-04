@@ -1,35 +1,356 @@
-@import './base.css';
+/* ==========================================================================
+   Global styles
+   1. Tokens   2. Reset   3. Typography   4. Layout
+   5. Buttons  6. Card    7. Form controls
 
-#app {
-  max-width: 1280px;
+   Component-specific styles live in each component's <style scoped>.
+
+   Naming: classes start with the block they belong to (hero-title,
+   footer-link). States use an "is-" prefix (is-open, is-selected).
+
+   Breakpoints: 1024px (tablet and below) and 640px (phones).
+   ========================================================================== */
+
+/* ---------- 1. Tokens ---------- */
+:root {
+  /* colour */
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #eff6ff;
+  --heading: #0f172a;
+  --body: #475569;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-strong: #94a3b8;
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --surface-hover: #f1f5f9;
+  --danger: #dc2626;
+  --danger-text: #b91c1c;
+
+  /* shape */
+  --radius: 8px;
+  --radius-card: 12px;
+
+  /* shadow */
+  --shadow-card: 0 0 0 1px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-menu: 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 25px rgba(15, 23, 42, 0.12);
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.2);
+
+  /* type */
+  --font:
+    Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans SC',
+    sans-serif;
+
+  /* layout */
+  --header-height: 72px;
+}
+
+/* ---------- 2. Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--body);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* a menu link should not hide the section heading under the sticky header */
+section[id] {
+  scroll-margin-top: calc(var(--header-height) + 8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- 3. Typography ---------- */
+h1,
+h2,
+h3 {
+  color: var(--heading);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+}
+
+h3 {
+  font-size: 20px;
+}
+
+a {
+  color: var(--primary);
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ---------- 4. Layout ---------- */
+.container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  padding: 0 24px;
 }
 
-a,
-.green {
+.section {
+  padding: 96px 0;
+}
+
+.section-alt {
+  background: var(--surface-alt);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+  .section {
+    padding: 64px 0;
+  }
+}
+
+/* ---------- 5. Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-dark {
+  background: var(--heading);
+  color: #fff;
+}
+.btn-dark:hover {
+  background: #1e293b;
+}
+
+.btn-sm {
+  min-height: 44px;
+  padding: 0 18px;
+}
+
+.btn-lg {
+  min-height: 52px;
+  padding: 0 26px;
+  font-size: 16px;
+}
+
+.btn:disabled {
+  background: var(--border);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* ---------- 6. Card ---------- */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- 7. Form controls ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.field-required {
+  color: var(--danger);
+}
+
+.field-optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.field-error {
+  font-size: 13px;
+  color: var(--danger-text);
+}
+
+.input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  color: var(--heading);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+.input:hover {
+  border-color: var(--muted);
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+textarea.input {
+  min-height: 132px;
+  resize: vertical;
+}
+
+/* dropdown: hide the browser's arrow and draw our own */
+select.input {
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+}
+
+/* Dropdown list: browsers that support "base-select" let us style the list
+   and open it under the field. Other browsers keep their own list. */
+@supports (appearance: base-select) {
+  select.input,
+  select.input::picker(select) {
+    appearance: base-select;
+  }
+  select.input {
+    align-items: center;
+  }
+  select.input::picker-icon {
+    display: none;
+  }
+  select.input::picker(select) {
+    min-width: anchor-size(width);
+    margin-top: 6px;
+    padding: 6px;
+    border: 0;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-menu);
+  }
+  select.input option {
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  select.input option:disabled {
+    display: none;
+  }
+  select.input option:hover,
+  select.input option:focus-visible {
+    background: var(--surface-hover);
+    outline: none;
+  }
+  select.input option:checked {
+    background: var(--primary-light);
+    font-weight: 600;
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.alert {
+  padding: 12px 14px;
+  border: 1px solid;
+  border-radius: var(--radius);
+  font-size: 14px;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.alert-error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.alert-success {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
 }
