@@ -1,52 +1,15 @@
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { ref } from 'vue'
 import { X } from '@lucide/vue'
 import { navLinks } from '@/data/navigation'
+import { useModal } from '@/composables/useModal'
 
 const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: []; openExhibitor: [] }>()
 
 const panel = ref<HTMLElement | null>(null)
-const closeButton = ref<HTMLButtonElement | null>(null)
 
-let menuButton: HTMLElement | null = null
-
-const onOpen = async () => {
-  menuButton = document.activeElement as HTMLElement | null
-  document.body.style.overflow = 'hidden'
-
-  await nextTick()
-  closeButton.value?.focus()
-}
-
-const onClose = () => {
-  document.body.style.overflow = ''
-  menuButton?.focus()
-}
-
-watch(
-  () => props.open,
-  (isOpen) => {
-    if (isOpen) onOpen()
-    else onClose()
-  },
-)
-
-const keepFocusInside = (event: KeyboardEvent) => {
-  const items = panel.value?.querySelectorAll<HTMLElement>('a, button')
-  if (!items) return
-
-  const first = items[0]
-  const last = items[items.length - 1]
-
-  if (event.shiftKey && document.activeElement === first) {
-    event.preventDefault()
-    last?.focus()
-  } else if (!event.shiftKey && document.activeElement === last) {
-    event.preventDefault()
-    first?.focus()
-  }
-}
+const { keepFocusInside } = useModal(() => props.open, panel)
 
 const openExhibitor = () => {
   emit('close')
@@ -70,7 +33,6 @@ const openExhibitor = () => {
         <div class="mobile-nav-header">
           <span class="mobile-nav-title">Menu</span>
           <button
-            ref="closeButton"
             type="button"
             class="icon-button"
             aria-label="Close menu"

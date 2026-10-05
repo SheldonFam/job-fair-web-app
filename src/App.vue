@@ -3,25 +3,41 @@ import { ref } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import MobileNav from './components/MobileNav.vue'
+import BaseModal from './components/BaseModal.vue'
 import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'
+import ExhibitorsSection from './components/ExhibitorsSection.vue'
 import SessionsSection from './components/SessionsSection.vue'
 import FaqSection from './components/FaqSection.vue'
 import ContactSection from './components/ContactSection.vue'
 
 const isNavOpen = ref(false)
+const isExhibitorOpen = ref(false)
 </script>
 
 <template>
-  <AppHeader v-on:open-nav="isNavOpen = true" />
+  <AppHeader v-on:open-nav="isNavOpen = true" v-on:open-exhibitor="isExhibitorOpen = true" />
   <main>
-    <HeroSection />
+    <HeroSection v-on:open-exhibitor="isExhibitorOpen = true" />
     <AboutSection />
+    <ExhibitorsSection />
     <SessionsSection />
     <FaqSection />
     <ContactSection />
   </main>
   <AppFooter />
 
-  <MobileNav v-bind:open="isNavOpen" v-on:close="isNavOpen = false" />
+  <MobileNav
+    v-bind:open="isNavOpen"
+    v-on:close="isNavOpen = false"
+    v-on:open-exhibitor="isExhibitorOpen = true"
+  />
+
+  <BaseModal
+    v-bind:open="isExhibitorOpen"
+    title="Be Our Exhibitor"
+    v-on:close="isExhibitorOpen = false"
+  >
+    <p>Modal content</p>
+  </BaseModal>
 </template>

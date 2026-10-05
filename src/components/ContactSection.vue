@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { MapPin, Phone, Mail, Clock } from '@lucide/vue'
+import BaseSelect from './BaseSelect.vue'
 
 type ContactField = 'name' | 'email' | 'phone' | 'subject' | 'message'
+
+const subjectOptions = [
+  { value: 'General', label: 'General' },
+  { value: 'Exhibiting', label: 'Exhibiting' },
+  { value: 'Sessions', label: 'Sessions' },
+  { value: 'Media', label: 'Media' },
+]
 
 const form = reactive({ name: '', email: '', phone: '', subject: '', message: '' })
 const errors = reactive<Partial<Record<ContactField, string>>>({})
@@ -135,20 +143,14 @@ const submitForm = () => {
             <label for="contact-subject" class="field-label">
               Subject <span class="field-required" aria-hidden="true">*</span>
             </label>
-            <select
+            <BaseSelect
               id="contact-subject"
               v-model="form.subject"
-              class="input"
-              name="subject"
-              v-bind:aria-invalid="!!errors.subject"
-              v-on:blur="validateField('subject')"
-            >
-              <option value="" disabled>Select a subject</option>
-              <option>General</option>
-              <option>Exhibiting</option>
-              <option>Sessions</option>
-              <option>Media</option>
-            </select>
+              placeholder="Select a subject"
+              v-bind:options="subjectOptions"
+              v-bind:invalid="!!errors.subject"
+              v-on:close="validateField('subject')"
+            />
             <p v-if="errors.subject" class="field-error" role="alert">{{ errors.subject }}</p>
           </div>
 

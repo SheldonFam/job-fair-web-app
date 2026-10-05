@@ -259,6 +259,34 @@ a {
   background: var(--border);
 }
 
+/* pill button used for filters (session days, exhibitor industries) */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--heading);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.filter-chip:hover {
+  border-color: var(--border-strong);
+}
+
+.filter-chip.is-selected {
+  border-color: var(--heading);
+  background: var(--heading);
+  color: var(--white);
+}
+
 /* ---------- 6. Card ---------- */
 .card {
   background: var(--surface);
@@ -328,56 +356,6 @@ a {
 textarea.input {
   min-height: 132px;
   resize: vertical;
-}
-
-/* dropdown: hide the browser's arrow and draw our own */
-select.input {
-  appearance: none;
-  padding-right: 40px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  cursor: pointer;
-}
-
-/* Dropdown list: browsers that support "base-select" let us style the list
-   and open it under the field. Other browsers keep their own list. */
-@supports (appearance: base-select) {
-  select.input,
-  select.input::picker(select) {
-    appearance: base-select;
-  }
-  select.input {
-    align-items: center;
-  }
-  select.input::picker-icon {
-    display: none;
-  }
-  select.input::picker(select) {
-    min-width: anchor-size(width);
-    margin-top: 6px;
-    padding: 6px;
-    border: 0;
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-menu);
-  }
-  select.input option {
-    min-height: 44px;
-    padding: 8px 12px;
-    border-radius: var(--radius-small);
-  }
-  select.input option:disabled {
-    display: none;
-  }
-  select.input option:hover,
-  select.input option:focus-visible {
-    background: var(--surface-muted);
-    outline: none;
-  }
-  select.input option:checked {
-    background: var(--primary-light);
-    font-weight: 600;
-  }
 }
 
 .alert {

@@ -67,7 +67,7 @@ const visibleSessions = computed(() =>
           v-for="day in days"
           v-bind:key="day.number"
           type="button"
-          class="sessions-day"
+          class="filter-chip"
           v-bind:class="{ 'is-selected': selectedDay === day.number }"
           v-bind:aria-pressed="selectedDay === day.number"
           v-on:click="selectedDay = day.number"
@@ -184,28 +184,6 @@ const visibleSessions = computed(() =>
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
-}
-
-.sessions-day {
-  min-height: 40px;
-  padding: 0 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--heading);
-  cursor: pointer;
-}
-
-.sessions-day:hover {
-  border-color: var(--border-strong);
-}
-
-.sessions-day.is-selected {
-  border-color: var(--heading);
-  background: var(--heading);
-  color: var(--white);
 }
 
 .sessions-grid {
