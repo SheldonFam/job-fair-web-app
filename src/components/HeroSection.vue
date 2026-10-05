@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ArrowRight } from '@lucide/vue'
+import CountdownTimer from './CountdownTimer.vue'
 
 defineEmits<{ openExhibitor: [] }>()
 </script>
@@ -29,7 +30,7 @@ defineEmits<{ openExhibitor: [] }>()
           </button>
         </div>
 
-        <!-- <CountdownTimer /> goes here -->
+        <CountdownTimer class="hero-countdown" />
       </div>
 
       <!-- Placeholder. Swap for: <img class="hero-photo" src="@/assets/hero.jpg" alt="..." /> -->
@@ -134,6 +135,12 @@ defineEmits<{ openExhibitor: [] }>()
 
 .hero-link:hover {
   color: var(--primary);
+}
+
+/* the countdown card fills the full width of the text column */
+.hero-countdown {
+  align-self: stretch;
+  margin-top: 8px;
 }
 
 /* grey box until the real photo is added */
