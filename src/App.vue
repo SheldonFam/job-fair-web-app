@@ -10,6 +10,7 @@ import SessionsSection from './components/SessionsSection.vue'
 import FaqSection from './components/FaqSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import ExhibitorModal from './components/ExhibitorModal.vue'
+import ChatWidget from './components/ChatWidget.vue'
 
 const isNavOpen = ref(false)
 const isExhibitorOpen = ref(false)
@@ -37,4 +38,6 @@ const isExhibitorOpen = ref(false)
     v-bind:open="isExhibitorOpen"
     v-on:close="isExhibitorOpen = false"
   ></ExhibitorModal>
+
+  <ChatWidget />
 </template>

@@ -1,0 +1,324 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Bot, MessageCircle, SendHorizontal, X } from '@lucide/vue'
+
+const isOpen = ref(false)
+
+// TODO: sample conversation only; replace with the real messages
+const messages = [
+  {
+    role: 'assistant',
+    content: 'Hi! I’m the CareerConnect Assistant. Ask me about dates, halls or how to register.',
+  },
+  { role: 'user', content: 'When is the fair?' },
+  {
+    role: 'assistant',
+    content:
+      'The fair runs from 12 to 14 December 2026, 9:00 AM to 6:00 PM, at Halls A–C in Kuala Lumpur.',
+  },
+]
+
+const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor packages']
+</script>
+
+<template>
+  <button
+    v-if="!isOpen"
+    type="button"
+    class="chat-button"
+    aria-label="Open chat"
+    v-on:click="isOpen = true"
+  >
+    <MessageCircle v-bind:size="28" aria-hidden="true" />
+  </button>
+
+  <section v-else class="chat-window" aria-label="CareerConnect Assistant">
+    <header class="chat-header">
+      <span class="chat-avatar" aria-hidden="true">
+        <Bot v-bind:size="22" />
+      </span>
+      <div class="chat-heading">
+        <p class="chat-title">CareerConnect Assistant</p>
+        <p class="chat-status">Online · replies instantly</p>
+      </div>
+      <button
+        type="button"
+        class="icon-button chat-close"
+        aria-label="Close chat"
+        v-on:click="isOpen = false"
+      >
+        <X v-bind:size="20" aria-hidden="true" />
+      </button>
+    </header>
+
+    <div class="chat-messages" role="log" aria-label="Conversation">
+      <p
+        v-for="(message, index) in messages"
+        v-bind:key="index"
+        class="chat-message"
+        v-bind:class="message.role === 'user' ? 'is-user' : 'is-assistant'"
+      >
+        {{ message.content }}
+      </p>
+
+      <!-- TODO: show this only while waiting for a reply -->
+      <div class="chat-typing" role="status" aria-label="Assistant is typing">
+        <span class="chat-typing-dot"></span>
+        <span class="chat-typing-dot"></span>
+        <span class="chat-typing-dot"></span>
+      </div>
+
+      <div class="chat-suggestions">
+        <button
+          v-for="suggestion in suggestions"
+          v-bind:key="suggestion"
+          type="button"
+          class="chat-suggestion"
+        >
+          {{ suggestion }}
+        </button>
+      </div>
+    </div>
+
+    <form class="chat-form" v-on:submit.prevent>
+      <input
+        id="chat-message"
+        class="input"
+        name="chatMessage"
+        type="text"
+        autocomplete="off"
+        placeholder="Type your question…"
+        aria-label="Type your message"
+      />
+      <button type="submit" class="btn btn-primary chat-send" aria-label="Send">
+        <SendHorizontal v-bind:size="20" aria-hidden="true" />
+      </button>
+    </form>
+  </section>
+</template>
+
+<style scoped>
+/* round button fixed to the bottom right corner */
+.chat-button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: var(--shadow-menu);
+  color: var(--white);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.chat-button:hover {
+  background: var(--primary-dark);
+}
+
+/* the chat window: header, messages, form stacked top to bottom */
+.chat-window {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  height: 560px;
+  max-height: calc(100vh - 48px);
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-menu);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 16px;
+  background: var(--primary);
+  color: var(--white);
+}
+
+.chat-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--primary);
+}
+
+.chat-heading {
+  flex: 1;
+  line-height: 1.3;
+}
+
+.chat-title {
+  font-weight: 700;
+}
+
+.chat-status {
+  font-size: 13px;
+}
+
+/* see-through version of the icon button, for the blue header */
+.chat-close {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+}
+
+.chat-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* message list: takes the space left over and scrolls */
+.chat-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  /* when the list reaches its end, do not start scrolling the page behind it */
+  overscroll-behavior: contain;
+  background: var(--surface-alt);
+}
+
+/* one message bubble; long words wrap so they never push the window wider */
+.chat-message {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* assistant on the left, grey */
+.chat-message.is-assistant {
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  background: var(--border);
+  color: var(--heading);
+}
+
+/* user on the right, blue */
+.chat-message.is-user {
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* three bouncing dots while the assistant is replying */
+.chat-typing {
+  display: flex;
+  align-self: flex-start;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--border);
+}
+
+.chat-typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  animation: chat-typing-bounce 1.2s infinite;
+}
+
+.chat-typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.chat-typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes chat-typing-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+}
+
+/* ready-made questions the user can tap */
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chat-suggestion {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary-dark);
+  cursor: pointer;
+}
+
+.chat-suggestion:hover {
+  background: var(--primary-light);
+}
+
+/* input and send button */
+.chat-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* square button that only holds the send icon */
+.chat-send {
+  flex-shrink: 0;
+  width: 48px;
+  padding: 0;
+}
+
+/* people who turn off motion in their system settings see still dots */
+@media (prefers-reduced-motion: reduce) {
+  .chat-typing-dot {
+    animation: none;
+  }
+}
+
+/* phones: smaller button, and the window fills the screen */
+@media (max-width: 640px) {
+  .chat-button {
+    right: 16px;
+    bottom: 16px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .chat-window {
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-height: none;
+    border-radius: 0;
+  }
+}
+</style>
