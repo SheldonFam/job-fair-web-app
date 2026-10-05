@@ -3,13 +3,13 @@ import { ref } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import MobileNav from './components/MobileNav.vue'
-import BaseModal from './components/BaseModal.vue'
 import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'
 import ExhibitorsSection from './components/ExhibitorsSection.vue'
 import SessionsSection from './components/SessionsSection.vue'
 import FaqSection from './components/FaqSection.vue'
 import ContactSection from './components/ContactSection.vue'
+import ExhibitorModal from './components/ExhibitorModal.vue'
 
 const isNavOpen = ref(false)
 const isExhibitorOpen = ref(false)
@@ -33,11 +33,8 @@ const isExhibitorOpen = ref(false)
     v-on:open-exhibitor="isExhibitorOpen = true"
   />
 
-  <BaseModal
+  <ExhibitorModal
     v-bind:open="isExhibitorOpen"
-    title="Be Our Exhibitor"
     v-on:close="isExhibitorOpen = false"
-  >
-    <p>Modal content</p>
-  </BaseModal>
+  ></ExhibitorModal>
 </template>

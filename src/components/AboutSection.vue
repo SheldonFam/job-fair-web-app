@@ -7,17 +7,20 @@ const features = [
   {
     icon: UserPlus,
     title: 'Meet Employers Face-to-Face',
-    description: 'Skip the online queue. Talk directly to hiring managers from 150+ companies across five industries.',
+    description:
+      'Skip the online queue. Talk directly to hiring managers from 150+ companies across five industries.',
   },
   {
     icon: ClipboardCheck,
     title: '1-on-1 Job Matching',
-    description: 'Book a 20-minute slot with a recruiter who matches your profile to open roles on the spot.',
+    description:
+      'Book a 20-minute slot with a recruiter who matches your profile to open roles on the spot.',
   },
   {
     icon: Mic,
     title: 'Free Career Talks',
-    description: '30+ talks on interviews, salary negotiation and in-demand skills, from people who hire.',
+    description:
+      '30+ talks on interviews, salary negotiation and in-demand skills, from people who hire.',
   },
 ]
 </script>

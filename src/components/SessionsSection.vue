@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { Clock, MapPin } from '@lucide/vue'
-import { sessions, type SessionType } from '@/data/sessions'
+import { sessions, type Session, type SessionType } from '@/data/sessions'
+import ReservationModal from './ReservationModal.vue'
 
 const sessionTypes: { id: SessionType; label: string }[] = [
   { id: 'match', label: 'Job Matching' },
@@ -29,13 +30,22 @@ const statusClasses = {
 const selectedType = ref<SessionType>('match')
 const selectedDay = ref(1)
 
-const sessionsOfSelectedType = computed(() =>
-  sessions.filter((session) => session.type === selectedType.value),
-)
+const isReservationOpen = ref(false)
 
-const visibleSessions = computed(() =>
-  sessionsOfSelectedType.value.filter((session) => session.day === selectedDay.value),
-)
+const sessionsOfSelectedType = computed(() => {
+  return sessions.filter((session) => session.type === selectedType.value)
+})
+
+const visibleSessions = computed(() => {
+  return sessionsOfSelectedType.value.filter((session) => session.day === selectedDay.value)
+})
+
+const selectedSession = ref<Session | null>(null)
+
+const openReservation = (session: Session) => {
+  selectedSession.value = session
+  isReservationOpen.value = true
+}
 </script>
 
 <template>
@@ -124,17 +134,39 @@ const visibleSessions = computed(() =>
             </p>
           </div>
 
-          <!-- the reservation form is not built yet, so these buttons do nothing for now -->
-          <button v-if="session.status === 'full'" type="button" class="btn btn-outline">
+          <button
+            v-if="session.status === 'full'"
+            type="button"
+            class="btn btn-outline"
+            v-on:click="openReservation(session)"
+          >
             Join waitlist
           </button>
-          <button v-else-if="session.status === 'almostFull'" type="button" class="btn btn-amber">
+          <button
+            v-else-if="session.status === 'almostFull'"
+            type="button"
+            class="btn btn-amber"
+            v-on:click="openReservation(session)"
+          >
             Reserve · {{ session.seatsLeft }} left
           </button>
-          <button v-else type="button" class="btn btn-primary">Reserve</button>
+          <button
+            v-else
+            type="button"
+            class="btn btn-primary"
+            v-on:click="openReservation(session)"
+          >
+            Reserve
+          </button>
         </article>
       </div>
     </div>
+
+    <ReservationModal
+      v-bind:open="isReservationOpen"
+      v-on:close="isReservationOpen = false"
+      v-bind:session="selectedSession"
+    />
   </section>
 </template>
 

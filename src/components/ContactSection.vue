@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { MapPin, Phone, Mail, Clock } from '@lucide/vue'
 import BaseSelect from './BaseSelect.vue'
-
-type ContactField = 'name' | 'email' | 'phone' | 'subject' | 'message'
 
 const subjectOptions = [
   { value: 'General', label: 'General' },
@@ -12,33 +10,101 @@ const subjectOptions = [
   { value: 'Media', label: 'Media' },
 ]
 
-const form = reactive({ name: '', email: '', phone: '', subject: '', message: '' })
-const errors = reactive<Partial<Record<ContactField, string>>>({})
+const form = reactive({
+  contactName: '',
+  contactEmail: '',
+  contactPhone: '',
+  contactSubject: '',
+  contactMessage: '',
+})
+
+const errors = reactive({
+  contactName: '',
+  contactEmail: '',
+  contactPhone: '',
+  contactSubject: '',
+  contactMessage: '',
+})
+
 const submitStatus = ref<'idle' | 'sending' | 'sent' | 'failed'>('idle')
 
-const rules: Record<ContactField, (value: string) => string> = {
-  name: (value) => (value.trim() ? '' : 'Please enter your full name.'),
-  email: (value) =>
-    !value.trim()
-      ? 'Email is required.'
-      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-        ? 'Please enter a valid email address.'
-        : '',
-  phone: (value) => {
-    if (!value.trim()) return '' // optional
-    const digits = value.replace(/[\s-]/g, '').replace(/^0/, '')
-    return /^1\d{8,9}$/.test(digits) ? '' : 'Enter a valid Malaysian mobile number.'
-  },
-  subject: (value) => (value ? '' : 'Please choose a subject.'),
-  message: (value) => (value.trim().length >= 10 ? '' : 'Message must be at least 10 characters.'),
+const hasSubmitted = ref(false)
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const validateEmail = (value: string) => {
+  if (!value.trim()) return 'Email is required.'
+  if (!emailPattern.test(value)) return 'Please enter a valid email address.'
+  return ''
 }
 
-const validateField = (field: ContactField) => {
-  errors[field] = rules[field](form[field])
+const validatePhone = (value: string) => {
+  if (!value.trim()) return ''
+
+  const digits = value.replace(/[\s-]/g, '').replace(/^(\+?60|0)/, '')
+  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a valid Malaysian mobile number.'
+  return ''
 }
 
-const submitForm = () => {
-  console.log(form)
+const validateForm = () => {
+  errors.contactName = form.contactName.trim() ? '' : 'Please enter your full name.'
+  errors.contactEmail = validateEmail(form.contactEmail)
+  errors.contactPhone = validatePhone(form.contactPhone)
+  errors.contactSubject = form.contactSubject ? '' : 'Please choose a subject.'
+  errors.contactMessage =
+    form.contactMessage.trim().length >= 10 ? '' : 'Message must be at least 10 characters.'
+
+  return Object.values(errors).every((message) => message === '')
+}
+
+watch(form, () => {
+  if (hasSubmitted.value) {
+    validateForm()
+  }
+})
+
+const resetForm = () => {
+  form.contactName = ''
+  form.contactEmail = ''
+  form.contactPhone = ''
+  form.contactSubject = ''
+  form.contactMessage = ''
+
+  errors.contactName = ''
+  errors.contactEmail = ''
+  errors.contactPhone = ''
+  errors.contactSubject = ''
+  errors.contactMessage = ''
+
+  hasSubmitted.value = false
+}
+
+const handleSubmit = async () => {
+  hasSubmitted.value = true
+
+  const isValid = validateForm()
+
+  if (!isValid) {
+    return
+  }
+
+  try {
+    submitStatus.value = 'sending'
+    console.log('Submitted From', { ...form })
+
+    //await api call?
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    submitStatus.value = 'sent'
+    resetForm()
+
+    //hide success banner
+    setTimeout(() => {
+      submitStatus.value = 'idle'
+    }, 3000)
+  } catch (error) {
+    console.error(error)
+    submitStatus.value = 'failed'
+  }
 }
 </script>
 
@@ -79,11 +145,15 @@ const submitForm = () => {
         </div>
 
         <!-- Right: form card -->
-        <form class="card contact-form" novalidate v-on:submit.prevent="submitForm">
-          <p v-if="submitStatus === 'failed'" class="alert alert-error contact-form-full" role="alert">
+        <form class="card form-grid contact-form" novalidate v-on:submit.prevent="handleSubmit">
+          <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full" role="alert">
             We couldn’t send your message. Please try again.
           </p>
-          <p v-if="submitStatus === 'sent'" class="alert alert-success contact-form-full" role="status">
+          <p
+            v-if="submitStatus === 'sent'"
+            class="alert alert-success form-grid-full"
+            role="status"
+          >
             Message sent. We’ll reply within 2 working days.
           </p>
 
@@ -93,15 +163,16 @@ const submitForm = () => {
             </label>
             <input
               id="contact-name"
-              v-model="form.name"
+              v-model="form.contactName"
               class="input"
-              name="name"
+              name="contactName"
               type="text"
               autocomplete="name"
-              v-bind:aria-invalid="!!errors.name"
-              v-on:blur="validateField('name')"
+              v-bind:aria-invalid="!!errors.contactName"
             />
-            <p v-if="errors.name" class="field-error" role="alert">{{ errors.name }}</p>
+            <p v-if="errors.contactName" class="field-error" role="alert">
+              {{ errors.contactName }}
+            </p>
           </div>
 
           <div class="field">
@@ -110,15 +181,16 @@ const submitForm = () => {
             </label>
             <input
               id="contact-email"
-              v-model="form.email"
+              v-model="form.contactEmail"
               class="input"
-              name="email"
+              name="contactEmail"
               type="email"
               autocomplete="email"
-              v-bind:aria-invalid="!!errors.email"
-              v-on:blur="validateField('email')"
+              v-bind:aria-invalid="!!errors.contactEmail"
             />
-            <p v-if="errors.email" class="field-error" role="alert">{{ errors.email }}</p>
+            <p v-if="errors.contactEmail" class="field-error" role="alert">
+              {{ errors.contactEmail }}
+            </p>
           </div>
 
           <div class="field">
@@ -127,16 +199,17 @@ const submitForm = () => {
             </label>
             <input
               id="contact-phone"
-              v-model="form.phone"
+              v-model="form.contactPhone"
               class="input"
-              name="phone"
+              name="contactPhone"
               type="tel"
               autocomplete="tel"
               placeholder="12-345 6789"
-              v-bind:aria-invalid="!!errors.phone"
-              v-on:blur="validateField('phone')"
+              v-bind:aria-invalid="!!errors.contactPhone"
             />
-            <p v-if="errors.phone" class="field-error" role="alert">{{ errors.phone }}</p>
+            <p v-if="errors.contactPhone" class="field-error" role="alert">
+              {{ errors.contactPhone }}
+            </p>
           </div>
 
           <div class="field">
@@ -145,29 +218,31 @@ const submitForm = () => {
             </label>
             <BaseSelect
               id="contact-subject"
-              v-model="form.subject"
+              v-model="form.contactSubject"
               placeholder="Select a subject"
               v-bind:options="subjectOptions"
-              v-bind:invalid="!!errors.subject"
-              v-on:close="validateField('subject')"
+              v-bind:invalid="!!errors.contactSubject"
             />
-            <p v-if="errors.subject" class="field-error" role="alert">{{ errors.subject }}</p>
+            <p v-if="errors.contactSubject" class="field-error" role="alert">
+              {{ errors.contactSubject }}
+            </p>
           </div>
 
-          <div class="field contact-form-full">
+          <div class="field form-grid-full">
             <label for="contact-message" class="field-label">
               Message <span class="field-required" aria-hidden="true">*</span>
             </label>
             <textarea
               id="contact-message"
-              v-model="form.message"
+              v-model="form.contactMessage"
               class="input"
-              name="message"
+              name="contactMessage"
               rows="5"
-              v-bind:aria-invalid="!!errors.message"
-              v-on:blur="validateField('message')"
+              v-bind:aria-invalid="!!errors.contactMessage"
             ></textarea>
-            <p v-if="errors.message" class="field-error" role="alert">{{ errors.message }}</p>
+            <p v-if="errors.contactMessage" class="field-error" role="alert">
+              {{ errors.contactMessage }}
+            </p>
           </div>
 
           <button
@@ -175,7 +250,7 @@ const submitForm = () => {
             class="btn btn-primary contact-submit"
             v-bind:disabled="submitStatus === 'sending'"
           >
-            {{ submitStatus === 'sending' ? 'Sending…' : 'Send Message' }}
+            {{ submitStatus === 'sending' ? 'Sending...' : 'Send Message' }}
           </button>
         </form>
       </div>
@@ -243,15 +318,8 @@ const submitForm = () => {
 
 /* form card: two columns of fields */
 .contact-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
   align-content: start;
   padding: 24px;
-}
-
-.contact-form-full {
-  grid-column: 1 / -1;
 }
 
 .contact-submit {
@@ -266,7 +334,6 @@ const submitForm = () => {
 
 @media (max-width: 640px) {
   .contact-form {
-    grid-template-columns: 1fr;
     padding: 16px;
   }
   .contact-submit {

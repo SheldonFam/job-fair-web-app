@@ -22,9 +22,9 @@ const currentLanguage = computed(
 <template>
   <header class="header">
     <div class="container header-inner">
-      <a href="#top" class="brand">
-        <span class="brand-name">CareerConnect</span>
-        <span class="brand-tagline">Job Fair 2026</span>
+      <a href="#top" class="header-brand">
+        <span class="header-brand-name">CareerConnect</span>
+        <span class="header-brand-tagline">Job Fair 2026</span>
       </a>
 
       <nav class="header-nav" aria-label="Main">
@@ -93,20 +93,20 @@ const currentLanguage = computed(
 }
 
 /* brand */
-.brand {
+.header-brand {
   display: flex;
   flex-direction: column;
   line-height: 1.1;
   text-decoration: none;
 }
 
-.brand-name {
+.header-brand-name {
   font-size: 17px;
   font-weight: 800;
   color: var(--heading);
 }
 
-.brand-tagline {
+.header-brand-tagline {
   font-size: 12px;
   color: var(--muted);
 }

@@ -295,6 +295,42 @@ a {
 }
 
 /* ---------- 7. Form controls ---------- */
+/* thank-you view that replaces a form after a successful submit */
+.form-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  text-align: center;
+}
+
+.form-success-icon {
+  color: var(--success);
+}
+
+.form-success-title {
+  font-size: 20px;
+}
+
+/* form layout: two columns of fields, one column on phones */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* a row that spans both columns */
+.form-grid-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .field {
   display: flex;
   flex-direction: column;
