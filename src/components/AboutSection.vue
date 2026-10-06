@@ -1,27 +1,15 @@
 <script setup lang="ts">
 import { Check, ClipboardCheck, Mic, UserPlus } from '@lucide/vue'
+import { useI18n } from 'vue-i18n'
 
-const highlights = ['Free entry', 'Walk-in interviews', 'Resume clinic']
+const { t } = useI18n()
+
+const highlights = ['freeEntry', 'walkIn', 'resumeClinic']
 
 const features = [
-  {
-    icon: UserPlus,
-    title: 'Meet employers face-to-face',
-    description:
-      'Skip the online queue. Talk directly to hiring managers from 150+ companies across five industries.',
-  },
-  {
-    icon: ClipboardCheck,
-    title: '1-on-1 job matching',
-    description:
-      'Book a 20-minute slot with a recruiter who matches your profile to open roles on the spot.',
-  },
-  {
-    icon: Mic,
-    title: 'Free career talks',
-    description:
-      '30+ talks on interviews, salary negotiation and in-demand skills, from people who hire.',
-  },
+  { id: 'employers', icon: UserPlus },
+  { id: 'matching', icon: ClipboardCheck },
+  { id: 'talks', icon: Mic },
 ]
 </script>
 
@@ -30,18 +18,14 @@ const features = [
     <div class="container">
       <div class="about-intro">
         <div>
-          <p class="eyebrow">About the fair</p>
-          <h2>Everything you need for your next job, in one place</h2>
-          <p class="about-lead">
-            Three days, three halls and 150+ employers under one roof. Bring your resume, meet
-            hiring managers face-to-face, and leave with interviews lined up — whether you are a
-            fresh graduate, switching careers or ready for your next senior role.
-          </p>
+          <p class="eyebrow">{{ t('about.eyebrow') }}</p>
+          <h2>{{ t('about.title') }}</h2>
+          <p class="about-lead">{{ t('about.lead') }}</p>
 
           <ul class="about-highlights">
             <li v-for="highlight in highlights" v-bind:key="highlight" class="about-highlight">
               <Check class="about-highlight-icon" v-bind:size="18" aria-hidden="true" />
-              {{ highlight }}
+              {{ t(`about.highlights.${highlight}`) }}
             </li>
           </ul>
         </div>
@@ -51,7 +35,7 @@ const features = [
           <img
             class="about-photo about-photo-tall"
             src="@/assets/images/about-interview.webp"
-            alt="A recruiter reading a candidate's resume"
+            v-bind:alt="t('about.photos.interview')"
             width="600"
             height="760"
             loading="lazy"
@@ -59,7 +43,7 @@ const features = [
           <img
             class="about-photo"
             src="@/assets/images/about-career-talk.webp"
-            alt="A large audience at a career talk"
+            v-bind:alt="t('about.photos.talk')"
             width="600"
             height="380"
             loading="lazy"
@@ -67,7 +51,7 @@ const features = [
           <img
             class="about-photo"
             src="@/assets/images/about-booths.webp"
-            alt="An exhibitor presenting at his booth"
+            v-bind:alt="t('about.photos.booth')"
             width="600"
             height="380"
             loading="lazy"
@@ -76,13 +60,15 @@ const features = [
       </div>
 
       <ul class="about-features">
-        <li v-for="feature in features" v-bind:key="feature.title" class="about-feature">
+        <li v-for="feature in features" v-bind:key="feature.id" class="about-feature">
           <span class="about-feature-icon">
             <component v-bind:is="feature.icon" v-bind:size="22" aria-hidden="true" />
           </span>
           <div>
-            <h3 class="about-feature-title">{{ feature.title }}</h3>
-            <p class="about-feature-description">{{ feature.description }}</p>
+            <h3 class="about-feature-title">{{ t(`about.features.${feature.id}.title`) }}</h3>
+            <p class="about-feature-description">
+              {{ t(`about.features.${feature.id}.description`) }}
+            </p>
           </div>
         </li>
       </ul>

@@ -1,5 +1,6 @@
 export type SessionType = 'match' | 'talk'
 export type SessionStatus = 'available' | 'almostFull' | 'full'
+export type SessionPlace = 'matchingZone' | 'mainStage'
 
 export type Session = {
   id: string
@@ -10,22 +11,17 @@ export type Session = {
   host: string
   hostInitials: string
   hostRole: string
-  place: string
+  place: SessionPlace
   totalSeats: number
   seatsLeft: number
   status: SessionStatus
   avatarColor: string
 }
 
-// the three days of the fair, used by the day buttons and the reservation summary
-export const sessionDays = [
-  { number: 1, label: 'Day 1 · Sat 12 Dec' },
-  { number: 2, label: 'Day 2 · Sun 13 Dec' },
-  { number: 3, label: 'Day 3 · Mon 14 Dec' },
-]
+export const sessionDays = [1, 2, 3]
 
-const MATCHING_ZONE = 'Job Matching Zone, Hall B'
-const MAIN_STAGE = 'Main Stage, Hall A'
+const MATCHING_ZONE: SessionPlace = 'matchingZone'
+const MAIN_STAGE: SessionPlace = 'mainStage'
 
 export const sessions: Session[] = [
   // Job matching

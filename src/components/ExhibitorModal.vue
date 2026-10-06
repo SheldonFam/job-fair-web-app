@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref, watch } from 'vue'
+import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { CircleCheck } from '@lucide/vue'
 import BaseModal from './BaseModal.vue'
+import { useI18n } from 'vue-i18n'
+import { industries } from '@/data/exhibitors'
 import BaseSelect from './BaseSelect.vue'
 
 const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: [] }>()
 
-const industryOptions = [
-  { value: 'tech', label: 'Tech' },
-  { value: 'finance', label: 'Finance' },
-  { value: 'engineering', label: 'Engineering' },
-  { value: 'healthcare', label: 'Healthcare' },
-  { value: 'startups', label: 'Startups' },
-]
+const { t } = useI18n()
 
-const boothPackageOptions = [
-  { value: 'standard', label: 'Standard 3x3m · RM2,500' },
-  { value: 'premium', label: 'Premium 6x3m · RM4,500' },
-  { value: 'platinum', label: 'Platinum island · RM8,000' },
-]
+const industryOptions = computed(() =>
+  industries.map((industry) => ({ value: industry, label: t(`industries.${industry}`) })),
+)
+
+const boothPackageOptions = computed(() =>
+  ['standard', 'premium', 'platinum'].map((boothPackage) => ({
+    value: boothPackage,
+    label: t(`exhibitorForm.packages.${boothPackage}`),
+  })),
+)
 
 const form = reactive({
   exhibitorCompanyName: '',
@@ -31,6 +32,7 @@ const form = reactive({
   exhibitorTerms: false,
 })
 
+// each error holds a translation key (like 'errors.fullName'), shown with t() in the template
 const errors = reactive({
   exhibitorCompanyName: '',
   exhibitorContactPerson: '',
@@ -50,26 +52,26 @@ const successCloseButton = ref<HTMLButtonElement | null>(null)
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const validateEmail = (value: string) => {
-  if (!value.trim()) return 'Enter your email address'
-  if (!emailPattern.test(value)) return 'Enter a valid email address, like name@example.com'
+  if (!value.trim()) return 'errors.email'
+  if (!emailPattern.test(value)) return 'errors.emailInvalid'
   return ''
 }
 
 const validatePhone = (value: string) => {
-  if (!value.trim()) return 'Enter your phone number'
+  if (!value.trim()) return 'errors.phone'
   const digits = value.replace(/[\s-]/g, '').replace(/^(\+?60|0)/, '')
-  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a Malaysian mobile number, like 012-345 6789'
+  if (!/^1\d{8,9}$/.test(digits)) return 'errors.phoneInvalid'
   return ''
 }
 
 const validateForm = () => {
-  errors.exhibitorCompanyName = form.exhibitorCompanyName.trim() ? '' : 'Enter your company name'
+  errors.exhibitorCompanyName = form.exhibitorCompanyName.trim() ? '' : 'errors.companyName'
   errors.exhibitorEmail = validateEmail(form.exhibitorEmail)
   errors.exhibitorPhone = validatePhone(form.exhibitorPhone)
-  errors.exhibitorContactPerson = form.exhibitorContactPerson ? '' : 'Enter a contact person'
-  errors.exhibitorIndustry = form.exhibitorIndustry ? '' : 'Choose an industry'
-  errors.exhibitorBoothPackage = form.exhibitorBoothPackage ? '' : 'Choose a booth package'
-  errors.exhibitorTerms = form.exhibitorTerms ? '' : 'Accept the exhibitor terms to continue'
+  errors.exhibitorContactPerson = form.exhibitorContactPerson ? '' : 'errors.contactPerson'
+  errors.exhibitorIndustry = form.exhibitorIndustry ? '' : 'errors.industry'
+  errors.exhibitorBoothPackage = form.exhibitorBoothPackage ? '' : 'errors.boothPackage'
+  errors.exhibitorTerms = form.exhibitorTerms ? '' : 'errors.terms'
 
   return Object.values(errors).every((message) => message === '')
 }
@@ -161,34 +163,34 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <BaseModal v-bind:open="open" title="Be Our Exhibitor" v-on:close="emit('close')">
+  <BaseModal v-bind:open="open" v-bind:title="t('exhibitorForm.title')" v-on:close="emit('close')">
     <!-- Success modal -->
     <div v-if="submitStatus === 'sent'" class="form-success" role="status">
       <CircleCheck class="form-success-icon" v-bind:size="56" aria-hidden="true" />
-      <h3 class="form-success-title">Application received</h3>
-      <p>Thank you. Our team will contact you within 3 working days.</p>
+      <h3 class="form-success-title">{{ t('exhibitorForm.successTitle') }}</h3>
+      <p>{{ t('exhibitorForm.successText') }}</p>
       <button
         ref="successCloseButton"
         type="button"
         class="btn btn-primary"
         v-on:click="emit('close')"
       >
-        Close
+        {{ t('common.close') }}
       </button>
     </div>
 
     <form v-else class="form-grid" novalidate v-on:submit.prevent="handleSubmit">
       <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full">
-        We couldn’t send your application. Please try again.
+        {{ t('exhibitorForm.failed') }}
       </p>
 
       <p class="exhibitor-form-intro form-grid-full">
-        Tell us about your company and we’ll get back to you within 3 working days.
+        {{ t('exhibitorForm.intro') }}
       </p>
 
       <div class="field form-grid-full">
         <label for="exhibitor-company-name" class="field-label">
-          Company name <span class="field-required" aria-hidden="true">*</span>
+          {{ t('form.companyName') }} <span class="field-required" aria-hidden="true">*</span>
         </label>
         <input
           id="exhibitor-company-name"
@@ -200,13 +202,13 @@ const handleSubmit = async () => {
           autocomplete="organization"
         />
         <p v-if="errors.exhibitorCompanyName" class="field-error" role="alert">
-          {{ errors.exhibitorCompanyName }}
+          {{ t(errors.exhibitorCompanyName) }}
         </p>
       </div>
 
       <div class="field form-grid-full">
         <label for="exhibitor-contact-person" class="field-label">
-          Contact person <span class="field-required" aria-hidden="true">*</span>
+          {{ t('form.contactPerson') }} <span class="field-required" aria-hidden="true">*</span>
         </label>
         <input
           id="exhibitor-contact-person"
@@ -218,13 +220,13 @@ const handleSubmit = async () => {
           autocomplete="name"
         />
         <p v-if="errors.exhibitorContactPerson" class="field-error" role="alert">
-          {{ errors.exhibitorContactPerson }}
+          {{ t(errors.exhibitorContactPerson) }}
         </p>
       </div>
 
       <div class="field">
         <label for="exhibitor-email" class="field-label">
-          Work email <span class="field-required" aria-hidden="true">*</span>
+          {{ t('form.workEmail') }} <span class="field-required" aria-hidden="true">*</span>
         </label>
         <input
           id="exhibitor-email"
@@ -236,13 +238,13 @@ const handleSubmit = async () => {
           autocomplete="email"
         />
         <p v-if="errors.exhibitorEmail" class="field-error" role="alert">
-          {{ errors.exhibitorEmail }}
+          {{ t(errors.exhibitorEmail) }}
         </p>
       </div>
 
       <div class="field">
         <label for="exhibitor-phone" class="field-label">
-          Phone <span class="field-required" aria-hidden="true">*</span>
+          {{ t('form.phone') }} <span class="field-required" aria-hidden="true">*</span>
         </label>
         <input
           id="exhibitor-phone"
@@ -255,39 +257,39 @@ const handleSubmit = async () => {
           placeholder="012-345 6789"
         />
         <p v-if="errors.exhibitorPhone" class="field-error" role="alert">
-          {{ errors.exhibitorPhone }}
+          {{ t(errors.exhibitorPhone) }}
         </p>
       </div>
 
       <div class="field">
         <label for="exhibitor-industry" class="field-label">
-          Industry <span class="field-required" aria-hidden="true">*</span>
+          {{ t('form.industry') }} <span class="field-required" aria-hidden="true">*</span>
         </label>
         <BaseSelect
           id="exhibitor-industry"
           v-model="form.exhibitorIndustry"
           v-bind:invalid="!!errors.exhibitorIndustry"
-          placeholder="Select an industry"
+          v-bind:placeholder="t('exhibitorForm.industryPlaceholder')"
           v-bind:options="industryOptions"
         />
         <p v-if="errors.exhibitorIndustry" class="field-error" role="alert">
-          {{ errors.exhibitorIndustry }}
+          {{ t(errors.exhibitorIndustry) }}
         </p>
       </div>
 
       <div class="field">
         <label for="exhibitor-booth-package" class="field-label">
-          Booth package <span class="field-required" aria-hidden="true">*</span>
+          {{ t('form.boothPackage') }} <span class="field-required" aria-hidden="true">*</span>
         </label>
         <BaseSelect
           id="exhibitor-booth-package"
           v-model="form.exhibitorBoothPackage"
           v-bind:invalid="!!errors.exhibitorBoothPackage"
-          placeholder="Select a package"
+          v-bind:placeholder="t('exhibitorForm.packagePlaceholder')"
           v-bind:options="boothPackageOptions"
         />
         <p v-if="errors.exhibitorBoothPackage" class="field-error" role="alert">
-          {{ errors.exhibitorBoothPackage }}
+          {{ t(errors.exhibitorBoothPackage) }}
         </p>
       </div>
 
@@ -301,12 +303,10 @@ const handleSubmit = async () => {
             type="checkbox"
             v-bind:aria-invalid="!!errors.exhibitorTerms"
           />
-          <span>
-            I agree to the exhibitor terms and the processing of my data for this application.
-          </span>
+          <span>{{ t('exhibitorForm.terms') }}</span>
         </label>
         <p v-if="errors.exhibitorTerms" class="field-error" role="alert">
-          {{ errors.exhibitorTerms }}
+          {{ t(errors.exhibitorTerms) }}
         </p>
       </div>
 
@@ -315,7 +315,7 @@ const handleSubmit = async () => {
         class="btn btn-primary btn-lg form-grid-full"
         v-bind:disabled="submitStatus === 'sending'"
       >
-        {{ submitStatus === 'sending' ? 'Sending...' : 'Submit Application' }}
+        {{ submitStatus === 'sending' ? t('common.sending') : t('exhibitorForm.submit') }}
       </button>
     </form>
   </BaseModal>

@@ -1,8 +1,1 @@
-export const navLinks = [
-  { sectionId: 'about', label: 'About' },
-  { sectionId: 'floorplan', label: 'Floor Plan' },
-  { sectionId: 'exhibitors', label: 'Exhibitors' },
-  { sectionId: 'sessions', label: 'Sessions' },
-  { sectionId: 'faq', label: 'FAQ' },
-  { sectionId: 'contact', label: 'Contact' },
-]
+export const navLinks = ['about', 'floorplan', 'exhibitors', 'sessions', 'faq', 'contact']

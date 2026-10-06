@@ -1,0 +1,278 @@
+{
+  "common": {
+    "close": "Tutup",
+    "sending": "Menghantar...",
+    "optional": "(pilihan)"
+  },
+  "nav": {
+    "main": "Utama",
+    "mobile": "Mudah alih",
+    "menu": "Menu",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu",
+    "about": "Tentang",
+    "floorplan": "Pelan Lantai",
+    "exhibitors": "Pempamer",
+    "sessions": "Sesi",
+    "faq": "Soalan Lazim",
+    "contact": "Hubungi"
+  },
+  "header": {
+    "tagline": "Pameran Kerjaya 2026",
+    "changeLanguage": "Tukar bahasa",
+    "beExhibitor": "Jadi Pempamer"
+  },
+  "hero": {
+    "date": "12–14 Dis 2026",
+    "time": "9.00 pagi – 6.00 petang",
+    "venue": "Pusat Konvensyen KL",
+    "title": "Temui langkah kerjaya anda yang seterusnya",
+    "lead": "Tiga hari temu duga terbuka, ceramah kerjaya dan padanan kerja individu bersama lebih 150 majikan yang mengambil pekerja untuk lebih 5,000 jawatan. Masuk percuma.",
+    "reserve": "Tempah Sesi",
+    "beExhibitor": "Jadi Pempamer",
+    "photoAlt": "Seorang pencari kerja tersenyum sambil berbual dengan perekrut"
+  },
+  "countdown": {
+    "title": "Pameran bermula dalam",
+    "days": "Hari",
+    "hours": "Jam",
+    "minutes": "Minit",
+    "seconds": "Saat"
+  },
+  "about": {
+    "eyebrow": "Tentang pameran",
+    "title": "Semua yang anda perlukan untuk kerja seterusnya, di satu tempat",
+    "lead": "Tiga hari, tiga dewan dan lebih 150 majikan di bawah satu bumbung. Bawa resume anda, bertemu pengurus pengambilan secara bersemuka, dan pulang dengan temu duga yang sudah diatur — sama ada anda graduan baharu, ingin bertukar kerjaya atau bersedia untuk jawatan kanan seterusnya.",
+    "highlights": {
+      "freeEntry": "Masuk percuma",
+      "walkIn": "Temu duga terbuka",
+      "resumeClinic": "Klinik resume"
+    },
+    "photos": {
+      "interview": "Seorang perekrut membaca resume calon",
+      "talk": "Penonton yang ramai di sebuah ceramah kerjaya",
+      "booth": "Seorang pempamer membuat pembentangan di reruainya"
+    },
+    "features": {
+      "employers": {
+        "title": "Bertemu majikan secara bersemuka",
+        "description": "Tidak perlu beratur dalam talian. Bercakap terus dengan pengurus pengambilan daripada lebih 150 syarikat dalam lima industri."
+      },
+      "matching": {
+        "title": "Padanan kerja individu",
+        "description": "Tempah slot 20 minit bersama perekrut yang akan memadankan profil anda dengan jawatan kosong serta-merta."
+      },
+      "talks": {
+        "title": "Ceramah kerjaya percuma",
+        "description": "Lebih 30 ceramah tentang temu duga, rundingan gaji dan kemahiran yang diperlukan, daripada mereka yang mengambil pekerja."
+      }
+    }
+  },
+  "industries": {
+    "tech": "Teknologi",
+    "finance": "Kewangan",
+    "engineering": "Kejuruteraan",
+    "healthcare": "Kesihatan",
+    "startups": "Syarikat Pemula"
+  },
+  "floorPlan": {
+    "eyebrow": "Pelan lantai",
+    "title": "Cari arah anda di Dewan A–C",
+    "lead": "Klik pada reruai untuk melihat siapa yang ada. Dewan A untuk Teknologi, Dewan B untuk Kewangan dan Kejuruteraan, Dewan C untuk Kesihatan dan Syarikat Pemula.",
+    "viewFullMap": "Lihat Peta Penuh",
+    "hint": "Leret ke tepi untuk melihat ketiga-tiga dewan, atau buka peta penuh untuk melihat semuanya sekali gus.",
+    "emptyBooth": "Reruai kosong",
+    "lightboxTitle": "Pelan lantai · Dewan A–C",
+    "zoomOut": "Zum keluar",
+    "zoomIn": "Zum masuk",
+    "reset": "Set Semula",
+    "mapAlt": "Pelan lantai Dewan A, B dan C. Dewan A mempunyai pentas utama dan reruai Teknologi. Dewan B mempunyai zon padanan kerja serta reruai Kewangan dan Kejuruteraan. Dewan C mempunyai reruai Kesihatan, ruang rehat dan Lorong Syarikat Pemula.",
+    "boothLabel": "{name}, reruai {code}",
+    "boothTitle": "{name} · Reruai {code}",
+    "emptyBoothTitle": "Reruai {code} · Kosong"
+  },
+  "booth": {
+    "location": "Reruai {booth} · Dewan {hall}",
+    "openPositions": "Jawatan kosong ({count})",
+    "more": "+{count} lagi",
+    "reserve": "Tempah Sesi"
+  },
+  "exhibitors": {
+    "eyebrow": "Direktori pempamer",
+    "title": "Cari setiap syarikat di pameran",
+    "count": "{shown} daripada {total} pempamer",
+    "searchPlaceholder": "Cari syarikat, reruai atau jawatan...",
+    "searchLabel": "Cari pempamer",
+    "hallLabel": "Dewan",
+    "allHalls": "Semua dewan",
+    "hall": "Dewan {hall}",
+    "filterLabel": "Tapis mengikut industri",
+    "all": "Semua",
+    "openRoles": "{count} jawatan kosong",
+    "showOnMap": "Tunjuk di peta",
+    "showOnMapLabel": "Tunjuk {name} di peta",
+    "showAll": "Tunjuk Semua {count} Pempamer",
+    "emptyTitle": "Tiada pempamer ditemui",
+    "emptyText": "Cuba nama, nombor reruai atau jawatan yang lain.",
+    "clearFilters": "Kosongkan Penapis"
+  },
+  "sessions": {
+    "eyebrow": "Tempah sesi",
+    "title": "Padanan kerja & ceramah kerjaya",
+    "typeLabel": "Jenis sesi",
+    "dayLabel": "Hari",
+    "types": {
+      "match": "Padanan Kerja",
+      "talk": "Ceramah Kerjaya"
+    },
+    "days": {
+      "1": "Hari 1 · Sab 12 Dis",
+      "2": "Hari 2 · Ahd 13 Dis",
+      "3": "Hari 3 · Isn 14 Dis"
+    },
+    "places": {
+      "matchingZone": "Zon Padanan Kerja, Dewan B",
+      "mainStage": "Pentas Utama, Dewan A"
+    },
+    "status": {
+      "available": "Tersedia",
+      "almostFull": "Hampir penuh",
+      "full": "Penuh"
+    },
+    "seatsLeft": "{left} daripada {total} tempat lagi",
+    "reserve": "Tempah",
+    "reserveLeft": "Tempah · {count} lagi",
+    "joinWaitlist": "Sertai Senarai Menunggu"
+  },
+  "reservation": {
+    "titleReserve": "Tempah sesi anda",
+    "titleWaitlist": "Sertai senarai menunggu",
+    "typeMatch": "Padanan kerja",
+    "typeTalk": "Ceramah kerjaya",
+    "waitlistNote": "Sesi ini sudah penuh. Kami akan menghantar e-mel jika ada tempat kosong.",
+    "namePlaceholder": "Seperti dalam MyKad",
+    "failed": "Kami tidak dapat menghantar tempahan anda. Sila cuba lagi.",
+    "confirm": "Sahkan Tempahan",
+    "joinWaitlist": "Sertai Senarai Menunggu",
+    "successBooked": "Tempahan anda berjaya!",
+    "successWaitlist": "Anda dalam senarai menunggu",
+    "confirmationSentTo": "Pengesahan telah dihantar ke",
+    "waitlistEmailTo": "Belum ada tempat ditempah. Jika ada kekosongan, kami akan menghantar e-mel ke"
+  },
+  "form": {
+    "fullName": "Nama penuh",
+    "email": "E-mel",
+    "workEmail": "E-mel kerja",
+    "phone": "Telefon",
+    "subject": "Subjek",
+    "message": "Mesej",
+    "companyName": "Nama syarikat",
+    "contactPerson": "Pegawai untuk dihubungi",
+    "industry": "Industri",
+    "boothPackage": "Pakej reruai"
+  },
+  "errors": {
+    "fullName": "Sila masukkan nama penuh anda",
+    "email": "Sila masukkan alamat e-mel anda",
+    "emailInvalid": "Sila masukkan alamat e-mel yang sah, contohnya nama{'@'}example.com",
+    "phone": "Sila masukkan nombor telefon anda",
+    "phoneInvalid": "Sila masukkan nombor telefon bimbit Malaysia, contohnya 012-345 6789",
+    "subject": "Sila pilih subjek",
+    "message": "Sila tulis sekurang-kurangnya 10 aksara",
+    "companyName": "Sila masukkan nama syarikat anda",
+    "contactPerson": "Sila masukkan pegawai untuk dihubungi",
+    "industry": "Sila pilih industri",
+    "boothPackage": "Sila pilih pakej reruai",
+    "terms": "Sila terima terma pempamer untuk meneruskan"
+  },
+  "faq": {
+    "eyebrow": "Soalan Lazim",
+    "title": "Soalan lazim",
+    "intro": "Tidak menemui jawapan? Tanya pembantu kami (bawah kanan) atau gunakan borang hubungi.",
+    "items": {
+      "entry": {
+        "question": "Adakah kemasukan percuma?",
+        "answer": "Ya. Kemasukan adalah percuma untuk semua pencari kerja. Daftar awal dalam talian untuk mengelak barisan, atau daftar di pintu masuk Dewan B pada hari tersebut."
+      },
+      "bring": {
+        "question": "Apa yang perlu saya bawa?",
+        "answer": "Sekurang-kurangnya 10 salinan bercetak resume anda, MyKad atau kad pelajar, dan sebatang pen. Pakaian kasual kemas digalakkan."
+      },
+      "parking": {
+        "question": "Adakah tempat letak kereta disediakan?",
+        "answer": "Ya, tempat letak kereta di tingkat bawah tanah disediakan pada kadar RM3 setiap kemasukan. Tempat ini juga hanya 5 minit berjalan kaki dari stesen LRT terdekat."
+      },
+      "talks": {
+        "question": "Perlukah saya menempah ceramah kerjaya?",
+        "answer": "Tempahan digalakkan kerana tempat terhad. Kemasukan tanpa tempahan dibenarkan jika masih ada tempat kosong 10 minit sebelum ceramah bermula."
+      },
+      "graduates": {
+        "question": "Bolehkah graduan baharu dan pelajar hadir?",
+        "answer": "Sudah tentu. Ramai pempamer menawarkan program graduan dan latihan industri. Bawa kad pelajar anda untuk pendaftaran yang lebih pantas."
+      },
+      "booth": {
+        "question": "Bagaimanakah syarikat boleh menempah reruai?",
+        "answer": "Klik “Jadi Pempamer” dan lengkapkan borang. Pasukan kami akan menghubungi anda dalam masa 3 hari bekerja."
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Hubungi kami",
+    "title": "Kami sedia membantu",
+    "mapTitle": "Peta menunjukkan Pusat Konvensyen Kuala Lumpur",
+    "address": "Dewan A–C, Pusat Konvensyen Kuala Lumpur",
+    "dates": "12–14 Dis 2026 · 9.00 pagi – 6.00 petang",
+    "subjectPlaceholder": "Pilih subjek",
+    "subjects": {
+      "general": "Umum",
+      "exhibiting": "Penyertaan pempamer",
+      "sessions": "Sesi",
+      "media": "Media"
+    },
+    "failed": "Kami tidak dapat menghantar mesej anda. Sila cuba lagi.",
+    "sent": "Mesej dihantar. Kami akan membalas dalam masa 3 hari bekerja.",
+    "send": "Hantar Mesej"
+  },
+  "exhibitorForm": {
+    "title": "Jadi Pempamer",
+    "intro": "Ceritakan tentang syarikat anda dan kami akan menghubungi anda dalam masa 3 hari bekerja.",
+    "industryPlaceholder": "Pilih industri",
+    "packagePlaceholder": "Pilih pakej",
+    "packages": {
+      "standard": "Standard 3x3m · RM2,500",
+      "premium": "Premium 6x3m · RM4,500",
+      "platinum": "Reruai Pulau Platinum · RM8,000"
+    },
+    "terms": "Saya bersetuju dengan terma pempamer dan pemprosesan data saya untuk permohonan ini.",
+    "failed": "Kami tidak dapat menghantar permohonan anda. Sila cuba lagi.",
+    "submit": "Hantar Permohonan",
+    "successTitle": "Permohonan diterima",
+    "successText": "Terima kasih. Pasukan kami akan menghubungi anda dalam masa 3 hari bekerja."
+  },
+  "footer": {
+    "about": "Pameran pengambilan pekerja tiga hari di Malaysia yang menghubungkan pencari kerja dengan lebih 150 majikan di Kuala Lumpur.",
+    "navLabel": "Pengaki",
+    "quickLinks": "Pautan pantas",
+    "contact": "Hubungi",
+    "copyright": "© 2026 CareerConnect. Hak cipta terpelihara."
+  },
+  "chat": {
+    "open": "Buka sembang",
+    "title": "Pembantu CareerConnect",
+    "online": "Dalam talian",
+    "close": "Tutup sembang",
+    "conversation": "Perbualan",
+    "typing": "Pembantu sedang menaip",
+    "welcome": "Hai! Saya Pembantu CareerConnect. Tanya saya tentang tarikh, dewan atau cara mendaftar.",
+    "error": "Maaf, saya tidak dapat menjawab sekarang. Sila cuba lagi nanti.",
+    "suggestions": {
+      "dates": "Tarikh acara",
+      "register": "Bagaimana untuk mendaftar?",
+      "floorPlan": "Pelan lantai",
+      "packages": "Pakej pempamer"
+    },
+    "placeholder": "Taip soalan anda...",
+    "inputLabel": "Taip mesej anda",
+    "send": "Hantar"
+  }
+}

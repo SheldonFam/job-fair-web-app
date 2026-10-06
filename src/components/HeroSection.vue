@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ArrowRight, CalendarDays, MapPin } from '@lucide/vue'
+import { useI18n } from 'vue-i18n'
 import CountdownTimer from './CountdownTimer.vue'
 
 defineEmits<{ openExhibitor: [] }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -12,24 +15,24 @@ defineEmits<{ openExhibitor: [] }>()
         <ul class="hero-meta">
           <li class="hero-meta-item">
             <CalendarDays class="hero-meta-icon" v-bind:size="18" aria-hidden="true" />
-            <span>12–14 Dec 2026 · <span class="hero-meta-time">9:00 AM – 6:00 PM</span></span>
+            <span>
+              {{ t('hero.date') }} ·
+              <span class="hero-meta-time">{{ t('hero.time') }}</span>
+            </span>
           </li>
           <li class="hero-meta-item">
             <MapPin class="hero-meta-icon" v-bind:size="18" aria-hidden="true" />
-            KL Convention Centre
+            {{ t('hero.venue') }}
           </li>
         </ul>
 
-        <h1 class="hero-title">Find your next career move</h1>
-        <p class="hero-lead">
-          Three days of walk-in interviews, career talks and 1-on-1 job matching with 150+ employers
-          hiring for 5,000+ roles. Free entry.
-        </p>
+        <h1 class="hero-title">{{ t('hero.title') }}</h1>
+        <p class="hero-lead">{{ t('hero.lead') }}</p>
 
         <div class="hero-actions">
-          <a href="#sessions" class="btn btn-primary btn-lg">Reserve a Session</a>
+          <a href="#sessions" class="btn btn-primary btn-lg">{{ t('hero.reserve') }}</a>
           <button type="button" class="hero-link" v-on:click="$emit('openExhibitor')">
-            Be Our Exhibitor <ArrowRight v-bind:size="18" aria-hidden="true" />
+            {{ t('hero.beExhibitor') }} <ArrowRight v-bind:size="18" aria-hidden="true" />
           </button>
         </div>
 
@@ -40,7 +43,7 @@ defineEmits<{ openExhibitor: [] }>()
       <img
         class="hero-photo"
         src="@/assets/images/hero-job-fair.webp"
-        alt="A smiling job seeker talking with a recruiter"
+        v-bind:alt="t('hero.photoAlt')"
         width="1200"
         height="1250"
       />

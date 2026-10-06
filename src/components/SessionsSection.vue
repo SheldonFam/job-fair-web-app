@@ -2,18 +2,13 @@
 import { computed, ref } from 'vue'
 import { Clock, MapPin } from '@lucide/vue'
 import { sessionDays, sessions, type Session, type SessionType } from '@/data/sessions'
+import { useI18n } from 'vue-i18n'
+import { formatTime } from '@/utils/format'
 import ReservationModal from './ReservationModal.vue'
 
-const sessionTypes: { id: SessionType; label: string }[] = [
-  { id: 'match', label: 'Job Matching' },
-  { id: 'talk', label: 'Career Talks' },
-]
+const { t, locale } = useI18n()
 
-const statusLabels = {
-  available: 'Available',
-  almostFull: 'Almost full',
-  full: 'Full',
-}
+const sessionTypes: SessionType[] = ['match', 'talk']
 
 const statusClasses = {
   available: 'is-available',
@@ -47,36 +42,36 @@ const openReservation = (session: Session) => {
     <div class="container">
       <div class="sessions-header">
         <div>
-          <p class="eyebrow">Reserve a session</p>
-          <h2>Job matching &amp; career talks</h2>
+          <p class="eyebrow">{{ t('sessions.eyebrow') }}</p>
+          <h2>{{ t('sessions.title') }}</h2>
         </div>
 
-        <div class="sessions-types" role="group" aria-label="Session type">
+        <div class="sessions-types" role="group" v-bind:aria-label="t('sessions.typeLabel')">
           <button
             v-for="type in sessionTypes"
-            v-bind:key="type.id"
+            v-bind:key="type"
             type="button"
             class="sessions-type"
-            v-bind:class="{ 'is-selected': selectedType === type.id }"
-            v-bind:aria-pressed="selectedType === type.id"
-            v-on:click="selectedType = type.id"
+            v-bind:class="{ 'is-selected': selectedType === type }"
+            v-bind:aria-pressed="selectedType === type"
+            v-on:click="selectedType = type"
           >
-            {{ type.label }}
+            {{ t(`sessions.types.${type}`) }}
           </button>
         </div>
       </div>
 
-      <div class="sessions-days" role="group" aria-label="Day">
+      <div class="sessions-days" role="group" v-bind:aria-label="t('sessions.dayLabel')">
         <button
           v-for="day in sessionDays"
-          v-bind:key="day.number"
+          v-bind:key="day"
           type="button"
           class="filter-chip"
-          v-bind:class="{ 'is-selected': selectedDay === day.number }"
-          v-bind:aria-pressed="selectedDay === day.number"
-          v-on:click="selectedDay = day.number"
+          v-bind:class="{ 'is-selected': selectedDay === day }"
+          v-bind:aria-pressed="selectedDay === day"
+          v-on:click="selectedDay = day"
         >
-          {{ day.label }}
+          {{ t(`sessions.days.${day}`) }}
         </button>
       </div>
 
@@ -90,9 +85,11 @@ const openReservation = (session: Session) => {
           <div class="session-header">
             <span class="session-badge session-time">
               <Clock v-bind:size="14" aria-hidden="true" />
-              {{ session.time }}
+              {{ formatTime(session.time, locale) }}
             </span>
-            <span class="session-badge session-status">{{ statusLabels[session.status] }}</span>
+            <span class="session-badge session-status">{{
+              t(`sessions.status.${session.status}`)
+            }}</span>
           </div>
 
           <h3 class="session-title">{{ session.title }}</h3>
@@ -113,7 +110,7 @@ const openReservation = (session: Session) => {
 
           <p class="session-place">
             <MapPin v-bind:size="16" aria-hidden="true" />
-            {{ session.place }}
+            {{ t(`sessions.places.${session.place}`) }}
           </p>
 
           <div class="session-seats">
@@ -124,7 +121,7 @@ const openReservation = (session: Session) => {
               ></div>
             </div>
             <p class="session-seats-text">
-              {{ session.seatsLeft }} of {{ session.totalSeats }} seats left
+              {{ t('sessions.seatsLeft', { left: session.seatsLeft, total: session.totalSeats }) }}
             </p>
           </div>
 
@@ -134,7 +131,7 @@ const openReservation = (session: Session) => {
             class="btn btn-outline"
             v-on:click="openReservation(session)"
           >
-            Join Waitlist
+            {{ t('sessions.joinWaitlist') }}
           </button>
           <button
             v-else-if="session.status === 'almostFull'"
@@ -142,7 +139,7 @@ const openReservation = (session: Session) => {
             class="btn btn-amber"
             v-on:click="openReservation(session)"
           >
-            Reserve · {{ session.seatsLeft }} left
+            {{ t('sessions.reserveLeft', { count: session.seatsLeft }) }}
           </button>
           <button
             v-else
@@ -150,7 +147,7 @@ const openReservation = (session: Session) => {
             class="btn btn-primary"
             v-on:click="openReservation(session)"
           >
-            Reserve
+            {{ t('sessions.reserve') }}
           </button>
         </article>
       </div>

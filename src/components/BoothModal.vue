@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick } from 'vue'
-import { industryLabels, type Exhibitor } from '@/data/exhibitors'
+import { useI18n } from 'vue-i18n'
+import type { Exhibitor } from '@/data/exhibitors'
 import BaseModal from './BaseModal.vue'
 
 const props = defineProps<{ open: boolean; exhibitor: Exhibitor | null }>()
 const emit = defineEmits<{ close: [] }>()
+
+const { t } = useI18n()
 
 // only the first three roles are listed; the rest is shown as "+5 more"
 const visibleRoles = computed(() => {
@@ -35,9 +38,9 @@ const goToSessions = async () => {
       <div class="booth-detail-header">
         <span class="booth-detail-logo" aria-hidden="true">{{ exhibitor.initials }}</span>
         <div class="booth-detail-badges">
-          <span class="booth-detail-industry">{{ industryLabels[exhibitor.industry] }}</span>
+          <span class="booth-detail-industry">{{ t(`industries.${exhibitor.industry}`) }}</span>
           <span class="booth-detail-location">
-            Booth {{ exhibitor.booth }} · Hall {{ exhibitor.hall }}
+            {{ t('booth.location', { booth: exhibitor.booth, hall: exhibitor.hall }) }}
           </span>
         </div>
       </div>
@@ -45,17 +48,21 @@ const goToSessions = async () => {
       <p>{{ exhibitor.description }}</p>
 
       <div>
-        <h3 class="booth-detail-label">Open positions ({{ exhibitor.openRoleCount }})</h3>
+        <h3 class="booth-detail-label">
+          {{ t('booth.openPositions', { count: exhibitor.openRoleCount }) }}
+        </h3>
         <ul class="booth-detail-roles">
           <li v-for="role in visibleRoles" v-bind:key="role" class="booth-detail-role">
             {{ role }}
           </li>
-          <li v-if="extraRoleCount > 0" class="booth-detail-role">+{{ extraRoleCount }} more</li>
+          <li v-if="extraRoleCount > 0" class="booth-detail-role">
+            {{ t('booth.more', { count: extraRoleCount }) }}
+          </li>
         </ul>
       </div>
 
       <button type="button" class="btn btn-primary btn-lg" v-on:click="goToSessions">
-        Reserve a Session
+        {{ t('booth.reserve') }}
       </button>
     </div>
   </BaseModal>

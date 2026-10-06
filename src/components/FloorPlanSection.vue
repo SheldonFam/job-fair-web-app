@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
 import { Maximize2, Minus, Plus } from '@lucide/vue'
-import { industryLabels, type Exhibitor } from '@/data/exhibitors'
+import { useI18n } from 'vue-i18n'
+import { industries, type Exhibitor } from '@/data/exhibitors'
 import BaseModal from './BaseModal.vue'
 import BoothModal from './BoothModal.vue'
 import FloorPlanMap from './FloorPlanMap.vue'
+
+const { t } = useI18n()
 
 const minimumZoom = 1
 const maximumZoom = 4
@@ -54,23 +57,18 @@ const openBooth = async (exhibitor: Exhibitor) => {
     <div class="container">
       <div class="floor-plan-header">
         <div>
-          <p class="eyebrow">Floor plan</p>
-          <h2>Find your way around Halls A–C</h2>
-          <p class="floor-plan-lead">
-            Click a booth to see who is there. Hall A is Tech, Hall B is Finance and Engineering,
-            Hall C is Healthcare and Startups.
-          </p>
+          <p class="eyebrow">{{ t('floorPlan.eyebrow') }}</p>
+          <h2>{{ t('floorPlan.title') }}</h2>
+          <p class="floor-plan-lead">{{ t('floorPlan.lead') }}</p>
         </div>
         <button type="button" class="btn btn-outline" v-on:click="isLightboxOpen = true">
           <Maximize2 v-bind:size="18" aria-hidden="true" />
-          View Full Map
+          {{ t('floorPlan.viewFullMap') }}
         </button>
       </div>
 
       <div class="card floor-plan-card">
-        <p class="floor-plan-hint">
-          Swipe sideways to see all three halls, or open the full map to see them at once.
-        </p>
+        <p class="floor-plan-hint">{{ t('floorPlan.hint') }}</p>
 
         <div class="floor-plan-scroll">
           <FloorPlanMap v-on:select-exhibitor="openBooth" />
@@ -78,17 +76,17 @@ const openBooth = async (exhibitor: Exhibitor) => {
 
         <ul class="floor-plan-legend">
           <li
-            v-for="(label, industry) in industryLabels"
+            v-for="industry in industries"
             v-bind:key="industry"
             class="floor-plan-legend-item"
             v-bind:class="`is-${industry}`"
           >
             <span class="floor-plan-legend-box"></span>
-            {{ label }}
+            {{ t(`industries.${industry}`) }}
           </li>
           <li class="floor-plan-legend-item">
             <span class="floor-plan-legend-box is-available"></span>
-            Empty booth
+            {{ t('floorPlan.emptyBooth') }}
           </li>
         </ul>
       </div>
@@ -97,7 +95,7 @@ const openBooth = async (exhibitor: Exhibitor) => {
     <!-- lightbox: the same map, bigger, with zoom buttons -->
     <BaseModal
       wide
-      title="Floor plan · Halls A–C"
+      v-bind:title="t('floorPlan.lightboxTitle')"
       v-bind:open="isLightboxOpen"
       v-on:close="closeLightbox"
     >
@@ -105,7 +103,7 @@ const openBooth = async (exhibitor: Exhibitor) => {
         <button
           type="button"
           class="icon-button"
-          aria-label="Zoom out"
+          v-bind:aria-label="t('floorPlan.zoomOut')"
           v-bind:disabled="zoomLevel === minimumZoom"
           v-on:click="zoomOut"
         >
@@ -115,13 +113,15 @@ const openBooth = async (exhibitor: Exhibitor) => {
         <button
           type="button"
           class="icon-button"
-          aria-label="Zoom in"
+          v-bind:aria-label="t('floorPlan.zoomIn')"
           v-bind:disabled="zoomLevel === maximumZoom"
           v-on:click="zoomIn"
         >
           <Plus v-bind:size="20" aria-hidden="true" />
         </button>
-        <button type="button" class="btn btn-outline btn-sm" v-on:click="resetZoom">Reset</button>
+        <button type="button" class="btn btn-outline btn-sm" v-on:click="resetZoom">
+          {{ t('floorPlan.reset') }}
+        </button>
       </div>
 
       <div class="floor-plan-scroll floor-plan-lightbox">

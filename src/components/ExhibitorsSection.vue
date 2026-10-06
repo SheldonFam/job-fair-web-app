@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { ArrowUp, Search, SearchX } from '@lucide/vue'
-import { exhibitors, industryLabels, type Exhibitor, type Industry } from '@/data/exhibitors'
+import { useI18n } from 'vue-i18n'
+import { exhibitors, industries, type Exhibitor, type Industry } from '@/data/exhibitors'
 import BaseSelect from './BaseSelect.vue'
 
-const hallOptions = [
-  { value: 'all', label: 'All halls' },
-  { value: 'A', label: 'Hall A' },
-  { value: 'B', label: 'Hall B' },
-  { value: 'C', label: 'Hall C' },
-]
+const { t } = useI18n()
+
+const hallOptions = computed(() => [
+  { value: 'all', label: t('exhibitors.allHalls') },
+  { value: 'A', label: t('exhibitors.hall', { hall: 'A' }) },
+  { value: 'B', label: t('exhibitors.hall', { hall: 'B' }) },
+  { value: 'C', label: t('exhibitors.hall', { hall: 'C' }) },
+])
 
 const searchText = ref('')
 const selectedHall = ref('all')
@@ -55,11 +58,11 @@ const isShowingAll = ref(false)
     <div class="container">
       <div class="exhibitors-header">
         <div>
-          <p class="eyebrow">Exhibitor directory</p>
-          <h2>Search every company at the fair</h2>
+          <p class="eyebrow">{{ t('exhibitors.eyebrow') }}</p>
+          <h2>{{ t('exhibitors.title') }}</h2>
         </div>
         <p class="exhibitors-count" aria-live="polite">
-          {{ visibleExhibitors.length }} of {{ exhibitors.length }} exhibitors
+          {{ t('exhibitors.count', { shown: visibleExhibitors.length, total: exhibitors.length }) }}
         </p>
       </div>
 
@@ -71,20 +74,24 @@ const isShowingAll = ref(false)
               v-model="searchText"
               type="search"
               class="input exhibitors-search-input"
-              placeholder="Search company, booth or job role..."
-              aria-label="Search exhibitors"
+              v-bind:placeholder="t('exhibitors.searchPlaceholder')"
+              v-bind:aria-label="t('exhibitors.searchLabel')"
             />
           </div>
 
           <BaseSelect
             v-model="selectedHall"
             class="exhibitors-hall"
-            label="Hall"
+            v-bind:label="t('exhibitors.hallLabel')"
             v-bind:options="hallOptions"
           />
         </div>
 
-        <div class="exhibitors-industries" role="group" aria-label="Filter by industry">
+        <div
+          class="exhibitors-industries"
+          role="group"
+          v-bind:aria-label="t('exhibitors.filterLabel')"
+        >
           <button
             type="button"
             class="filter-chip"
@@ -92,10 +99,10 @@ const isShowingAll = ref(false)
             v-bind:aria-pressed="selectedIndustry === 'all'"
             v-on:click="selectedIndustry = 'all'"
           >
-            All
+            {{ t('exhibitors.all') }}
           </button>
           <button
-            v-for="(label, industry) in industryLabels"
+            v-for="industry in industries"
             v-bind:key="industry"
             type="button"
             class="filter-chip"
@@ -104,7 +111,7 @@ const isShowingAll = ref(false)
             v-on:click="selectedIndustry = industry"
           >
             <span class="exhibitors-industry-dot"></span>
-            {{ label }}
+            {{ t(`industries.${industry}`) }}
           </button>
         </div>
       </div>
@@ -121,10 +128,10 @@ const isShowingAll = ref(false)
           <div class="exhibitor-details">
             <div class="exhibitor-heading">
               <h3 class="exhibitor-name">{{ exhibitor.name }}</h3>
-              <span class="exhibitor-industry">{{ industryLabels[exhibitor.industry] }}</span>
+              <span class="exhibitor-industry">{{ t(`industries.${exhibitor.industry}`) }}</span>
             </div>
             <p class="exhibitor-roles">
-              {{ exhibitor.openRoleCount }} open roles ·
+              {{ t('exhibitors.openRoles', { count: exhibitor.openRoleCount }) }} ·
               {{ exhibitor.roles.slice(0, 2).join(', ') }}
             </p>
           </div>
@@ -134,9 +141,9 @@ const isShowingAll = ref(false)
             <a
               href="#floorplan"
               class="exhibitor-map-link"
-              v-bind:aria-label="`Show ${exhibitor.name} on map`"
+              v-bind:aria-label="t('exhibitors.showOnMapLabel', { name: exhibitor.name })"
             >
-              Show on map
+              {{ t('exhibitors.showOnMap') }}
               <ArrowUp v-bind:size="14" aria-hidden="true" />
             </a>
           </div>
@@ -150,15 +157,15 @@ const isShowingAll = ref(false)
         class="btn btn-outline exhibitors-show-all"
         v-on:click="isShowingAll = true"
       >
-        Show All {{ visibleExhibitors.length }} Exhibitors
+        {{ t('exhibitors.showAll', { count: visibleExhibitors.length }) }}
       </button>
 
       <div v-if="visibleExhibitors.length === 0" class="card exhibitors-empty">
         <SearchX class="exhibitors-empty-icon" v-bind:size="48" aria-hidden="true" />
-        <h3 class="exhibitors-empty-title">No exhibitors found</h3>
-        <p class="exhibitors-empty-text">Try a different name, booth number or job role.</p>
+        <h3 class="exhibitors-empty-title">{{ t('exhibitors.emptyTitle') }}</h3>
+        <p class="exhibitors-empty-text">{{ t('exhibitors.emptyText') }}</p>
         <button type="button" class="btn btn-outline btn-sm" v-on:click="clearFilters">
-          Clear Filters
+          {{ t('exhibitors.clearFilters') }}
         </button>
       </div>
     </div>

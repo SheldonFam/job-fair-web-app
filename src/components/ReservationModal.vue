@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { CalendarDays, CircleCheck, Clock, MapPin, UserRound } from '@lucide/vue'
 import BaseModal from './BaseModal.vue'
-import { sessionDays, type Session } from '@/data/sessions'
+import type { Session } from '@/data/sessions'
+import { formatTime } from '@/utils/format'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{ open: boolean; session: Session | null }>()
 const emit = defineEmits<{ close: [] }>()
 
+const { t, locale } = useI18n()
+
 const isWaitList = computed(() => props.session?.status === 'full')
 
 // "Day 1 · Sat 12 Dec": the date is clearer than the day number alone
-const dayLabel = computed(() => {
-  return sessionDays.find((day) => day.number === props.session?.day)?.label ?? ''
-})
+const dayLabel = computed(() => (props.session ? t(`sessions.days.${props.session.day}`) : ''))
 
 const form = reactive({
   reservationName: '',
@@ -20,6 +22,7 @@ const form = reactive({
   reservationPhone: '',
 })
 
+// each error holds a translation key (like 'errors.fullName'), shown with t() in the template
 const errors = reactive({
   reservationName: '',
   reservationEmail: '',
@@ -38,8 +41,8 @@ const successCloseButton = ref<HTMLButtonElement | null>(null)
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const validateEmail = (value: string) => {
-  if (!value.trim()) return 'Enter your email address'
-  if (!emailPattern.test(value)) return 'Enter a valid email address, like name@example.com'
+  if (!value.trim()) return 'errors.email'
+  if (!emailPattern.test(value)) return 'errors.emailInvalid'
   return ''
 }
 
@@ -47,16 +50,16 @@ const validatePhone = (value: string) => {
   if (!value.trim()) return ''
 
   const digits = value.replace(/[\s-]/g, '').replace(/^(\+?60|0)/, '')
-  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a Malaysian mobile number, like 012-345 6789'
+  if (!/^1\d{8,9}$/.test(digits)) return 'errors.phoneInvalid'
   return ''
 }
 
 const validateForm = () => {
-  errors.reservationName = form.reservationName.trim() ? '' : 'Enter your full name'
+  errors.reservationName = form.reservationName.trim() ? '' : 'errors.fullName'
   errors.reservationEmail = validateEmail(form.reservationEmail)
   errors.reservationPhone = form.reservationPhone.trim()
     ? validatePhone(form.reservationPhone)
-    : 'Enter your phone number'
+    : 'errors.phone'
 
   return Object.values(errors).every((message) => message === '')
 }
@@ -146,21 +149,21 @@ const handleSubmit = async () => {
 <template>
   <BaseModal
     v-bind:open="open"
-    v-bind:title="isWaitList ? 'Join the waitlist' : 'Reserve your session'"
+    v-bind:title="isWaitList ? t('reservation.titleWaitlist') : t('reservation.titleReserve')"
     v-on:close="emit('close')"
   >
     <!-- thank-you view, shown after a successful submit -->
     <div v-if="submitStatus === 'sent'" class="form-success" role="status">
       <CircleCheck class="form-success-icon" v-bind:size="56" aria-hidden="true" />
       <h3 class="form-success-title">
-        {{ isWaitList ? 'You’re on the waitlist' : 'You’re booked!' }}
+        {{ isWaitList ? t('reservation.successWaitlist') : t('reservation.successBooked') }}
       </h3>
       <p v-if="isWaitList">
-        No seat is reserved yet. If one opens up, we’ll email
+        {{ t('reservation.waitlistEmailTo') }}
         <strong>{{ submittedEmail }}</strong>
       </p>
       <p v-else>
-        Confirmation sent to <strong>{{ submittedEmail }}</strong>
+        {{ t('reservation.confirmationSentTo') }} <strong>{{ submittedEmail }}</strong>
       </p>
       <button
         ref="successCloseButton"
@@ -168,14 +171,14 @@ const handleSubmit = async () => {
         class="btn btn-primary"
         v-on:click="emit('close')"
       >
-        Close
+        {{ t('common.close') }}
       </button>
     </div>
 
     <template v-else>
       <div class="reservation-summary" v-if="session">
         <p class="reservation-summary-type">
-          {{ session.type === 'match' ? 'Job matching' : 'Career talk' }}
+          {{ session.type === 'match' ? t('reservation.typeMatch') : t('reservation.typeTalk') }}
         </p>
         <h3 class="reservation-summary-title">{{ session.title }}</h3>
         <ul class="reservation-summary-details">
@@ -185,11 +188,11 @@ const handleSubmit = async () => {
           </li>
           <li class="reservation-summary-detail">
             <Clock v-bind:size="16" aria-hidden="true" />
-            {{ session.time }}
+            {{ formatTime(session.time, locale) }}
           </li>
           <li class="reservation-summary-detail">
             <MapPin v-bind:size="16" aria-hidden="true" />
-            {{ session.place }}
+            {{ t(`sessions.places.${session.place}`) }}
           </li>
           <li class="reservation-summary-detail">
             <UserRound v-bind:size="16" aria-hidden="true" />
@@ -200,13 +203,13 @@ const handleSubmit = async () => {
 
       <!-- For Session Full -->
       <p v-if="isWaitList" class="alert reservation-waitlist-note">
-        This session is full. We will email you if a seat opens up.
+        {{ t('reservation.waitlistNote') }}
       </p>
 
       <form class="form-grid" novalidate v-on:submit.prevent="handleSubmit">
         <div class="field form-grid-full">
           <label for="reservation-name" class="field-label">
-            Full name <span class="field-required" aria-hidden="true">*</span>
+            {{ t('form.fullName') }} <span class="field-required" aria-hidden="true">*</span>
           </label>
           <input
             id="reservation-name"
@@ -216,16 +219,16 @@ const handleSubmit = async () => {
             name="reservationName"
             type="text"
             autocomplete="name"
-            placeholder="As per IC"
+            v-bind:placeholder="t('reservation.namePlaceholder')"
           />
           <p v-if="errors.reservationName" class="field-error" role="alert">
-            {{ errors.reservationName }}
+            {{ t(errors.reservationName) }}
           </p>
         </div>
 
         <div class="field">
           <label for="reservation-email" class="field-label">
-            Email <span class="field-required" aria-hidden="true">*</span>
+            {{ t('form.email') }} <span class="field-required" aria-hidden="true">*</span>
           </label>
           <input
             id="reservation-email"
@@ -238,13 +241,13 @@ const handleSubmit = async () => {
             placeholder="you@example.com"
           />
           <p v-if="errors.reservationEmail" class="field-error" role="alert">
-            {{ errors.reservationEmail }}
+            {{ t(errors.reservationEmail) }}
           </p>
         </div>
 
         <div class="field">
           <label for="reservation-phone" class="field-label">
-            Phone <span class="field-required" aria-hidden="true">*</span>
+            {{ t('form.phone') }} <span class="field-required" aria-hidden="true">*</span>
           </label>
           <input
             id="reservation-phone"
@@ -257,12 +260,12 @@ const handleSubmit = async () => {
             placeholder="012-345 6789"
           />
           <p v-if="errors.reservationPhone" class="field-error" role="alert">
-            {{ errors.reservationPhone }}
+            {{ t(errors.reservationPhone) }}
           </p>
         </div>
 
         <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full" role="alert">
-          We couldn’t send your reservation. Please try again.
+          {{ t('reservation.failed') }}
         </p>
 
         <button
@@ -270,8 +273,10 @@ const handleSubmit = async () => {
           class="btn btn-primary btn-lg form-grid-full"
           v-bind:disabled="submitStatus === 'sending'"
         >
-          <template v-if="submitStatus === 'sending'">Sending...</template>
-          <template v-else>{{ isWaitList ? 'Join Waitlist' : 'Confirm Reservation' }}</template>
+          <template v-if="submitStatus === 'sending'">{{ t('common.sending') }}</template>
+          <template v-else>{{
+            isWaitList ? t('reservation.joinWaitlist') : t('reservation.confirm')
+          }}</template>
         </button>
       </form>
     </template>

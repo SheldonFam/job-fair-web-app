@@ -1,26 +1,37 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <footer class="footer">
     <div class="container footer-grid">
       <div>
         <p class="footer-brand">CareerConnect</p>
-        <p>
-          Malaysia’s three-day hiring fair connecting job seekers with 150+ employers in Kuala
-          Lumpur.
-        </p>
+        <p>{{ t('footer.about') }}</p>
       </div>
 
-      <nav aria-label="Footer">
-        <h2 class="footer-title">Quick links</h2>
+      <nav v-bind:aria-label="t('footer.navLabel')">
+        <h2 class="footer-title">{{ t('footer.quickLinks') }}</h2>
         <ul class="footer-list">
-          <li><a href="#floorplan" class="footer-link">Floor Plan</a></li>
-          <li><a href="#sessions" class="footer-link">Sessions</a></li>
-          <li><a href="#faq" class="footer-link">FAQ</a></li>
-          <li><a href="#contact" class="footer-link">Contact</a></li>
+          <li>
+            <a href="#floorplan" class="footer-link">{{ t('nav.floorplan') }}</a>
+          </li>
+          <li>
+            <a href="#sessions" class="footer-link">{{ t('nav.sessions') }}</a>
+          </li>
+          <li>
+            <a href="#faq" class="footer-link">{{ t('nav.faq') }}</a>
+          </li>
+          <li>
+            <a href="#contact" class="footer-link">{{ t('nav.contact') }}</a>
+          </li>
         </ul>
       </nav>
 
       <div>
-        <h2 class="footer-title">Contact</h2>
+        <h2 class="footer-title">{{ t('footer.contact') }}</h2>
         <ul class="footer-list">
           <li><a href="tel:+60327158800" class="footer-link">+60 3-2715 8800</a></li>
           <li>
@@ -28,13 +39,13 @@
               hello@careerconnect.example.my
             </a>
           </li>
-          <li>Halls A–C, Kuala Lumpur Convention Centre</li>
+          <li>{{ t('contact.address') }}</li>
         </ul>
       </div>
     </div>
 
     <div class="container footer-bottom">
-      <p>© 2026 CareerConnect. All rights reserved.</p>
+      <p>{{ t('footer.copyright') }}</p>
     </div>
   </footer>
 </template>

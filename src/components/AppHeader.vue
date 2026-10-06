@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Globe, Menu } from '@lucide/vue'
 import { navLinks } from '@/data/navigation'
+import { languages, setLanguage } from '@/i18n'
 import BaseSelect from './BaseSelect.vue'
 
 defineEmits<{ openExhibitor: []; openNav: [] }>()
 
-const languages = [
-  { value: 'en', label: 'English', shortLabel: 'EN' },
-  { value: 'ms', label: 'Bahasa Melayu', shortLabel: 'BM' },
-  { value: 'zh', label: '中文', shortLabel: '中文' },
-]
+const { t, locale } = useI18n()
 
-// UI only for now: this remembers the choice but does not translate the page yet
-const selectedLanguage = ref('en')
 const currentLanguage = computed(
-  () => languages.find((language) => language.value === selectedLanguage.value) ?? languages[0]!,
+  () => languages.find((language) => language.value === locale.value) ?? languages[0]!,
 )
 </script>
 
@@ -24,22 +20,23 @@ const currentLanguage = computed(
     <div class="container header-inner">
       <a href="#top" class="header-brand">
         <span class="header-brand-name">CareerConnect</span>
-        <span class="header-brand-tagline">Job Fair 2026</span>
+        <span class="header-brand-tagline">{{ t('header.tagline') }}</span>
       </a>
 
-      <nav class="header-nav" aria-label="Main">
+      <nav class="header-nav" v-bind:aria-label="t('nav.main')">
         <ul class="header-nav-list">
-          <li v-for="link in navLinks" v-bind:key="link.sectionId">
-            <a v-bind:href="`#${link.sectionId}`" class="header-nav-link">{{ link.label }}</a>
+          <li v-for="sectionId in navLinks" v-bind:key="sectionId">
+            <a v-bind:href="`#${sectionId}`" class="header-nav-link">{{ t(`nav.${sectionId}`) }}</a>
           </li>
         </ul>
       </nav>
 
       <div class="header-actions">
         <BaseSelect
-          v-model="selectedLanguage"
+          v-bind:model-value="locale"
+          v-on:update:model-value="setLanguage"
           compact
-          label="Change language"
+          v-bind:label="t('header.changeLanguage')"
           v-bind:options="languages"
         >
           <template v-slot:value>
@@ -53,13 +50,13 @@ const currentLanguage = computed(
           class="btn btn-dark btn-sm header-cta"
           v-on:click="$emit('openExhibitor')"
         >
-          Be Our Exhibitor
+          {{ t('header.beExhibitor') }}
         </button>
 
         <button
           type="button"
           class="icon-button header-menu-button"
-          aria-label="Open menu"
+          v-bind:aria-label="t('nav.openMenu')"
           v-on:click="$emit('openNav')"
         >
           <Menu v-bind:size="22" aria-hidden="true" />

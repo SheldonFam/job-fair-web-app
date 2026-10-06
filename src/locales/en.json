@@ -1,0 +1,278 @@
+{
+  "common": {
+    "close": "Close",
+    "sending": "Sending...",
+    "optional": "(optional)"
+  },
+  "nav": {
+    "main": "Main",
+    "mobile": "Mobile",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "about": "About",
+    "floorplan": "Floor Plan",
+    "exhibitors": "Exhibitors",
+    "sessions": "Sessions",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "header": {
+    "tagline": "Job Fair 2026",
+    "changeLanguage": "Change language",
+    "beExhibitor": "Be Our Exhibitor"
+  },
+  "hero": {
+    "date": "12–14 Dec 2026",
+    "time": "9:00 AM – 6:00 PM",
+    "venue": "KL Convention Centre",
+    "title": "Find your next career move",
+    "lead": "Three days of walk-in interviews, career talks and 1-on-1 job matching with 150+ employers hiring for 5,000+ roles. Free entry.",
+    "reserve": "Reserve a Session",
+    "beExhibitor": "Be Our Exhibitor",
+    "photoAlt": "A smiling job seeker talking with a recruiter"
+  },
+  "countdown": {
+    "title": "The fair starts in",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
+  },
+  "about": {
+    "eyebrow": "About the fair",
+    "title": "Everything you need for your next job, in one place",
+    "lead": "Three days, three halls and 150+ employers under one roof. Bring your resume, meet hiring managers face-to-face, and leave with interviews lined up — whether you are a fresh graduate, switching careers or ready for your next senior role.",
+    "highlights": {
+      "freeEntry": "Free entry",
+      "walkIn": "Walk-in interviews",
+      "resumeClinic": "Resume clinic"
+    },
+    "photos": {
+      "interview": "A recruiter reading a candidate's resume",
+      "talk": "A large audience at a career talk",
+      "booth": "An exhibitor presenting at his booth"
+    },
+    "features": {
+      "employers": {
+        "title": "Meet employers face-to-face",
+        "description": "Skip the online queue. Talk directly to hiring managers from 150+ companies across five industries."
+      },
+      "matching": {
+        "title": "1-on-1 job matching",
+        "description": "Book a 20-minute slot with a recruiter who matches your profile to open roles on the spot."
+      },
+      "talks": {
+        "title": "Free career talks",
+        "description": "30+ talks on interviews, salary negotiation and in-demand skills, from people who hire."
+      }
+    }
+  },
+  "industries": {
+    "tech": "Tech",
+    "finance": "Finance",
+    "engineering": "Engineering",
+    "healthcare": "Healthcare",
+    "startups": "Startups"
+  },
+  "floorPlan": {
+    "eyebrow": "Floor plan",
+    "title": "Find your way around Halls A–C",
+    "lead": "Click a booth to see who is there. Hall A is Tech, Hall B is Finance and Engineering, Hall C is Healthcare and Startups.",
+    "viewFullMap": "View Full Map",
+    "hint": "Swipe sideways to see all three halls, or open the full map to see them at once.",
+    "emptyBooth": "Empty booth",
+    "lightboxTitle": "Floor plan · Halls A–C",
+    "zoomOut": "Zoom out",
+    "zoomIn": "Zoom in",
+    "reset": "Reset",
+    "mapAlt": "Floor plan of Halls A, B and C. Hall A has the main stage and Tech booths. Hall B has the job matching zone, Finance and Engineering booths. Hall C has Healthcare booths, the rest area and Startup Alley.",
+    "boothLabel": "{name}, booth {code}",
+    "boothTitle": "{name} · Booth {code}",
+    "emptyBoothTitle": "Booth {code} · Empty"
+  },
+  "booth": {
+    "location": "Booth {booth} · Hall {hall}",
+    "openPositions": "Open positions ({count})",
+    "more": "+{count} more",
+    "reserve": "Reserve a Session"
+  },
+  "exhibitors": {
+    "eyebrow": "Exhibitor directory",
+    "title": "Search every company at the fair",
+    "count": "{shown} of {total} exhibitors",
+    "searchPlaceholder": "Search company, booth or job role...",
+    "searchLabel": "Search exhibitors",
+    "hallLabel": "Hall",
+    "allHalls": "All halls",
+    "hall": "Hall {hall}",
+    "filterLabel": "Filter by industry",
+    "all": "All",
+    "openRoles": "{count} open roles",
+    "showOnMap": "Show on map",
+    "showOnMapLabel": "Show {name} on map",
+    "showAll": "Show All {count} Exhibitors",
+    "emptyTitle": "No exhibitors found",
+    "emptyText": "Try a different name, booth number or job role.",
+    "clearFilters": "Clear Filters"
+  },
+  "sessions": {
+    "eyebrow": "Reserve a session",
+    "title": "Job matching & career talks",
+    "typeLabel": "Session type",
+    "dayLabel": "Day",
+    "types": {
+      "match": "Job Matching",
+      "talk": "Career Talks"
+    },
+    "days": {
+      "1": "Day 1 · Sat 12 Dec",
+      "2": "Day 2 · Sun 13 Dec",
+      "3": "Day 3 · Mon 14 Dec"
+    },
+    "places": {
+      "matchingZone": "Job Matching Zone, Hall B",
+      "mainStage": "Main Stage, Hall A"
+    },
+    "status": {
+      "available": "Available",
+      "almostFull": "Almost full",
+      "full": "Full"
+    },
+    "seatsLeft": "{left} of {total} seats left",
+    "reserve": "Reserve",
+    "reserveLeft": "Reserve · {count} left",
+    "joinWaitlist": "Join Waitlist"
+  },
+  "reservation": {
+    "titleReserve": "Reserve your session",
+    "titleWaitlist": "Join the waitlist",
+    "typeMatch": "Job matching",
+    "typeTalk": "Career talk",
+    "waitlistNote": "This session is full. We’ll email you if a seat opens up.",
+    "namePlaceholder": "As per IC",
+    "failed": "We couldn’t send your reservation. Please try again.",
+    "confirm": "Confirm Reservation",
+    "joinWaitlist": "Join Waitlist",
+    "successBooked": "You’re booked!",
+    "successWaitlist": "You’re on the waitlist",
+    "confirmationSentTo": "Confirmation sent to",
+    "waitlistEmailTo": "No seat is reserved yet. If one opens up, we’ll email"
+  },
+  "form": {
+    "fullName": "Full name",
+    "email": "Email",
+    "workEmail": "Work email",
+    "phone": "Phone",
+    "subject": "Subject",
+    "message": "Message",
+    "companyName": "Company name",
+    "contactPerson": "Contact person",
+    "industry": "Industry",
+    "boothPackage": "Booth package"
+  },
+  "errors": {
+    "fullName": "Enter your full name",
+    "email": "Enter your email address",
+    "emailInvalid": "Enter a valid email address, like name{'@'}example.com",
+    "phone": "Enter your phone number",
+    "phoneInvalid": "Enter a Malaysian mobile number, like 012-345 6789",
+    "subject": "Choose a subject",
+    "message": "Write at least 10 characters",
+    "companyName": "Enter your company name",
+    "contactPerson": "Enter a contact person",
+    "industry": "Choose an industry",
+    "boothPackage": "Choose a booth package",
+    "terms": "Accept the exhibitor terms to continue"
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "intro": "Can’t find your answer? Ask our assistant (bottom right) or use the contact form.",
+    "items": {
+      "entry": {
+        "question": "Is entry free?",
+        "answer": "Yes. Entry is free for all job seekers. Pre-register online to skip the queue, or register at the Hall B entrance on the day."
+      },
+      "bring": {
+        "question": "What should I bring?",
+        "answer": "At least 10 printed copies of your resume, your IC or student ID, and a pen. Smart-casual dress is recommended."
+      },
+      "parking": {
+        "question": "Is parking available?",
+        "answer": "Yes, basement parking is available at RM3 per entry. The venue is also a 5-minute walk from the nearest LRT station."
+      },
+      "talks": {
+        "question": "Do I need to book career talks?",
+        "answer": "Booking is recommended because seats are limited. Walk-ins are allowed if seats are still free 10 minutes before the talk."
+      },
+      "graduates": {
+        "question": "Can fresh graduates and students attend?",
+        "answer": "Absolutely. Many exhibitors offer graduate programmes and internships. Bring your student ID for faster check-in."
+      },
+      "booth": {
+        "question": "How do companies book a booth?",
+        "answer": "Click “Be Our Exhibitor” and complete the form. Our team will contact you within 3 working days."
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact us",
+    "title": "We’re here to help",
+    "mapTitle": "Map showing Kuala Lumpur Convention Centre",
+    "address": "Halls A–C, Kuala Lumpur Convention Centre",
+    "dates": "12–14 Dec 2026 · 9:00 AM – 6:00 PM",
+    "subjectPlaceholder": "Select a subject",
+    "subjects": {
+      "general": "General",
+      "exhibiting": "Exhibiting",
+      "sessions": "Sessions",
+      "media": "Media"
+    },
+    "failed": "We couldn’t send your message. Please try again.",
+    "sent": "Message sent. We’ll reply within 3 working days.",
+    "send": "Send Message"
+  },
+  "exhibitorForm": {
+    "title": "Be Our Exhibitor",
+    "intro": "Tell us about your company and we’ll get back to you within 3 working days.",
+    "industryPlaceholder": "Select an industry",
+    "packagePlaceholder": "Select a package",
+    "packages": {
+      "standard": "Standard 3x3m · RM2,500",
+      "premium": "Premium 6x3m · RM4,500",
+      "platinum": "Platinum island · RM8,000"
+    },
+    "terms": "I agree to the exhibitor terms and the processing of my data for this application.",
+    "failed": "We couldn’t send your application. Please try again.",
+    "submit": "Submit Application",
+    "successTitle": "Application received",
+    "successText": "Thank you. Our team will contact you within 3 working days."
+  },
+  "footer": {
+    "about": "Malaysia’s three-day hiring fair connecting job seekers with 150+ employers in Kuala Lumpur.",
+    "navLabel": "Footer",
+    "quickLinks": "Quick links",
+    "contact": "Contact",
+    "copyright": "© 2026 CareerConnect. All rights reserved."
+  },
+  "chat": {
+    "open": "Open chat",
+    "title": "CareerConnect Assistant",
+    "online": "Online",
+    "close": "Close chat",
+    "conversation": "Conversation",
+    "typing": "Assistant is typing",
+    "welcome": "Hi! I’m the CareerConnect Assistant. Ask me about dates, halls or how to register.",
+    "error": "Sorry, I can’t answer right now. Please try again later.",
+    "suggestions": {
+      "dates": "Event dates",
+      "register": "How to register?",
+      "floorPlan": "Floor plan",
+      "packages": "Exhibitor packages"
+    },
+    "placeholder": "Type your question...",
+    "inputLabel": "Type your message",
+    "send": "Send"
+  }
+}

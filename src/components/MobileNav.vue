@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { X } from '@lucide/vue'
 import { navLinks } from '@/data/navigation'
 import { useModal } from '@/composables/useModal'
@@ -8,6 +9,8 @@ const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: []; openExhibitor: [] }>()
 
 const panel = ref<HTMLElement | null>(null)
+
+const { t } = useI18n()
 
 const { keepFocusInside } = useModal(() => props.open, panel)
 
@@ -27,37 +30,33 @@ const openExhibitor = () => {
         class="mobile-nav-panel"
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        v-bind:aria-label="t('nav.menu')"
         v-on:keydown.tab="keepFocusInside"
       >
         <div class="mobile-nav-header">
-          <span class="mobile-nav-title">Menu</span>
+          <span class="mobile-nav-title">{{ t('nav.menu') }}</span>
           <button
             type="button"
             class="icon-button"
-            aria-label="Close menu"
+            v-bind:aria-label="t('nav.closeMenu')"
             v-on:click="emit('close')"
           >
             <X v-bind:size="20" aria-hidden="true" />
           </button>
         </div>
 
-        <nav aria-label="Mobile">
+        <nav v-bind:aria-label="t('nav.mobile')">
           <ul>
-            <li v-for="link in navLinks" v-bind:key="link.sectionId">
-              <a
-                v-bind:href="`#${link.sectionId}`"
-                class="mobile-nav-link"
-                v-on:click="emit('close')"
-              >
-                {{ link.label }}
+            <li v-for="sectionId in navLinks" v-bind:key="sectionId">
+              <a v-bind:href="`#${sectionId}`" class="mobile-nav-link" v-on:click="emit('close')">
+                {{ t(`nav.${sectionId}`) }}
               </a>
             </li>
           </ul>
         </nav>
 
         <button type="button" class="btn btn-dark mobile-nav-cta" v-on:click="openExhibitor">
-          Be Our Exhibitor
+          {{ t('header.beExhibitor') }}
         </button>
       </div>
     </div>

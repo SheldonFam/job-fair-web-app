@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import floorPlanImage from '@/assets/floor-plan.svg'
 import { booths, floorPlanHeight, floorPlanWidth } from '@/data/booths'
 import { exhibitors, type Exhibitor } from '@/data/exhibitors'
 
 const emit = defineEmits<{ selectExhibitor: [exhibitor: Exhibitor] }>()
+
+const { t } = useI18n()
 
 /* Each booth is placed on top of the drawing with percentages,
    so it stays in the right spot when the map gets bigger or smaller. */
@@ -29,7 +32,7 @@ const mapBooths = booths.map((booth) => {
       v-bind:src="floorPlanImage"
       v-bind:width="floorPlanWidth"
       v-bind:height="floorPlanHeight"
-      alt="Floor plan of Halls A, B and C. Hall A has the main stage and Tech booths. Hall B has the job matching zone, Finance and Engineering booths. Hall C has Healthcare booths, the rest area and Startup Alley."
+      v-bind:alt="t('floorPlan.mapAlt')"
     />
 
     <template v-for="booth in mapBooths" v-bind:key="booth.code">
@@ -40,8 +43,10 @@ const mapBooths = booths.map((booth) => {
         class="floor-map-booth"
         v-bind:class="booth.industryClass"
         v-bind:style="booth.position"
-        v-bind:title="`${booth.exhibitor.name} · Booth ${booth.code}`"
-        v-bind:aria-label="`${booth.exhibitor.name}, booth ${booth.code}`"
+        v-bind:title="t('floorPlan.boothTitle', { name: booth.exhibitor.name, code: booth.code })"
+        v-bind:aria-label="
+          t('floorPlan.boothLabel', { name: booth.exhibitor.name, code: booth.code })
+        "
         v-on:click="emit('selectExhibitor', booth.exhibitor)"
       >
         {{ booth.code }}
@@ -53,7 +58,7 @@ const mapBooths = booths.map((booth) => {
         class="floor-map-booth is-available"
         v-bind:class="booth.industryClass"
         v-bind:style="booth.position"
-        v-bind:title="`Booth ${booth.code} · Available`"
+        v-bind:title="t('floorPlan.emptyBoothTitle', { code: booth.code })"
       >
         {{ booth.code }}
       </span>

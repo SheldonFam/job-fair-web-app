@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, useId } from 'vue'
 import { X } from '@lucide/vue'
+import { useI18n } from 'vue-i18n'
 import { useModal } from '@/composables/useModal'
 
 const props = defineProps<{ open: boolean; title: string; wide?: boolean }>()
@@ -8,6 +9,7 @@ const emit = defineEmits<{ close: [] }>()
 
 const panel = ref<HTMLElement | null>(null)
 const titleId = useId()
+const { t } = useI18n()
 
 const { keepFocusInside } = useModal(() => props.open, panel)
 </script>
@@ -30,7 +32,12 @@ const { keepFocusInside } = useModal(() => props.open, panel)
         >
           <div class="modal-header">
             <h2 v-bind:id="titleId" class="modal-title">{{ title }}</h2>
-            <button type="button" class="icon-button" aria-label="Close" v-on:click="emit('close')">
+            <button
+              type="button"
+              class="icon-button"
+              v-bind:aria-label="t('common.close')"
+              v-on:click="emit('close')"
+            >
               <X v-bind:size="20" aria-hidden="true" />
             </button>
           </div>

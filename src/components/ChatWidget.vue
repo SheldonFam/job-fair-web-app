@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, ref } from 'vue'
 import { Bot, MessageCircle, SendHorizontal, X, Circle } from '@lucide/vue'
+import { useI18n } from 'vue-i18n'
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string }
 
@@ -8,12 +9,9 @@ const isOpen = ref(false)
 
 const messages = ref<ChatMessage[]>([])
 
-const welcomeMessage =
-  'Hi! I’m the CareerConnect Assistant. Ask me about dates, halls or how to register.'
+const { t } = useI18n()
 
-const genericErrorMessage = 'Sorry, I can’t answer right now. Please try again later.'
-
-const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor packages']
+const suggestions = ['dates', 'register', 'floorPlan', 'packages']
 
 const messageText = ref('')
 const isPending = ref(false)
@@ -65,7 +63,7 @@ const sendMessage = async (text: string) => {
     if (!response.ok || !result.success) {
       messages.value.push({
         role: 'assistant',
-        content: genericErrorMessage,
+        content: t('chat.error'),
       })
       return
     }
@@ -75,7 +73,7 @@ const sendMessage = async (text: string) => {
     console.error(error)
     messages.value.push({
       role: 'assistant',
-      content: genericErrorMessage,
+      content: t('chat.error'),
     })
   } finally {
     isPending.value = false
@@ -90,7 +88,7 @@ const sendMessage = async (text: string) => {
     ref="chatButton"
     type="button"
     class="chat-button"
-    aria-label="Open chat"
+    v-bind:aria-label="t('chat.open')"
     v-on:click="openChatBot"
   >
     <MessageCircle v-bind:size="28" aria-hidden="true" />
@@ -99,7 +97,7 @@ const sendMessage = async (text: string) => {
   <section
     v-else
     class="chat-window"
-    aria-label="CareerConnect Assistant"
+    v-bind:aria-label="t('chat.title')"
     v-on:keydown.esc="closeChatBot"
   >
     <header class="chat-header">
@@ -107,25 +105,30 @@ const sendMessage = async (text: string) => {
         <Bot v-bind:size="22" />
       </span>
       <div class="chat-heading">
-        <p class="chat-title">CareerConnect Assistant</p>
+        <p class="chat-title">{{ t('chat.title') }}</p>
         <p class="chat-status">
           <Circle v-bind:size="8" color="#4ade80" fill="#4ade80" aria-hidden="true" />
-          Online
+          {{ t('chat.online') }}
         </p>
       </div>
       <button
         type="button"
         class="icon-button chat-close"
-        aria-label="Close chat"
+        v-bind:aria-label="t('chat.close')"
         v-on:click="closeChatBot"
       >
         <X v-bind:size="20" aria-hidden="true" />
       </button>
     </header>
 
-    <div ref="messageList" class="chat-messages" role="log" aria-label="Conversation">
+    <div
+      ref="messageList"
+      class="chat-messages"
+      role="log"
+      v-bind:aria-label="t('chat.conversation')"
+    >
       <p class="chat-message is-assistant">
-        {{ welcomeMessage }}
+        {{ t('chat.welcome') }}
       </p>
       <p
         v-for="(message, index) in messages"
@@ -137,7 +140,7 @@ const sendMessage = async (text: string) => {
       </p>
 
       <!-- TODO: show this only while waiting for a reply -->
-      <div v-if="isPending" class="chat-typing" role="status" aria-label="Assistant is typing">
+      <div v-if="isPending" class="chat-typing" role="status" v-bind:aria-label="t('chat.typing')">
         <span class="chat-typing-dot"></span>
         <span class="chat-typing-dot"></span>
         <span class="chat-typing-dot"></span>
@@ -149,9 +152,9 @@ const sendMessage = async (text: string) => {
           v-bind:key="suggestion"
           type="button"
           class="chat-suggestion"
-          v-on:click="sendMessage(suggestion)"
+          v-on:click="sendMessage(t(`chat.suggestions.${suggestion}`))"
         >
-          {{ suggestion }}
+          {{ t(`chat.suggestions.${suggestion}`) }}
         </button>
       </div>
     </div>
@@ -164,14 +167,14 @@ const sendMessage = async (text: string) => {
         name="chatMessage"
         type="text"
         autocomplete="off"
-        placeholder="Type your question..."
-        aria-label="Type your message"
+        v-bind:placeholder="t('chat.placeholder')"
+        v-bind:aria-label="t('chat.inputLabel')"
         ref="messageInput"
       />
       <button
         type="submit"
         class="btn btn-primary chat-send"
-        aria-label="Send"
+        v-bind:aria-label="t('chat.send')"
         v-bind:disabled="isPending"
       >
         <SendHorizontal v-bind:size="20" aria-hidden="true" />

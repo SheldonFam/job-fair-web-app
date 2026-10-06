@@ -1,39 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ChevronDown } from '@lucide/vue'
+import { useI18n } from 'vue-i18n'
 
-const faqs = [
-  {
-    question: 'Is entry free?',
-    answer:
-      'Yes. Entry is free for all job seekers. Pre-register online to skip the queue, or register at the Hall B entrance on the day.',
-  },
-  {
-    question: 'What should I bring?',
-    answer:
-      'At least 10 printed copies of your resume, your IC or student ID, and a pen. Smart-casual dress is recommended.',
-  },
-  {
-    question: 'Is parking available?',
-    answer:
-      'Yes, basement parking is available at RM3 per entry. The venue is also a 5-minute walk from the nearest LRT station.',
-  },
-  {
-    question: 'Do I need to book career talks?',
-    answer:
-      'Booking is recommended because seats are limited. Walk-ins are allowed if seats are still free 10 minutes before the talk.',
-  },
-  {
-    question: 'Can fresh graduates and students attend?',
-    answer:
-      'Absolutely. Many exhibitors offer graduate programmes and internships. Bring your student ID for faster check-in.',
-  },
-  {
-    question: 'How do companies book a booth?',
-    answer:
-      'Click “Be Our Exhibitor” and complete the form. Our team will contact you within 3 working days.',
-  },
-]
+const { t } = useI18n()
+
+const faqs = ['entry', 'bring', 'parking', 'talks', 'graduates', 'booth']
 
 // which question is open (0 = the first one, null = all closed)
 const openQuestionIndex = ref<number | null>(0)
@@ -47,16 +19,14 @@ const toggleQuestion = (index: number) => {
   <section id="faq" class="section">
     <div class="container">
       <div class="faq-header">
-        <p class="eyebrow">FAQ</p>
-        <h2>Frequently asked questions</h2>
-        <p class="faq-intro">
-          Can’t find your answer? Ask our assistant (bottom right) or use the contact form.
-        </p>
+        <p class="eyebrow">{{ t('faq.eyebrow') }}</p>
+        <h2>{{ t('faq.title') }}</h2>
+        <p class="faq-intro">{{ t('faq.intro') }}</p>
       </div>
 
       <div
         v-for="(item, index) in faqs"
-        v-bind:key="item.question"
+        v-bind:key="item"
         class="faq-item"
         v-bind:class="{ 'is-open': openQuestionIndex === index }"
       >
@@ -69,7 +39,7 @@ const toggleQuestion = (index: number) => {
             v-bind:aria-controls="`faq-answer-${index}`"
             v-on:click="toggleQuestion(index)"
           >
-            {{ item.question }}
+            {{ t(`faq.items.${item}.question`) }}
             <ChevronDown class="faq-chevron" v-bind:size="20" aria-hidden="true" />
           </button>
         </h3>
@@ -82,7 +52,7 @@ const toggleQuestion = (index: number) => {
           v-bind:inert="openQuestionIndex !== index"
         >
           <div class="faq-panel-content">
-            <p class="faq-answer">{{ item.answer }}</p>
+            <p class="faq-answer">{{ t(`faq.items.${item}.answer`) }}</p>
           </div>
         </div>
       </div>

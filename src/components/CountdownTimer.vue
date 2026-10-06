@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const targetDate = new Date('2026-12-12T09:00:00+08:00')
 
@@ -11,10 +14,10 @@ const seconds = ref(0)
 let intervalId: ReturnType<typeof setInterval>
 
 const units = computed(() => [
-  { value: String(days.value).padStart(2, '0'), label: 'Days' },
-  { value: String(hours.value).padStart(2, '0'), label: 'Hours' },
-  { value: String(minutes.value).padStart(2, '0'), label: 'Minutes' },
-  { value: String(seconds.value).padStart(2, '0'), label: 'Seconds' },
+  { value: String(days.value).padStart(2, '0'), label: t('countdown.days') },
+  { value: String(hours.value).padStart(2, '0'), label: t('countdown.hours') },
+  { value: String(minutes.value).padStart(2, '0'), label: t('countdown.minutes') },
+  { value: String(seconds.value).padStart(2, '0'), label: t('countdown.seconds') },
 ])
 
 const updateCountdown = () => {
@@ -48,7 +51,7 @@ onUnmounted(() => {
 
 <template>
   <div class="card countdown">
-    <p class="countdown-title">The fair starts in</p>
+    <p class="countdown-title">{{ t('countdown.title') }}</p>
 
     <div class="countdown-units" role="timer">
       <div v-for="unit in units" v-bind:key="unit.label" class="countdown-unit">

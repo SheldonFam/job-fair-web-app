@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { MapPin, Phone, Mail, Clock } from '@lucide/vue'
+import { useI18n } from 'vue-i18n'
 import BaseSelect from './BaseSelect.vue'
 
-const subjectOptions = [
-  { value: 'General', label: 'General' },
-  { value: 'Exhibiting', label: 'Exhibiting' },
-  { value: 'Sessions', label: 'Sessions' },
-  { value: 'Media', label: 'Media' },
-]
+const { t } = useI18n()
+
+const subjectOptions = computed(() => [
+  { value: 'General', label: t('contact.subjects.general') },
+  { value: 'Exhibiting', label: t('contact.subjects.exhibiting') },
+  { value: 'Sessions', label: t('contact.subjects.sessions') },
+  { value: 'Media', label: t('contact.subjects.media') },
+])
 
 const form = reactive({
   contactName: '',
@@ -33,8 +36,8 @@ const hasSubmitted = ref(false)
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const validateEmail = (value: string) => {
-  if (!value.trim()) return 'Enter your email address'
-  if (!emailPattern.test(value)) return 'Enter a valid email address, like name@example.com'
+  if (!value.trim()) return 'errors.email'
+  if (!emailPattern.test(value)) return 'errors.emailInvalid'
   return ''
 }
 
@@ -42,17 +45,16 @@ const validatePhone = (value: string) => {
   if (!value.trim()) return ''
 
   const digits = value.replace(/[\s-]/g, '').replace(/^(\+?60|0)/, '')
-  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a Malaysian mobile number, like 012-345 6789'
+  if (!/^1\d{8,9}$/.test(digits)) return 'errors.phoneInvalid'
   return ''
 }
 
 const validateForm = () => {
-  errors.contactName = form.contactName.trim() ? '' : 'Enter your full name'
+  errors.contactName = form.contactName.trim() ? '' : 'errors.fullName'
   errors.contactEmail = validateEmail(form.contactEmail)
   errors.contactPhone = validatePhone(form.contactPhone)
-  errors.contactSubject = form.contactSubject ? '' : 'Choose a subject'
-  errors.contactMessage =
-    form.contactMessage.trim().length >= 10 ? '' : 'Write at least 10 characters'
+  errors.contactSubject = form.contactSubject ? '' : 'errors.subject'
+  errors.contactMessage = form.contactMessage.trim().length >= 10 ? '' : 'errors.message'
 
   return Object.values(errors).every((message) => message === '')
 }
@@ -131,22 +133,22 @@ const handleSubmit = async () => {
 <template>
   <section id="contact" class="section section-alt">
     <div class="container">
-      <p class="eyebrow">Contact us</p>
-      <h2>We’re here to help</h2>
+      <p class="eyebrow">{{ t('contact.eyebrow') }}</p>
+      <h2>{{ t('contact.title') }}</h2>
 
       <div class="contact-grid">
         <!-- Left: venue card -->
         <div class="card contact-venue">
           <iframe
             class="contact-map"
-            title="Map showing Kuala Lumpur Convention Centre"
+            v-bind:title="t('contact.mapTitle')"
             src="https://www.google.com/maps?q=Kuala+Lumpur+Convention+Centre&output=embed"
             loading="lazy"
           ></iframe>
           <ul class="contact-details">
             <li class="contact-detail contact-detail-address">
               <MapPin class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
-              Halls A–C, Kuala Lumpur Convention Centre
+              {{ t('contact.address') }}
             </li>
             <li class="contact-detail">
               <Phone class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
@@ -160,7 +162,7 @@ const handleSubmit = async () => {
             </li>
             <li class="contact-detail">
               <Clock class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
-              12–14 Dec 2026 · 9:00 AM – 6:00 PM
+              {{ t('contact.dates') }}
             </li>
           </ul>
         </div>
@@ -168,19 +170,19 @@ const handleSubmit = async () => {
         <!-- Right: form card -->
         <form class="card form-grid contact-form" novalidate v-on:submit.prevent="handleSubmit">
           <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full" role="alert">
-            We couldn’t send your message. Please try again.
+            {{ t('contact.failed') }}
           </p>
           <p
             v-if="submitStatus === 'sent'"
             class="alert alert-success form-grid-full"
             role="status"
           >
-            Message sent. We’ll reply within 2 working days.
+            {{ t('contact.sent') }}
           </p>
 
           <div class="field">
             <label for="contact-name" class="field-label">
-              Full name <span class="field-required" aria-hidden="true">*</span>
+              {{ t('form.fullName') }} <span class="field-required" aria-hidden="true">*</span>
             </label>
             <input
               id="contact-name"
@@ -192,13 +194,13 @@ const handleSubmit = async () => {
               v-bind:aria-invalid="!!errors.contactName"
             />
             <p v-if="errors.contactName" class="field-error" role="alert">
-              {{ errors.contactName }}
+              {{ t(errors.contactName) }}
             </p>
           </div>
 
           <div class="field">
             <label for="contact-email" class="field-label">
-              Email <span class="field-required" aria-hidden="true">*</span>
+              {{ t('form.email') }} <span class="field-required" aria-hidden="true">*</span>
             </label>
             <input
               id="contact-email"
@@ -210,13 +212,13 @@ const handleSubmit = async () => {
               v-bind:aria-invalid="!!errors.contactEmail"
             />
             <p v-if="errors.contactEmail" class="field-error" role="alert">
-              {{ errors.contactEmail }}
+              {{ t(errors.contactEmail) }}
             </p>
           </div>
 
           <div class="field">
             <label for="contact-phone" class="field-label">
-              Phone <span class="field-optional">(optional)</span>
+              {{ t('form.phone') }} <span class="field-optional">{{ t('common.optional') }}</span>
             </label>
             <input
               id="contact-phone"
@@ -229,29 +231,29 @@ const handleSubmit = async () => {
               v-bind:aria-invalid="!!errors.contactPhone"
             />
             <p v-if="errors.contactPhone" class="field-error" role="alert">
-              {{ errors.contactPhone }}
+              {{ t(errors.contactPhone) }}
             </p>
           </div>
 
           <div class="field">
             <label for="contact-subject" class="field-label">
-              Subject <span class="field-required" aria-hidden="true">*</span>
+              {{ t('form.subject') }} <span class="field-required" aria-hidden="true">*</span>
             </label>
             <BaseSelect
               id="contact-subject"
               v-model="form.contactSubject"
-              placeholder="Select a subject"
+              v-bind:placeholder="t('contact.subjectPlaceholder')"
               v-bind:options="subjectOptions"
               v-bind:invalid="!!errors.contactSubject"
             />
             <p v-if="errors.contactSubject" class="field-error" role="alert">
-              {{ errors.contactSubject }}
+              {{ t(errors.contactSubject) }}
             </p>
           </div>
 
           <div class="field form-grid-full">
             <label for="contact-message" class="field-label">
-              Message <span class="field-required" aria-hidden="true">*</span>
+              {{ t('form.message') }} <span class="field-required" aria-hidden="true">*</span>
             </label>
             <textarea
               id="contact-message"
@@ -262,7 +264,7 @@ const handleSubmit = async () => {
               v-bind:aria-invalid="!!errors.contactMessage"
             ></textarea>
             <p v-if="errors.contactMessage" class="field-error" role="alert">
-              {{ errors.contactMessage }}
+              {{ t(errors.contactMessage) }}
             </p>
           </div>
 
@@ -271,7 +273,7 @@ const handleSubmit = async () => {
             class="btn btn-primary contact-submit"
             v-bind:disabled="submitStatus === 'sending'"
           >
-            {{ submitStatus === 'sending' ? 'Sending...' : 'Send Message' }}
+            {{ submitStatus === 'sending' ? t('common.sending') : t('contact.send') }}
           </button>
         </form>
       </div>
