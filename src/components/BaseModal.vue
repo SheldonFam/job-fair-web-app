@@ -3,7 +3,7 @@ import { ref, useId } from 'vue'
 import { X } from '@lucide/vue'
 import { useModal } from '@/composables/useModal'
 
-const props = defineProps<{ open: boolean; title: string }>()
+const props = defineProps<{ open: boolean; title: string; wide?: boolean }>()
 const emit = defineEmits<{ close: [] }>()
 
 const panel = ref<HTMLElement | null>(null)
@@ -22,6 +22,7 @@ const { keepFocusInside } = useModal(() => props.open, panel)
         <div
           ref="panel"
           class="modal-panel"
+          v-bind:class="{ 'is-wide': wide }"
           role="dialog"
           aria-modal="true"
           v-bind:aria-labelledby="titleId"
@@ -71,6 +72,11 @@ const { keepFocusInside } = useModal(() => props.open, panel)
   border-radius: var(--radius-card);
   background: var(--surface);
   box-shadow: var(--shadow-menu);
+}
+
+/* wide version, used by the floor plan lightbox */
+.modal-panel.is-wide {
+  max-width: 1240px;
 }
 
 .modal-header {

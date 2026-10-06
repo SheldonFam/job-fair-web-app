@@ -1,7 +1,7 @@
 /* ==========================================================================
    Global styles
    1. Tokens   2. Reset   3. Typography   4. Layout
-   5. Buttons  6. Card    7. Form controls
+   5. Buttons  6. Card    7. Form controls  8. Industry colours
 
    Component-specific styles live in each component's <style scoped>.
 
@@ -411,4 +411,36 @@ textarea.input {
   background: #f0fdf4;
   border-color: #bbf7d0;
   color: #166534;
+}
+
+/* ---------- 8. Industry colours ---------- */
+/* Each industry sets three colours. The exhibitor cards and the floor plan reuse them. */
+.is-tech {
+  --industry-color: #3b82f6;
+  --industry-background: #dbeafe;
+  --industry-text: #1d4ed8;
+}
+
+.is-finance {
+  --industry-color: #10b981;
+  --industry-background: #d1fae5;
+  --industry-text: #047857;
+}
+
+.is-engineering {
+  --industry-color: #f97316;
+  --industry-background: #ffedd5;
+  --industry-text: #c2410c;
+}
+
+.is-healthcare {
+  --industry-color: #ec4899;
+  --industry-background: #fce7f3;
+  --industry-text: #be185d;
+}
+
+.is-startups {
+  --industry-color: #8b5cf6;
+  --industry-background: #ede9fe;
+  --industry-text: #6d28d9;
 }

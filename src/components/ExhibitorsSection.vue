@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { ArrowUp, Search, SearchX } from '@lucide/vue'
-import { exhibitors, type Exhibitor, type Industry } from '@/data/exhibitors'
+import { exhibitors, industryLabels, type Exhibitor, type Industry } from '@/data/exhibitors'
 import BaseSelect from './BaseSelect.vue'
 
 const hallOptions = [
@@ -10,14 +10,6 @@ const hallOptions = [
   { value: 'B', label: 'Hall B' },
   { value: 'C', label: 'Hall C' },
 ]
-
-const industryLabels: Record<Industry, string> = {
-  tech: 'Tech',
-  finance: 'Finance',
-  engineering: 'Engineering',
-  healthcare: 'Healthcare',
-  startups: 'Startups',
-}
 
 const industryClasses: Record<Industry, string> = {
   tech: 'is-tech',
@@ -147,7 +139,6 @@ const clearFilters = () => {
 
           <div class="exhibitor-location">
             <span class="exhibitor-booth">{{ exhibitor.booth }}</span>
-            <!-- the floor plan is not built yet, so this link only jumps to that section for now -->
             <a
               href="#floorplan"
               class="exhibitor-map-link"
@@ -237,37 +228,6 @@ const clearFilters = () => {
   height: 8px;
   border-radius: 50%;
   background: var(--industry-color);
-}
-
-/* Each industry sets three colours. The dot, logo and badge reuse them. */
-.is-tech {
-  --industry-color: #3b82f6;
-  --industry-background: #dbeafe;
-  --industry-text: #1d4ed8;
-}
-
-.is-finance {
-  --industry-color: #10b981;
-  --industry-background: #d1fae5;
-  --industry-text: #047857;
-}
-
-.is-engineering {
-  --industry-color: #f97316;
-  --industry-background: #ffedd5;
-  --industry-text: #c2410c;
-}
-
-.is-healthcare {
-  --industry-color: #ec4899;
-  --industry-background: #fce7f3;
-  --industry-text: #be185d;
-}
-
-.is-startups {
-  --industry-color: #8b5cf6;
-  --industry-background: #ede9fe;
-  --industry-text: #6d28d9;
 }
 
 .exhibitors-grid {

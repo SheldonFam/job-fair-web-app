@@ -5,6 +5,7 @@ import AppFooter from './components/AppFooter.vue'
 import MobileNav from './components/MobileNav.vue'
 import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'
+import FloorPlanSection from './components/FloorPlanSection.vue'
 import ExhibitorsSection from './components/ExhibitorsSection.vue'
 import SessionsSection from './components/SessionsSection.vue'
 import FaqSection from './components/FaqSection.vue'
@@ -21,6 +22,7 @@ const isExhibitorOpen = ref(false)
   <main>
     <HeroSection v-on:open-exhibitor="isExhibitorOpen = true" />
     <AboutSection />
+    <FloorPlanSection />
     <ExhibitorsSection />
     <SessionsSection />
     <FaqSection />

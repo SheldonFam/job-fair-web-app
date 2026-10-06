@@ -1,5 +1,13 @@
 export type Industry = 'tech' | 'finance' | 'engineering' | 'healthcare' | 'startups'
 
+export const industryLabels: Record<Industry, string> = {
+  tech: 'Tech',
+  finance: 'Finance',
+  engineering: 'Engineering',
+  healthcare: 'Healthcare',
+  startups: 'Startups',
+}
+
 export type Exhibitor = {
   id: string
   name: string
