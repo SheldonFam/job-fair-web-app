@@ -83,7 +83,7 @@ const goToSessions = async () => {
   height: 64px;
   border-radius: var(--radius-card);
   background: var(--industry-background);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--industry-text);
 }
@@ -98,7 +98,7 @@ const goToSessions = async () => {
 .booth-detail-location {
   padding: 4px 10px;
   border-radius: var(--radius-pill);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -127,7 +127,7 @@ const goToSessions = async () => {
   padding: 4px 10px;
   border-radius: var(--radius-pill);
   background: var(--surface-muted);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--heading);
 }

@@ -288,7 +288,7 @@ const handleSubmit = async () => {
 }
 
 .reservation-summary-type {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--primary);
 }

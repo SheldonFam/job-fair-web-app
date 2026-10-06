@@ -253,7 +253,7 @@ const sendMessage = async (text: string) => {
 }
 
 .chat-status {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* see-through version of the icon button, for the blue header */
@@ -289,7 +289,7 @@ const sendMessage = async (text: string) => {
   max-width: 85%;
   padding: 10px 14px;
   border-radius: 14px;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
@@ -360,7 +360,7 @@ const sendMessage = async (text: string) => {
   border: 1px solid var(--primary);
   border-radius: var(--radius-pill);
   background: var(--surface);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--primary-dark);
   cursor: pointer;

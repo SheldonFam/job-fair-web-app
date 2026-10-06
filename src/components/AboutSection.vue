@@ -46,25 +46,32 @@ const features = [
           </ul>
         </div>
 
-        <!-- Placeholders. Swap each one for an <img> when the photos are ready. -->
+        <!-- stock photos from Unsplash (free to use); loading="lazy" waits until they are near the screen -->
         <div class="about-photos">
-          <div
+          <img
             class="about-photo about-photo-tall"
-            role="img"
-            aria-label="Recruiter interviewing a fresh graduate at a booth"
-          >
-            [Photo: recruiter interviewing a graduate]
-          </div>
-          <div
+            src="@/assets/images/about-interview.webp"
+            alt="A recruiter reading a candidate's resume"
+            width="600"
+            height="760"
+            loading="lazy"
+          />
+          <img
             class="about-photo"
-            role="img"
-            aria-label="Audience at a career talk on the main stage"
-          >
-            [Photo: career talk audience]
-          </div>
-          <div class="about-photo" role="img" aria-label="Job seekers browsing exhibitor booths">
-            [Photo: visitors at booths]
-          </div>
+            src="@/assets/images/about-career-talk.webp"
+            alt="A large audience at a career talk"
+            width="600"
+            height="380"
+            loading="lazy"
+          />
+          <img
+            class="about-photo"
+            src="@/assets/images/about-booths.webp"
+            alt="An exhibitor presenting at his booth"
+            width="600"
+            height="380"
+            loading="lazy"
+          />
         </div>
       </div>
 
@@ -102,7 +109,7 @@ const features = [
   flex-wrap: wrap;
   gap: 12px 24px;
   margin-top: 24px;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--heading);
 }
 
@@ -126,13 +133,15 @@ const features = [
   max-height: 380px;
 }
 
+/* each photo fills its grid cell; object-fit trims the edges instead of stretching it */
 .about-photo {
-  display: flex;
-  align-items: flex-end;
-  padding: 14px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
   border-radius: var(--radius-card);
   background: var(--surface-muted);
-  font-size: 13px;
 }
 
 .about-photo-tall {
@@ -173,7 +182,7 @@ const features = [
 
 .about-feature-description {
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 @media (max-width: 1024px) {

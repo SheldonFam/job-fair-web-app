@@ -189,7 +189,7 @@ const openReservation = (session: Session) => {
   border: 0;
   border-radius: var(--radius);
   background: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -258,7 +258,7 @@ const openReservation = (session: Session) => {
   gap: 6px;
   padding: 4px 10px;
   border-radius: var(--radius-pill);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -273,7 +273,7 @@ const openReservation = (session: Session) => {
 }
 
 .session-title {
-  font-size: 19px;
+  font-size: 20px;
 }
 
 .session-host {
@@ -290,19 +290,19 @@ const openReservation = (session: Session) => {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--white);
 }
 
 .session-host-name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--heading);
 }
 
 .session-host-role {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .session-place {
@@ -332,7 +332,7 @@ const openReservation = (session: Session) => {
 
 .session-seats-text {
   margin-top: 6px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--status-color);
 }

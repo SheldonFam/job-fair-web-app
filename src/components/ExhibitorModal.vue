@@ -325,7 +325,7 @@ const handleSubmit = async () => {
 
 <style scoped>
 .exhibitor-form-intro {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 /* checkbox on the left, text on the right; the whole row is clickable */

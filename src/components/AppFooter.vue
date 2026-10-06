@@ -105,7 +105,7 @@
 .footer-bottom {
   padding-block: 20px;
   border-top: 1px solid var(--footer-line);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--footer-muted);
 }
 

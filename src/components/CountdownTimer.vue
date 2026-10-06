@@ -101,7 +101,7 @@ onUnmounted(() => {
 }
 
 .countdown-label {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
 }
 

@@ -201,7 +201,7 @@ const moveFocus = (step: number) => {
   border: 0;
   border-radius: var(--radius-small);
   background: none;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--heading);
   text-align: left;
   white-space: nowrap;
@@ -234,7 +234,7 @@ const moveFocus = (step: number) => {
   min-height: 44px;
   gap: 6px;
   border-color: var(--border-medium);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
 }
 

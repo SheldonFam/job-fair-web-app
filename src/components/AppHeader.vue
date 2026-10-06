@@ -101,7 +101,7 @@ const currentLanguage = computed(
 }
 
 .header-brand-name {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--heading);
 }
@@ -121,7 +121,7 @@ const currentLanguage = computed(
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--body);
   text-decoration: none;

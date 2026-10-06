@@ -180,7 +180,7 @@ const openBooth = async (exhibitor: Exhibitor) => {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 16px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .floor-plan-legend-item {

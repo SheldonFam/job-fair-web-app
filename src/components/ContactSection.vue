@@ -308,7 +308,7 @@ const handleSubmit = async () => {
   flex-direction: column;
   gap: 10px;
   padding: 24px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .contact-detail {

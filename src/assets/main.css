@@ -9,6 +9,8 @@
    footer-link). States use an "is-" prefix (is-open, is-selected).
 
    Breakpoints: 1024px (tablet and below) and 640px (phones).
+
+   Type scale: 12, 14, 16, 18, 20, 24, 28, 36, 40 and 60px. Use one of these for any new text.
    ========================================================================== */
 
 /* ---------- 1. Tokens ---------- */
@@ -146,7 +148,7 @@ a {
 
 .eyebrow {
   margin-bottom: 8px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--primary);
 }
@@ -185,7 +187,7 @@ a {
   padding: 0 22px;
   border: 0;
   border-radius: var(--radius);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
@@ -361,7 +363,7 @@ a {
 }
 
 .field-error {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--danger-text);
 }
 

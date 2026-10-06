@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight } from '@lucide/vue'
+import { ArrowRight, CalendarDays, MapPin } from '@lucide/vue'
 import CountdownTimer from './CountdownTimer.vue'
 
 defineEmits<{ openExhibitor: [] }>()
@@ -9,13 +9,16 @@ defineEmits<{ openExhibitor: [] }>()
   <section id="top" class="hero">
     <div class="container hero-inner">
       <div class="hero-content">
-        <a href="#sessions" class="hero-pill">
-          <span class="hero-pill-badge">12–14 December 2026&nbsp;· 9:00 AM – 6:00 PM</span>
-          <span class="hero-pill-venue">
+        <ul class="hero-meta">
+          <li class="hero-meta-item">
+            <CalendarDays class="hero-meta-icon" v-bind:size="18" aria-hidden="true" />
+            <span>12–14 Dec 2026 · <span class="hero-meta-time">9:00 AM – 6:00 PM</span></span>
+          </li>
+          <li class="hero-meta-item">
+            <MapPin class="hero-meta-icon" v-bind:size="18" aria-hidden="true" />
             KL Convention Centre
-            <ArrowRight class="hero-pill-arrow" v-bind:size="16" aria-hidden="true" />
-          </span>
-        </a>
+          </li>
+        </ul>
 
         <h1 class="hero-title">Find Your Next Career Move</h1>
         <p class="hero-lead">
@@ -33,14 +36,14 @@ defineEmits<{ openExhibitor: [] }>()
         <CountdownTimer class="hero-countdown" />
       </div>
 
-      <!-- Placeholder. Swap for: <img class="hero-photo" src="@/assets/hero.jpg" alt="..." /> -->
-      <div
+      <!-- stock photo from Unsplash (free to use) -->
+      <img
         class="hero-photo"
-        role="img"
-        aria-label="Job seekers talking to recruiters at a job fair"
-      >
-        [Hero photo: job seekers talking to recruiters]
-      </div>
+        src="@/assets/images/hero-job-fair.webp"
+        alt="A smiling job seeker talking with a recruiter"
+        width="1200"
+        height="1250"
+      />
     </div>
   </section>
 </template>
@@ -51,7 +54,8 @@ defineEmits<{ openExhibitor: [] }>()
   grid-template-columns: 1fr 1fr;
   gap: 64px;
   align-items: center;
-  padding-block: 72px;
+  /* no bottom padding: the About section below is also white, and its own top padding is enough space */
+  padding-block: 72px 0;
 }
 
 .hero-content {
@@ -61,41 +65,31 @@ defineEmits<{ openExhibitor: [] }>()
   gap: 24px;
 }
 
-/* date and venue pill */
-.hero-pill {
-  display: inline-flex;
-  align-items: center;
+/* date and venue: a plain line with icons, no box, so it looks right on one line or two */
+.hero-meta {
+  display: flex;
   flex-wrap: wrap;
-  gap: 6px 10px;
-  padding: 4px 14px 4px 4px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  font-size: 13px;
-  color: var(--body);
-  text-decoration: none;
-}
-
-.hero-pill:hover {
-  border-color: var(--border-medium);
-}
-
-.hero-pill-badge {
-  padding: 2px 10px;
-  border-radius: var(--radius-pill);
-  background: var(--primary-light);
-  color: var(--primary-dark);
+  gap: 8px 24px;
+  font-size: 16px;
   font-weight: 600;
+  color: var(--heading);
 }
 
-/* venue and arrow stay together if the pill wraps onto two lines */
-.hero-pill-venue {
-  display: inline-flex;
-  align-items: center;
+/* the icon lines up with the first line of text, even if the text wraps */
+.hero-meta-item {
+  display: flex;
+  align-items: flex-start;
   gap: 8px;
-  padding-left: 6px;
 }
 
-.hero-pill-arrow {
+/* the opening hours stay together on one line instead of breaking in the middle */
+.hero-meta-time {
+  white-space: nowrap;
+}
+
+.hero-meta-icon {
+  flex-shrink: 0;
+  margin-top: 3px;
   color: var(--primary);
 }
 
@@ -143,24 +137,22 @@ defineEmits<{ openExhibitor: [] }>()
   margin-top: 8px;
 }
 
-/* grey box until the real photo is added */
+/* object-fit: the photo fills the box and is trimmed at the edges instead of being stretched */
 .hero-photo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 100%;
+  height: auto;
   aspect-ratio: 5 / 5.2;
-  padding: 16px;
+  object-fit: cover;
   border-radius: 24px;
   background: var(--surface-muted);
-  font-size: 13px;
-  text-align: center;
 }
 
 @media (max-width: 1024px) {
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 32px;
-    padding-block: 40px;
+    padding-block: 40px 0;
   }
   .hero-photo {
     aspect-ratio: 16 / 10;
@@ -170,24 +162,6 @@ defineEmits<{ openExhibitor: [] }>()
 @media (max-width: 640px) {
   .hero-actions .btn {
     width: 100%;
-  }
-
-  /* phones: the date and the venue sit on two lines, both starting at the same left edge */
-  .hero-pill {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    padding: 4px 4px 8px;
-    border-radius: var(--radius-card);
-  }
-
-  .hero-pill-badge {
-    border-radius: var(--radius);
-    text-wrap: balance;
-  }
-
-  .hero-pill-venue {
-    padding-left: 10px;
   }
 }
 </style>

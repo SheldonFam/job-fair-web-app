@@ -45,8 +45,9 @@ const toggleQuestion = (index: number) => {
 
 <template>
   <section id="faq" class="section">
-    <div class="container faq-inner">
+    <div class="container">
       <div class="faq-header">
+        <p class="eyebrow">FAQ</p>
         <h2>Frequently asked questions</h2>
         <p class="faq-intro">
           Can’t find your answer? Ask our assistant (bottom right) or use the contact form.
@@ -90,13 +91,8 @@ const toggleQuestion = (index: number) => {
 </template>
 
 <style scoped>
-.faq-inner {
-  max-width: 820px;
-}
-
 .faq-header {
   margin-bottom: 32px;
-  text-align: center;
 }
 
 .faq-intro {
@@ -108,7 +104,7 @@ const toggleQuestion = (index: number) => {
 }
 
 .faq-title {
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .faq-question {

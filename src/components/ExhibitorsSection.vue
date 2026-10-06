@@ -11,14 +11,6 @@ const hallOptions = [
   { value: 'C', label: 'Hall C' },
 ]
 
-const industryClasses: Record<Industry, string> = {
-  tech: 'is-tech',
-  finance: 'is-finance',
-  engineering: 'is-engineering',
-  healthcare: 'is-healthcare',
-  startups: 'is-startups',
-}
-
 const searchText = ref('')
 const selectedHall = ref('all')
 const selectedIndustry = ref<Industry | 'all'>('all')
@@ -53,6 +45,9 @@ const clearFilters = () => {
   selectedHall.value = 'all'
   selectedIndustry.value = 'all'
 }
+
+// phones show only the first 6 cards until "Show all" is tapped, so the list is not too long
+const isShowingAll = ref(false)
 </script>
 
 <template>
@@ -104,10 +99,7 @@ const clearFilters = () => {
             v-bind:key="industry"
             type="button"
             class="filter-chip"
-            v-bind:class="[
-              industryClasses[industry],
-              { 'is-selected': selectedIndustry === industry },
-            ]"
+            v-bind:class="[`is-${industry}`, { 'is-selected': selectedIndustry === industry }]"
             v-bind:aria-pressed="selectedIndustry === industry"
             v-on:click="selectedIndustry = industry"
           >
@@ -119,10 +111,10 @@ const clearFilters = () => {
 
       <div v-if="visibleExhibitors.length > 0" class="exhibitors-grid">
         <article
-          v-for="exhibitor in visibleExhibitors"
+          v-for="(exhibitor, index) in visibleExhibitors"
           v-bind:key="exhibitor.id"
           class="card exhibitor-card"
-          v-bind:class="industryClasses[exhibitor.industry]"
+          v-bind:class="[`is-${exhibitor.industry}`, { 'is-extra': index >= 6 && !isShowingAll }]"
         >
           <span class="exhibitor-logo" aria-hidden="true">{{ exhibitor.initials }}</span>
 
@@ -151,7 +143,17 @@ const clearFilters = () => {
         </article>
       </div>
 
-      <div v-else class="card exhibitors-empty">
+      <!-- only shown on phones (see the CSS), and only when some cards are hidden -->
+      <button
+        v-if="visibleExhibitors.length > 6 && !isShowingAll"
+        type="button"
+        class="btn btn-outline exhibitors-show-all"
+        v-on:click="isShowingAll = true"
+      >
+        Show All {{ visibleExhibitors.length }} Exhibitors
+      </button>
+
+      <div v-if="visibleExhibitors.length === 0" class="card exhibitors-empty">
         <SearchX class="exhibitors-empty-icon" v-bind:size="48" aria-hidden="true" />
         <h3 class="exhibitors-empty-title">No exhibitors found</h3>
         <p class="exhibitors-empty-text">Try a different name, booth number or job role.</p>
@@ -175,7 +177,7 @@ const clearFilters = () => {
 }
 
 .exhibitors-count {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--heading);
 }
@@ -311,7 +313,7 @@ const clearFilters = () => {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--primary);
   text-decoration: none;
@@ -351,6 +353,13 @@ const clearFilters = () => {
   font-size: 14px;
 }
 
+/* the "Show all" button: hidden on bigger screens, where every card is always shown */
+.exhibitors-show-all {
+  display: none;
+  width: 100%;
+  margin-top: 12px;
+}
+
 @media (max-width: 1024px) {
   .exhibitors-grid {
     grid-template-columns: 1fr;
@@ -379,6 +388,15 @@ const clearFilters = () => {
 
   .exhibitor-card {
     align-items: flex-start;
+  }
+
+  /* cards after the first few stay hidden until "Show all" is tapped */
+  .exhibitor-card.is-extra {
+    display: none;
+  }
+
+  .exhibitors-show-all {
+    display: flex;
   }
 }
 </style>
