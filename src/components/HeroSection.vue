@@ -20,7 +20,7 @@ defineEmits<{ openExhibitor: [] }>()
           </li>
         </ul>
 
-        <h1 class="hero-title">Find Your Next Career Move</h1>
+        <h1 class="hero-title">Find your next career move</h1>
         <p class="hero-lead">
           Three days of walk-in interviews, career talks and 1-on-1 job matching with 150+ employers
           hiring for 5,000+ roles. Free entry.

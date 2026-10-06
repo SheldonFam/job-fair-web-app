@@ -47,7 +47,7 @@ const openReservation = (session: Session) => {
     <div class="container">
       <div class="sessions-header">
         <div>
-          <p class="eyebrow">Reserve a slot</p>
+          <p class="eyebrow">Reserve a session</p>
           <h2>Job matching &amp; career talks</h2>
         </div>
 
@@ -124,7 +124,7 @@ const openReservation = (session: Session) => {
               ></div>
             </div>
             <p class="session-seats-text">
-              {{ session.seatsLeft }} / {{ session.totalSeats }} seats left
+              {{ session.seatsLeft }} of {{ session.totalSeats }} seats left
             </p>
           </div>
 

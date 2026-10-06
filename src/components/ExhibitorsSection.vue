@@ -71,7 +71,7 @@ const isShowingAll = ref(false)
               v-model="searchText"
               type="search"
               class="input exhibitors-search-input"
-              placeholder="Search company, booth or job role…"
+              placeholder="Search company, booth or job role..."
               aria-label="Search exhibitors"
             />
           </div>

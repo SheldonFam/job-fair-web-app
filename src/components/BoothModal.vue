@@ -55,7 +55,7 @@ const goToSessions = async () => {
       </div>
 
       <button type="button" class="btn btn-primary btn-lg" v-on:click="goToSessions">
-        Reserve Job Matching
+        Reserve a Session
       </button>
     </div>
   </BaseModal>

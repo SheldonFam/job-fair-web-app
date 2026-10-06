@@ -38,8 +38,8 @@ const successCloseButton = ref<HTMLButtonElement | null>(null)
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const validateEmail = (value: string) => {
-  if (!value.trim()) return 'Email is required.'
-  if (!emailPattern.test(value)) return 'Please enter a valid email address.'
+  if (!value.trim()) return 'Enter your email address'
+  if (!emailPattern.test(value)) return 'Enter a valid email address, like name@example.com'
   return ''
 }
 
@@ -47,16 +47,16 @@ const validatePhone = (value: string) => {
   if (!value.trim()) return ''
 
   const digits = value.replace(/[\s-]/g, '').replace(/^(\+?60|0)/, '')
-  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a valid Malaysian mobile number.'
+  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a Malaysian mobile number, like 012-345 6789'
   return ''
 }
 
 const validateForm = () => {
-  errors.reservationName = form.reservationName.trim() ? '' : 'Please enter your full name.'
+  errors.reservationName = form.reservationName.trim() ? '' : 'Enter your full name'
   errors.reservationEmail = validateEmail(form.reservationEmail)
   errors.reservationPhone = form.reservationPhone.trim()
     ? validatePhone(form.reservationPhone)
-    : 'Phone is required.'
+    : 'Enter your phone number'
 
   return Object.values(errors).every((message) => message === '')
 }
@@ -146,7 +146,7 @@ const handleSubmit = async () => {
 <template>
   <BaseModal
     v-bind:open="open"
-    v-bind:title="isWaitList ? 'Join the waitlist' : 'Reserve your slot'"
+    v-bind:title="isWaitList ? 'Join the waitlist' : 'Reserve your session'"
     v-on:close="emit('close')"
   >
     <!-- thank-you view, shown after a successful submit -->
@@ -156,7 +156,7 @@ const handleSubmit = async () => {
         {{ isWaitList ? 'You’re on the waitlist' : 'You’re booked!' }}
       </h3>
       <p v-if="isWaitList">
-        No seat is reserved yet. If one opens up, we will email
+        No seat is reserved yet. If one opens up, we’ll email
         <strong>{{ submittedEmail }}</strong>
       </p>
       <p v-else>
@@ -254,7 +254,7 @@ const handleSubmit = async () => {
             name="reservationPhone"
             type="tel"
             autocomplete="tel"
-            placeholder="12-345 6789"
+            placeholder="012-345 6789"
           />
           <p v-if="errors.reservationPhone" class="field-error" role="alert">
             {{ errors.reservationPhone }}
@@ -262,7 +262,7 @@ const handleSubmit = async () => {
         </div>
 
         <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full" role="alert">
-          Sorry, we could not send your reservation. Please try again.
+          We couldn’t send your reservation. Please try again.
         </p>
 
         <button

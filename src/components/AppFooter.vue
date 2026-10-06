@@ -12,7 +12,7 @@
       <nav aria-label="Footer">
         <h2 class="footer-title">Quick links</h2>
         <ul class="footer-list">
-          <li><a href="#floorplan" class="footer-link">Floor plan</a></li>
+          <li><a href="#floorplan" class="footer-link">Floor Plan</a></li>
           <li><a href="#sessions" class="footer-link">Sessions</a></li>
           <li><a href="#faq" class="footer-link">FAQ</a></li>
           <li><a href="#contact" class="footer-link">Contact</a></li>

@@ -50,28 +50,26 @@ const successCloseButton = ref<HTMLButtonElement | null>(null)
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const validateEmail = (value: string) => {
-  if (!value.trim()) return 'Email is required.'
-  if (!emailPattern.test(value)) return 'Please enter a valid email address'
+  if (!value.trim()) return 'Enter your email address'
+  if (!emailPattern.test(value)) return 'Enter a valid email address, like name@example.com'
   return ''
 }
 
 const validatePhone = (value: string) => {
-  if (!value.trim()) return 'Phone is required.'
+  if (!value.trim()) return 'Enter your phone number'
   const digits = value.replace(/[\s-]/g, '').replace(/^(\+?60|0)/, '')
-  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a valid Malaysian mobile number.'
+  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a Malaysian mobile number, like 012-345 6789'
   return ''
 }
 
 const validateForm = () => {
-  errors.exhibitorCompanyName = form.exhibitorCompanyName.trim() ? '' : 'Please enter company name.'
+  errors.exhibitorCompanyName = form.exhibitorCompanyName.trim() ? '' : 'Enter your company name'
   errors.exhibitorEmail = validateEmail(form.exhibitorEmail)
   errors.exhibitorPhone = validatePhone(form.exhibitorPhone)
-  errors.exhibitorContactPerson = form.exhibitorContactPerson
-    ? ''
-    : 'Please enter a contact person.'
-  errors.exhibitorIndustry = form.exhibitorIndustry ? '' : 'Please select an industry.'
-  errors.exhibitorBoothPackage = form.exhibitorBoothPackage ? '' : 'Please select a booth package.'
-  errors.exhibitorTerms = form.exhibitorTerms ? '' : 'Please accept the exhibitor terms.'
+  errors.exhibitorContactPerson = form.exhibitorContactPerson ? '' : 'Enter a contact person'
+  errors.exhibitorIndustry = form.exhibitorIndustry ? '' : 'Choose an industry'
+  errors.exhibitorBoothPackage = form.exhibitorBoothPackage ? '' : 'Choose a booth package'
+  errors.exhibitorTerms = form.exhibitorTerms ? '' : 'Accept the exhibitor terms to continue'
 
   return Object.values(errors).every((message) => message === '')
 }
@@ -181,7 +179,7 @@ const handleSubmit = async () => {
 
     <form v-else class="form-grid" novalidate v-on:submit.prevent="handleSubmit">
       <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full">
-        Sorry, we could not send your application. Please try again.
+        We couldn’t send your application. Please try again.
       </p>
 
       <p class="exhibitor-form-intro form-grid-full">
@@ -254,7 +252,7 @@ const handleSubmit = async () => {
           name="exhibitorPhone"
           type="tel"
           autocomplete="tel"
-          placeholder="12-345 6789"
+          placeholder="012-345 6789"
         />
         <p v-if="errors.exhibitorPhone" class="field-error" role="alert">
           {{ errors.exhibitorPhone }}

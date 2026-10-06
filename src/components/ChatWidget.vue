@@ -11,7 +11,7 @@ const messages = ref<ChatMessage[]>([])
 const welcomeMessage =
   'Hi! I’m the CareerConnect Assistant. Ask me about dates, halls or how to register.'
 
-const genericErrorMessage = 'Sorry, I cannot answer right now. Please try again later.'
+const genericErrorMessage = 'Sorry, I can’t answer right now. Please try again later.'
 
 const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor packages']
 
@@ -164,7 +164,7 @@ const sendMessage = async (text: string) => {
         name="chatMessage"
         type="text"
         autocomplete="off"
-        placeholder="Type your question…"
+        placeholder="Type your question..."
         aria-label="Type your message"
         ref="messageInput"
       />

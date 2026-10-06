@@ -55,7 +55,7 @@ const openBooth = async (exhibitor: Exhibitor) => {
       <div class="floor-plan-header">
         <div>
           <p class="eyebrow">Floor plan</p>
-          <h2>Find your way around Halls A to C</h2>
+          <h2>Find your way around Halls A–C</h2>
           <p class="floor-plan-lead">
             Click a booth to see who is there. Hall A is Tech, Hall B is Finance and Engineering,
             Hall C is Healthcare and Startups.
@@ -88,7 +88,7 @@ const openBooth = async (exhibitor: Exhibitor) => {
           </li>
           <li class="floor-plan-legend-item">
             <span class="floor-plan-legend-box is-available"></span>
-            Available
+            Empty booth
           </li>
         </ul>
       </div>

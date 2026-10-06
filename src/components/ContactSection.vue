@@ -33,8 +33,8 @@ const hasSubmitted = ref(false)
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const validateEmail = (value: string) => {
-  if (!value.trim()) return 'Email is required.'
-  if (!emailPattern.test(value)) return 'Please enter a valid email address.'
+  if (!value.trim()) return 'Enter your email address'
+  if (!emailPattern.test(value)) return 'Enter a valid email address, like name@example.com'
   return ''
 }
 
@@ -42,17 +42,17 @@ const validatePhone = (value: string) => {
   if (!value.trim()) return ''
 
   const digits = value.replace(/[\s-]/g, '').replace(/^(\+?60|0)/, '')
-  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a valid Malaysian mobile number.'
+  if (!/^1\d{8,9}$/.test(digits)) return 'Enter a Malaysian mobile number, like 012-345 6789'
   return ''
 }
 
 const validateForm = () => {
-  errors.contactName = form.contactName.trim() ? '' : 'Please enter your full name.'
+  errors.contactName = form.contactName.trim() ? '' : 'Enter your full name'
   errors.contactEmail = validateEmail(form.contactEmail)
   errors.contactPhone = validatePhone(form.contactPhone)
-  errors.contactSubject = form.contactSubject ? '' : 'Please choose a subject.'
+  errors.contactSubject = form.contactSubject ? '' : 'Choose a subject'
   errors.contactMessage =
-    form.contactMessage.trim().length >= 10 ? '' : 'Message must be at least 10 characters.'
+    form.contactMessage.trim().length >= 10 ? '' : 'Write at least 10 characters'
 
   return Object.values(errors).every((message) => message === '')
 }
@@ -225,7 +225,7 @@ const handleSubmit = async () => {
               name="contactPhone"
               type="tel"
               autocomplete="tel"
-              placeholder="12-345 6789"
+              placeholder="012-345 6789"
               v-bind:aria-invalid="!!errors.contactPhone"
             />
             <p v-if="errors.contactPhone" class="field-error" role="alert">
