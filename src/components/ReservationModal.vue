@@ -95,13 +95,37 @@ const handleSubmit = async () => {
     return
   }
 
+  // the modal only opens with a session, this check keeps TypeScript happy
+  if (!props.session) {
+    return
+  }
+
   try {
     submitStatus.value = 'sending'
     console.log('Submitted From', { ...form })
 
-    // await API call?
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    submittedEmail.value = form.reservationEmail
+    const payload = {
+      reservationSessionId: props.session.id,
+      reservationName: form.reservationName.trim(),
+      reservationEmail: form.reservationEmail.trim(),
+      reservationPhone: form.reservationPhone.trim(),
+      reservationIsWaitlist: isWaitList.value,
+    }
+
+    const response = await fetch('/api/reserve.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+
+    const result = await response.json()
+
+    if (!response.ok || !result.success) {
+      submitStatus.value = 'failed'
+      return
+    }
+
+    submittedEmail.value = payload.reservationEmail
     submitStatus.value = 'sent'
     resetForm()
 
@@ -110,6 +134,7 @@ const handleSubmit = async () => {
     successCloseButton.value?.focus()
   } catch (error) {
     console.error(error)
+    submitStatus.value = 'failed'
   }
 }
 </script>
@@ -231,6 +256,10 @@ const handleSubmit = async () => {
             {{ errors.reservationPhone }}
           </p>
         </div>
+
+        <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full" role="alert">
+          Sorry, we could not send your reservation. Please try again.
+        </p>
 
         <button
           type="submit"

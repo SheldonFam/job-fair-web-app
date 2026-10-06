@@ -63,13 +63,15 @@ const validatePhone = (value: string) => {
 }
 
 const validateForm = () => {
-  errors.exhibitorCompanyName = form.exhibitorCompanyName.trim() ? '' : 'Please enter company name'
+  errors.exhibitorCompanyName = form.exhibitorCompanyName.trim() ? '' : 'Please enter company name.'
   errors.exhibitorEmail = validateEmail(form.exhibitorEmail)
   errors.exhibitorPhone = validatePhone(form.exhibitorPhone)
-  errors.exhibitorContactPerson = form.exhibitorContactPerson ? '' : 'Please enter a contact person'
-  errors.exhibitorIndustry = form.exhibitorIndustry ? '' : 'Please select a industry'
-  errors.exhibitorBoothPackage = form.exhibitorBoothPackage ? '' : 'Please select a booth package'
-  errors.exhibitorTerms = form.exhibitorTerms ? '' : 'Please accept the exhibitor terms'
+  errors.exhibitorContactPerson = form.exhibitorContactPerson
+    ? ''
+    : 'Please enter a contact person.'
+  errors.exhibitorIndustry = form.exhibitorIndustry ? '' : 'Please select an industry.'
+  errors.exhibitorBoothPackage = form.exhibitorBoothPackage ? '' : 'Please select a booth package.'
+  errors.exhibitorTerms = form.exhibitorTerms ? '' : 'Please accept the exhibitor terms.'
 
   return Object.values(errors).every((message) => message === '')
 }
@@ -124,8 +126,29 @@ const handleSubmit = async () => {
     submitStatus.value = 'sending'
     console.log('Submitted From', { ...form })
 
-    //await api call?
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    const payload = {
+      exhibitorCompanyName: form.exhibitorCompanyName.trim(),
+      exhibitorContactPerson: form.exhibitorContactPerson.trim(),
+      exhibitorEmail: form.exhibitorEmail.trim(),
+      exhibitorPhone: form.exhibitorPhone.trim(),
+      exhibitorIndustry: form.exhibitorIndustry,
+      exhibitorBoothPackage: form.exhibitorBoothPackage,
+      exhibitorTerms: form.exhibitorTerms,
+    }
+
+    const response = await fetch('/api/exhibitor.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+
+    const result = await response.json()
+
+    if (!response.ok || !result.success) {
+      submitStatus.value = 'failed'
+      return
+    }
+
     submitStatus.value = 'sent'
     resetForm()
 
@@ -157,6 +180,10 @@ const handleSubmit = async () => {
     </div>
 
     <form v-else class="form-grid" novalidate v-on:submit.prevent="handleSubmit">
+      <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full">
+        Sorry, we could not send your application. Please try again.
+      </p>
+
       <p class="exhibitor-form-intro form-grid-full">
         Tell us about your company and we’ll get back to you within 3 working days.
       </p>
