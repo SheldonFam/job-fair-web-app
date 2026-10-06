@@ -40,7 +40,7 @@ EVENT INFORMATION:
 - Event: CareerConnect Job Fair
 - Date: 12 to 14 December 2026
 - Time: 9:00 AM to 6:00 PM
-- Venue: Halls A to C, Kuala Lumpur
+- Venue: Halls A to C, Kuala Lumpur Convention Centre
 
 VISITOR INFORMATION:
 - Visitors can reserve job matching sessions through the website.
