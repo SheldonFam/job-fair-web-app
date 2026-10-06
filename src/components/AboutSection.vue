@@ -16,7 +16,7 @@ const features = [
 <template>
   <section id="about" class="section">
     <div class="container">
-      <div class="about-intro">
+      <div class="about-intro reveal">
         <div>
           <p class="eyebrow">{{ t('about.eyebrow') }}</p>
           <h2>{{ t('about.title') }}</h2>
@@ -60,7 +60,7 @@ const features = [
       </div>
 
       <ul class="about-features">
-        <li v-for="feature in features" v-bind:key="feature.id" class="about-feature">
+        <li v-for="feature in features" v-bind:key="feature.id" class="about-feature reveal">
           <span class="about-feature-icon">
             <component v-bind:is="feature.icon" v-bind:size="22" aria-hidden="true" />
           </span>

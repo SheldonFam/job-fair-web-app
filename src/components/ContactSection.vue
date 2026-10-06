@@ -138,7 +138,7 @@ const handleSubmit = async () => {
 
       <div class="contact-grid">
         <!-- Left: venue card -->
-        <div class="card contact-venue">
+        <div class="card contact-venue reveal">
           <iframe
             class="contact-map"
             v-bind:title="t('contact.mapTitle')"
@@ -168,7 +168,11 @@ const handleSubmit = async () => {
         </div>
 
         <!-- Right: form card -->
-        <form class="card form-grid contact-form" novalidate v-on:submit.prevent="handleSubmit">
+        <form
+          class="card form-grid contact-form reveal"
+          novalidate
+          v-on:submit.prevent="handleSubmit"
+        >
           <p v-if="submitStatus === 'failed'" class="alert alert-error form-grid-full" role="alert">
             {{ t('contact.failed') }}
           </p>

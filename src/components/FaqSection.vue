@@ -18,7 +18,7 @@ const toggleQuestion = (index: number) => {
 <template>
   <section id="faq" class="section">
     <div class="container">
-      <div class="faq-header">
+      <div class="faq-header reveal">
         <p class="eyebrow">{{ t('faq.eyebrow') }}</p>
         <h2>{{ t('faq.title') }}</h2>
         <p class="faq-intro">{{ t('faq.intro') }}</p>
@@ -27,7 +27,7 @@ const toggleQuestion = (index: number) => {
       <div
         v-for="(item, index) in faqs"
         v-bind:key="item"
-        class="faq-item"
+        class="faq-item reveal"
         v-bind:class="{ 'is-open': openQuestionIndex === index }"
       >
         <h3 class="faq-title">

@@ -56,7 +56,7 @@ const isShowingAll = ref(false)
 <template>
   <section id="exhibitors" class="section">
     <div class="container">
-      <div class="exhibitors-header">
+      <div class="exhibitors-header reveal">
         <div>
           <p class="eyebrow">{{ t('exhibitors.eyebrow') }}</p>
           <h2>{{ t('exhibitors.title') }}</h2>
@@ -66,7 +66,7 @@ const isShowingAll = ref(false)
         </p>
       </div>
 
-      <div class="card exhibitors-filters">
+      <div class="card exhibitors-filters reveal">
         <div class="exhibitors-search-row">
           <div class="exhibitors-search">
             <Search class="exhibitors-search-icon" v-bind:size="20" aria-hidden="true" />
@@ -120,7 +120,7 @@ const isShowingAll = ref(false)
         <article
           v-for="(exhibitor, index) in visibleExhibitors"
           v-bind:key="exhibitor.id"
-          class="card exhibitor-card"
+          class="card exhibitor-card reveal"
           v-bind:class="[`is-${exhibitor.industry}`, { 'is-extra': index >= 6 && !isShowingAll }]"
         >
           <span class="exhibitor-logo" aria-hidden="true">{{ exhibitor.initials }}</span>
@@ -253,6 +253,17 @@ const isShowingAll = ref(false)
   gap: 14px;
   min-width: 0;
   padding: 16px;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+/* the card lifts a little under the mouse; only on devices with a mouse, so it never sticks after a tap */
+@media (hover: hover) {
+  .exhibitor-card:hover {
+    box-shadow: var(--shadow-menu);
+    transform: translateY(-3px);
+  }
 }
 
 .exhibitor-logo {

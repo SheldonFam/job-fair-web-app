@@ -151,6 +151,24 @@ const { t } = useI18n()
   background: var(--surface-muted);
 }
 
+/* on page load the text and then the photo fade up once (off for people who turn on "reduce motion") */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content {
+    animation: hero-fade-up 0.6s ease-out backwards;
+  }
+
+  .hero-photo {
+    animation: hero-fade-up 0.6s 0.15s ease-out backwards;
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
+}
+
 @media (max-width: 1024px) {
   .hero-inner {
     grid-template-columns: 1fr;

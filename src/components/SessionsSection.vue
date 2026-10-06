@@ -40,7 +40,7 @@ const openReservation = (session: Session) => {
 <template>
   <section id="sessions" class="section section-alt">
     <div class="container">
-      <div class="sessions-header">
+      <div class="sessions-header reveal">
         <div>
           <p class="eyebrow">{{ t('sessions.eyebrow') }}</p>
           <h2>{{ t('sessions.title') }}</h2>
@@ -79,7 +79,7 @@ const openReservation = (session: Session) => {
         <article
           v-for="session in visibleSessions"
           v-bind:key="session.id"
-          class="card session-card"
+          class="card session-card reveal"
           v-bind:class="statusClasses[session.status]"
         >
           <div class="session-header">
@@ -221,6 +221,17 @@ const openReservation = (session: Session) => {
   flex-direction: column;
   gap: 14px;
   padding: 22px;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+/* the card lifts a little under the mouse; only on devices with a mouse, so it never sticks after a tap */
+@media (hover: hover) {
+  .session-card:hover {
+    box-shadow: var(--shadow-menu);
+    transform: translateY(-3px);
+  }
 }
 
 /* Each status sets three colours. The badge, seat bar and seat text reuse them. */

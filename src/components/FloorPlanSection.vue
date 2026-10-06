@@ -55,7 +55,7 @@ const openBooth = async (exhibitor: Exhibitor) => {
 <template>
   <section id="floorplan" class="section section-alt">
     <div class="container">
-      <div class="floor-plan-header">
+      <div class="floor-plan-header reveal">
         <div>
           <p class="eyebrow">{{ t('floorPlan.eyebrow') }}</p>
           <h2>{{ t('floorPlan.title') }}</h2>
@@ -67,7 +67,7 @@ const openBooth = async (exhibitor: Exhibitor) => {
         </button>
       </div>
 
-      <div class="card floor-plan-card">
+      <div class="card floor-plan-card reveal">
         <p class="floor-plan-hint">{{ t('floorPlan.hint') }}</p>
 
         <div class="floor-plan-scroll">
