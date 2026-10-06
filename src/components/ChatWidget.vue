@@ -1,24 +1,80 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Bot, MessageCircle, SendHorizontal, X } from '@lucide/vue'
+import { nextTick, ref } from 'vue'
+import { Bot, MessageCircle, SendHorizontal, X, Circle } from '@lucide/vue'
+
+type ChatMessage = { role: 'user' | 'assistant'; content: string }
 
 const isOpen = ref(false)
 
-// TODO: sample conversation only; replace with the real messages
-const messages = [
-  {
-    role: 'assistant',
-    content: 'Hi! I’m the CareerConnect Assistant. Ask me about dates, halls or how to register.',
-  },
-  { role: 'user', content: 'When is the fair?' },
-  {
-    role: 'assistant',
-    content:
-      'The fair runs from 12 to 14 December 2026, 9:00 AM to 6:00 PM, at Halls A–C in Kuala Lumpur.',
-  },
-]
+const messages = ref<ChatMessage[]>([])
+
+const welcomeMessage =
+  'Hi! I’m the CareerConnect Assistant. Ask me about dates, halls or how to register.'
+
+const genericErrorMessage = 'Sorry, I cannot answer right now. Please try again later.'
 
 const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor packages']
+
+const messageText = ref('')
+const isPending = ref(false)
+const messageList = ref<HTMLElement | null>(null)
+const messageInput = ref<HTMLElement | null>(null)
+
+const openChatBot = async () => {
+  isOpen.value = true
+  await scrollToBottom()
+  messageInput.value?.focus()
+}
+
+const scrollToBottom = async () => {
+  await nextTick()
+
+  if (messageList.value) {
+    messageList.value.scrollTop = messageList.value.scrollHeight
+  }
+}
+
+const sendMessage = async (text: string) => {
+  const content = text.trim()
+
+  if (content === '' || isPending.value) {
+    return
+  }
+
+  messages.value.push({ role: 'user', content: content })
+  messageText.value = ''
+  isPending.value = true
+  scrollToBottom()
+
+  try {
+    const response = await fetch('/api/chat.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: messages.value }),
+    })
+
+    const result = await response.json()
+
+    if (!response.ok || !result.success) {
+      messages.value.push({
+        role: 'assistant',
+        content: genericErrorMessage,
+      })
+      return
+    }
+
+    messages.value.push({ role: 'assistant', content: result.reply })
+  } catch (error) {
+    console.error(error)
+    messages.value.push({
+      role: 'assistant',
+      content: genericErrorMessage,
+    })
+  } finally {
+    isPending.value = false
+    scrollToBottom()
+  }
+}
 </script>
 
 <template>
@@ -27,7 +83,7 @@ const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor
     type="button"
     class="chat-button"
     aria-label="Open chat"
-    v-on:click="isOpen = true"
+    v-on:click="openChatBot"
   >
     <MessageCircle v-bind:size="28" aria-hidden="true" />
   </button>
@@ -39,7 +95,10 @@ const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor
       </span>
       <div class="chat-heading">
         <p class="chat-title">CareerConnect Assistant</p>
-        <p class="chat-status">Online · replies instantly</p>
+        <p class="chat-status">
+          <Circle v-bind:size="8" color="#4ade80" fill="#4ade80" aria-hidden="true" />
+          Online
+        </p>
       </div>
       <button
         type="button"
@@ -51,7 +110,10 @@ const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor
       </button>
     </header>
 
-    <div class="chat-messages" role="log" aria-label="Conversation">
+    <div ref="messageList" class="chat-messages" role="log" aria-label="Conversation">
+      <p class="chat-message is-assistant">
+        {{ welcomeMessage }}
+      </p>
       <p
         v-for="(message, index) in messages"
         v-bind:key="index"
@@ -62,7 +124,7 @@ const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor
       </p>
 
       <!-- TODO: show this only while waiting for a reply -->
-      <div class="chat-typing" role="status" aria-label="Assistant is typing">
+      <div v-if="isPending" class="chat-typing" role="status" aria-label="Assistant is typing">
         <span class="chat-typing-dot"></span>
         <span class="chat-typing-dot"></span>
         <span class="chat-typing-dot"></span>
@@ -74,23 +136,31 @@ const suggestions = ['Event dates', 'How to register?', 'Floor plan', 'Exhibitor
           v-bind:key="suggestion"
           type="button"
           class="chat-suggestion"
+          v-on:click="sendMessage(suggestion)"
         >
           {{ suggestion }}
         </button>
       </div>
     </div>
 
-    <form class="chat-form" v-on:submit.prevent>
+    <form class="chat-form" v-on:submit.prevent="sendMessage(messageText)">
       <input
         id="chat-message"
+        v-model="messageText"
         class="input"
         name="chatMessage"
         type="text"
         autocomplete="off"
         placeholder="Type your question…"
         aria-label="Type your message"
+        ref="messageInput"
       />
-      <button type="submit" class="btn btn-primary chat-send" aria-label="Send">
+      <button
+        type="submit"
+        class="btn btn-primary chat-send"
+        aria-label="Send"
+        v-bind:disabled="isPending"
+      >
         <SendHorizontal v-bind:size="20" aria-hidden="true" />
       </button>
     </form>

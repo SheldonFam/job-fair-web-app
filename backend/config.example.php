@@ -7,4 +7,6 @@ return [
     'databaseName' => 'job_fair',
     'databaseUser' => 'your-mysql-user',
     'databasePassword' => 'your-mysql-password',
+    'chatApiKey'=>'your-api-key',
+    'chatModel' => 'your-ai-model',
 ];
