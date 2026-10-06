@@ -1,48 +1,139 @@
-# job-fair-web-app
+# CareerConnect Job Fair 2026
 
-This template should help get you started developing with Vue 3 in Vite.
+A single-page application (SPA) for a three-day job fair in Kuala Lumpur.
 
-## Recommended IDE Setup
+Built with **Vue 3 + TypeScript + Vite** (front end) and **PHP + MySQL** (back end).
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+![Home page on desktop](docs/screenshots/home-desktop.png)
 
-## Recommended Browser Setup
+![Floor plan section](docs/screenshots/floor-plan-desktop.png)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+![Booth details after clicking a booth](docs/screenshots/booth-modal-desktop.png)
 
-## Type Support for `.vue` Imports in TS
+<details>
+<summary>More screenshots</summary>
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+**About**
 
-## Customize configuration
+![About section](docs/screenshots/about-desktop.png)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+**Exhibitor directory**
 
-## Project Setup
+![Exhibitor directory with search and filters](docs/screenshots/exhibitors-desktop.png)
+
+**Sessions**
+
+![Job matching and career talk sessions](docs/screenshots/sessions-desktop.png)
+
+**Reserve a session**
+
+![Reservation form](docs/screenshots/reservation-modal-desktop.png)
+
+**Be Our Exhibitor**
+
+![Exhibitor registration form](docs/screenshots/exhibitor-form-desktop.png)
+
+**FAQ**
+
+![FAQ section](docs/screenshots/faq-desktop.png)
+
+**Contact**
+
+![Contact form and venue map](docs/screenshots/contact-desktop.png)
+
+**Chatbot**
+
+![Chatbot answering a floor plan question](docs/screenshots/chatbot-desktop.png)
+
+</details>
+
+<details>
+<summary>Show the full page</summary>
+
+![The full page on desktop](docs/screenshots/full-page-desktop.jpg)
+
+</details>
+
+## Features
+
+- Floor plan with clickable booths and a zoomable full map
+- Exhibitor directory with search and filters
+- Session reservations for job matching and career talks
+- "Be Our Exhibitor" registration form
+- Contact form
+- Chatbot for visitor and exhibitor questions (Groq API)
+- Countdown to the fair
+- English and Bahasa Melayu
+- Responsive layout with animations
+
+All forms are checked in the browser and again in PHP before being saved to MySQL.
+
+## Requirements
+
+- Node.js 22.18+ and pnpm
+- PHP 8+ with the `pdo_mysql` and `curl` extensions
+- MySQL
+- A free Groq API key from [console.groq.com](https://console.groq.com)
+
+## Setup
+
+**1. Install packages**
 
 ```sh
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+**2. Create the database**
+
+```sh
+mysql -u root -p -e "CREATE DATABASE job_fair"
+mysql -u root -p job_fair < database/schema.sql
+```
+
+**3. Add your settings**
+
+```sh
+cp backend/config.example.php backend/config.php
+```
+
+Open `backend/config.php` and fill in your MySQL login, your Groq API key and a Groq model name. This file is in `.gitignore`, so it is never committed.
+
+## Run
+
+Start the PHP server and the website in two terminals:
+
+```sh
+php -S localhost:8000 -t backend
+```
 
 ```sh
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Then open [http://localhost:5173](http://localhost:5173).
 
-```sh
-pnpm build
+## How it works
+
+The Vue app sends form and chat requests to `/api`. Vite forwards them to the PHP server, which saves the data to MySQL or asks the Groq API for a chat reply.
+
+| Endpoint | Method | What it does |
+| --- | --- | --- |
+| `/api/contact.php` | POST | Saves a contact message |
+| `/api/exhibitor.php` | POST | Saves an exhibitor application |
+| `/api/reserve.php` | POST | Saves a session reservation |
+| `/api/chat.php` | POST | Sends a chat message to Groq and returns the reply |
+
+## Project structure
+
+```
+backend/api/     PHP endpoints for the forms and chatbot
+database/        MySQL tables (schema.sql)
+src/components/  One file per page section
+src/data/        Dummy exhibitors and sessions
+src/locales/     Page text in English (en.json) and Malay (ms.json)
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Notes
 
-```sh
-pnpm lint
-```
+- Exhibitors and sessions are dummy data. Photos are from [Unsplash](https://unsplash.com).
+- The Groq free plan allows only a few chat messages per minute.
