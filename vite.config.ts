@@ -15,4 +15,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  // while developing, send every /api/... request to the PHP server
+  server: {
+    proxy: {
+      '/api': 'http://localhost:8000',
+    },
+  },
 })

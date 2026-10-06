@@ -92,8 +92,28 @@ const handleSubmit = async () => {
     submitStatus.value = 'sending'
     console.log('Submitted From', { ...form })
 
+    const payload = {
+      contactName: form.contactName.trim(),
+      contactEmail: form.contactEmail.trim(),
+      contactPhone: form.contactPhone.trim(),
+      contactSubject: form.contactSubject.trim(),
+      contactMessage: form.contactMessage.trim(),
+    }
+
     //await api call?
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    const response = await fetch('/api/contact.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+
+    const result = await response.json()
+
+    if (!response.ok || !result.success) {
+      submitStatus.value = 'failed'
+      return
+    }
+
     submitStatus.value = 'sent'
     resetForm()
 
