@@ -23,10 +23,13 @@ export const i18n = createI18n({
   messages: { en, ms },
 })
 
+document.title = i18n.global.t('header.pageTitle')
+
 export const setLanguage = (language: string) => {
   if (language !== 'en' && language !== 'ms') return
 
   i18n.global.locale.value = language
   document.documentElement.lang = language
   localStorage.setItem('language', language)
+  document.title = i18n.global.t('header.pageTitle')
 }
