@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { MapPin } from '@lucide/vue'
 import type { Exhibitor } from '@/data/exhibitors'
 import BaseModal from './BaseModal.vue'
 
@@ -37,9 +38,10 @@ const goToSessions = async () => {
     <div v-if="exhibitor" class="booth-detail" v-bind:class="`is-${exhibitor.industry}`">
       <div class="booth-detail-header">
         <span class="booth-detail-logo" aria-hidden="true">{{ exhibitor.initials }}</span>
-        <div class="booth-detail-badges">
+        <div class="booth-detail-meta">
           <span class="booth-detail-industry">{{ t(`industries.${exhibitor.industry}`) }}</span>
           <span class="booth-detail-location">
+            <MapPin v-bind:size="16" aria-hidden="true" />
             {{ t('booth.location', { booth: exhibitor.booth, hall: exhibitor.hall }) }}
           </span>
         </div>
@@ -55,7 +57,7 @@ const goToSessions = async () => {
           <li v-for="role in visibleRoles" v-bind:key="role" class="booth-detail-role">
             {{ role }}
           </li>
-          <li v-if="extraRoleCount > 0" class="booth-detail-role">
+          <li v-if="extraRoleCount > 0" class="booth-detail-more">
             {{ t('booth.more', { count: extraRoleCount }) }}
           </li>
         </ul>
@@ -72,7 +74,7 @@ const goToSessions = async () => {
 .booth-detail {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .booth-detail-header {
@@ -95,38 +97,47 @@ const goToSessions = async () => {
   color: var(--industry-text);
 }
 
-.booth-detail-badges {
+/* industry badge on top, booth location underneath, both next to the logo */
+.booth-detail-meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
 }
 
-.booth-detail-industry,
-.booth-detail-location {
+.booth-detail-industry {
   padding: 4px 10px;
   border-radius: var(--radius-pill);
+  background: var(--industry-background);
   font-size: 14px;
   font-weight: 600;
-}
-
-.booth-detail-industry {
-  background: var(--industry-background);
   color: var(--industry-text);
 }
 
 .booth-detail-location {
-  background: var(--heading);
-  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.booth-detail-location svg {
+  color: var(--primary);
 }
 
 .booth-detail-label {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
 }
 
 .booth-detail-roles {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
@@ -137,5 +148,11 @@ const goToSessions = async () => {
   font-size: 14px;
   font-weight: 500;
   color: var(--heading);
+}
+
+/* "+5 more" is plain text, so it does not look like another job role */
+.booth-detail-more {
+  font-size: 14px;
+  color: var(--muted);
 }
 </style>
