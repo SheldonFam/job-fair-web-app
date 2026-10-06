@@ -137,15 +137,16 @@ const handleSubmit = async () => {
       <div class="contact-grid">
         <!-- Left: venue card -->
         <div class="card contact-venue">
-          <div
+          <iframe
             class="contact-map"
-            role="img"
-            aria-label="Map showing the venue in Kuala Lumpur"
-          ></div>
+            title="Map showing Kuala Lumpur Convention Centre"
+            src="https://www.google.com/maps?q=Kuala+Lumpur+Convention+Centre&output=embed"
+            loading="lazy"
+          ></iframe>
           <ul class="contact-details">
             <li class="contact-detail contact-detail-address">
               <MapPin class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
-              Halls A–C, Kuala Lumpur
+              Halls A–C, Kuala Lumpur Convention Centre
             </li>
             <li class="contact-detail">
               <Phone class="contact-detail-icon" v-bind:size="18" aria-hidden="true" />
@@ -293,10 +294,12 @@ const handleSubmit = async () => {
   overflow: hidden;
 }
 
-/* grey grid until a real map is added */
+/* the map fills the space above the details; the grey shows while it loads */
 .contact-map {
   flex: 1;
+  width: 100%;
   min-height: 200px;
+  border: 0;
   background: var(--border);
 }
 
@@ -304,7 +307,7 @@ const handleSubmit = async () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 20px;
+  padding: 24px;
   font-size: 15px;
 }
 

@@ -28,7 +28,7 @@
               hello@careerconnect.example.my
             </a>
           </li>
-          <li>Halls A–C, Kuala Lumpur</li>
+          <li>Halls A–C, Kuala Lumpur Convention Centre</li>
         </ul>
       </div>
     </div>

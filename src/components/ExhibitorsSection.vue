@@ -376,5 +376,9 @@ const clearFilters = () => {
   .exhibitor-roles {
     white-space: normal;
   }
+
+  .exhibitor-card {
+    align-items: flex-start;
+  }
 }
 </style>

@@ -10,9 +10,9 @@ defineEmits<{ openExhibitor: [] }>()
     <div class="container hero-inner">
       <div class="hero-content">
         <a href="#sessions" class="hero-pill">
-          <span class="hero-pill-badge">12–14 December 2026 · 9:00 AM – 6:00 PM</span>
+          <span class="hero-pill-badge">12–14 December 2026&nbsp;· 9:00 AM – 6:00 PM</span>
           <span class="hero-pill-venue">
-            Halls A–C, Kuala Lumpur
+            KL Convention Centre
             <ArrowRight class="hero-pill-arrow" v-bind:size="16" aria-hidden="true" />
           </span>
         </a>
@@ -170,6 +170,24 @@ defineEmits<{ openExhibitor: [] }>()
 @media (max-width: 640px) {
   .hero-actions .btn {
     width: 100%;
+  }
+
+  /* phones: the date and the venue sit on two lines, both starting at the same left edge */
+  .hero-pill {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 4px 4px 8px;
+    border-radius: var(--radius-card);
+  }
+
+  .hero-pill-badge {
+    border-radius: var(--radius);
+    text-wrap: balance;
+  }
+
+  .hero-pill-venue {
+    padding-left: 10px;
   }
 }
 </style>
