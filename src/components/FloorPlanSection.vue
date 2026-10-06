@@ -7,8 +7,8 @@ import BoothModal from './BoothModal.vue'
 import FloorPlanMap from './FloorPlanMap.vue'
 
 const minimumZoom = 1
-const maximumZoom = 2
-const zoomStep = 0.25
+const maximumZoom = 4
+const zoomStep = 0.5
 
 const isLightboxOpen = ref(false)
 const zoomLevel = ref(minimumZoom)
@@ -68,7 +68,9 @@ const openBooth = async (exhibitor: Exhibitor) => {
       </div>
 
       <div class="card floor-plan-card">
-        <p class="floor-plan-hint">Swipe sideways to see all three halls.</p>
+        <p class="floor-plan-hint">
+          Swipe sideways to see all three halls, or open the full map to see them at once.
+        </p>
 
         <div class="floor-plan-scroll">
           <FloorPlanMap v-on:select-exhibitor="openBooth" />
@@ -215,8 +217,10 @@ const openBooth = async (exhibitor: Exhibitor) => {
   text-align: center;
 }
 
-/* the zoomed map scrolls in both directions inside this box */
+/* the zoomed map scrolls in both directions inside this box.
+   --floor-map-min-width: 0 lets the whole map fit the box at 100% zoom, even on a phone. */
 .floor-plan-lightbox {
+  --floor-map-min-width: 0px;
   max-height: 65vh;
   overflow-y: auto;
   border-radius: var(--radius);

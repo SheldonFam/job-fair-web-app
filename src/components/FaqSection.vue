@@ -31,7 +31,7 @@ const faqs = [
   {
     question: 'How do companies book a booth?',
     answer:
-      'Click “Be Our Exhibitor” and complete the 3-step form. Our team will contact you within 3 working days.',
+      'Click “Be Our Exhibitor” and complete the form. Our team will contact you within 3 working days.',
   },
 ]
 

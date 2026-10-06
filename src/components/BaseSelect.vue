@@ -208,10 +208,14 @@ const moveFocus = (step: number) => {
   cursor: pointer;
 }
 
-.select-option:hover,
-.select-option:focus-visible {
-  outline: none;
+.select-option:hover {
   background: var(--surface-muted);
+}
+
+/* keyboard focus: the ring is drawn inside the option, so the edge of the list does not cut it off */
+.select-option:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
 }
 
 .select-option.is-selected {

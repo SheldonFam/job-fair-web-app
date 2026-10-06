@@ -3,5 +3,6 @@ export const navLinks = [
   { sectionId: 'floorplan', label: 'Floor Plan' },
   { sectionId: 'exhibitors', label: 'Exhibitors' },
   { sectionId: 'sessions', label: 'Sessions' },
+  { sectionId: 'faq', label: 'FAQ' },
   { sectionId: 'contact', label: 'Contact' },
 ]

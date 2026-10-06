@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const email = ref('')
-</script>
-
 <template>
   <footer class="footer">
     <div class="container footer-grid">
@@ -37,29 +31,10 @@ const email = ref('')
           <li>Halls A–C, Kuala Lumpur</li>
         </ul>
       </div>
-
-      <form v-on:submit.prevent>
-        <label for="newsletter-email" class="footer-title">Get job fair updates</label>
-        <div class="footer-newsletter">
-          <input
-            id="newsletter-email"
-            v-model="email"
-            class="footer-input"
-            type="email"
-            required
-            placeholder="Your email"
-          />
-          <button type="submit" class="btn btn-primary">Join</button>
-        </div>
-      </form>
     </div>
 
     <div class="container footer-bottom">
       <p>© 2026 CareerConnect. All rights reserved.</p>
-      <ul class="footer-legal">
-        <li><a href="#" class="footer-link">Privacy</a></li>
-        <li><a href="#" class="footer-link">Terms</a></li>
-      </ul>
     </div>
   </footer>
 </template>
@@ -78,7 +53,7 @@ const email = ref('')
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.3fr 0.8fr 1.4fr 1.4fr;
+  grid-template-columns: 1.6fr 1fr 1.4fr;
   gap: 40px;
   padding-block: 56px;
 }
@@ -90,9 +65,8 @@ const email = ref('')
   color: var(--white);
 }
 
-/* column headings (also used on the newsletter label) */
+/* column headings */
 .footer-title {
-  display: block;
   margin-bottom: 12px;
   font-size: 14px;
   font-weight: 600;
@@ -107,7 +81,11 @@ const email = ref('')
   gap: 10px;
 }
 
+/* the padding makes the link taller to tap; the negative margin stops it from moving the layout */
 .footer-link {
+  display: inline-block;
+  margin-block: -5px;
+  padding-block: 5px;
   color: inherit;
   text-decoration: none;
   overflow-wrap: anywhere;
@@ -118,27 +96,6 @@ const email = ref('')
   text-decoration: underline;
 }
 
-/* newsletter */
-.footer-newsletter {
-  display: flex;
-  gap: 8px;
-}
-
-.footer-input {
-  flex: 1;
-  min-width: 0;
-  min-height: 48px;
-  padding: 0 12px;
-  border: 1px solid var(--body);
-  border-radius: var(--radius);
-  background: var(--footer-line);
-  color: var(--white);
-}
-
-.footer-input::placeholder {
-  color: var(--footer-muted);
-}
-
 /* a lighter outline so keyboard focus is visible on the dark background */
 .footer :focus-visible {
   outline-color: #93c5fd;
@@ -146,19 +103,10 @@ const email = ref('')
 
 /* copyright row */
 .footer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
   padding-block: 20px;
   border-top: 1px solid var(--footer-line);
   font-size: 13px;
   color: var(--footer-muted);
-}
-
-.footer-legal {
-  display: flex;
-  gap: 20px;
 }
 
 @media (max-width: 1024px) {
@@ -172,11 +120,6 @@ const email = ref('')
 @media (max-width: 640px) {
   .footer-grid {
     grid-template-columns: 1fr;
-  }
-  .footer-bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
   }
 }
 </style>

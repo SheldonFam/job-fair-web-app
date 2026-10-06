@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { Clock, MapPin } from '@lucide/vue'
-import { sessions, type Session, type SessionType } from '@/data/sessions'
+import { sessionDays, sessions, type Session, type SessionType } from '@/data/sessions'
 import ReservationModal from './ReservationModal.vue'
 
 const sessionTypes: { id: SessionType; label: string }[] = [
   { id: 'match', label: 'Job Matching' },
   { id: 'talk', label: 'Career Talks' },
-]
-
-const days = [
-  { number: 1, label: 'Day 1 · Sat 12 Dec' },
-  { number: 2, label: 'Day 2 · Sun 13 Dec' },
-  { number: 3, label: 'Day 3 · Mon 14 Dec' },
 ]
 
 const statusLabels = {
@@ -74,7 +68,7 @@ const openReservation = (session: Session) => {
 
       <div class="sessions-days" role="group" aria-label="Day">
         <button
-          v-for="day in days"
+          v-for="day in sessionDays"
           v-bind:key="day.number"
           type="button"
           class="filter-chip"
@@ -140,7 +134,7 @@ const openReservation = (session: Session) => {
             class="btn btn-outline"
             v-on:click="openReservation(session)"
           >
-            Join waitlist
+            Join Waitlist
           </button>
           <button
             v-else-if="session.status === 'almostFull'"

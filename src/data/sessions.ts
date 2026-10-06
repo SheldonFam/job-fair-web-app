@@ -17,6 +17,13 @@ export type Session = {
   avatarColor: string
 }
 
+// the three days of the fair, used by the day buttons and the reservation summary
+export const sessionDays = [
+  { number: 1, label: 'Day 1 · Sat 12 Dec' },
+  { number: 2, label: 'Day 2 · Sun 13 Dec' },
+  { number: 3, label: 'Day 3 · Mon 14 Dec' },
+]
+
 const MATCHING_ZONE = 'Job Matching Zone, Hall B'
 const MAIN_STAGE = 'Main Stage, Hall A'
 

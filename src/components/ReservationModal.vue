@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { CalendarDays, CircleCheck, Clock, MapPin, UserRound } from '@lucide/vue'
 import BaseModal from './BaseModal.vue'
-import type { Session } from '@/data/sessions'
+import { sessionDays, type Session } from '@/data/sessions'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 
 const props = defineProps<{ open: boolean; session: Session | null }>()
 const emit = defineEmits<{ close: [] }>()
 
 const isWaitList = computed(() => props.session?.status === 'full')
+
+// "Day 1 · Sat 12 Dec": the date is clearer than the day number alone
+const dayLabel = computed(() => {
+  return sessionDays.find((day) => day.number === props.session?.day)?.label ?? ''
+})
 
 const form = reactive({
   reservationName: '',
@@ -102,7 +107,6 @@ const handleSubmit = async () => {
 
   try {
     submitStatus.value = 'sending'
-    console.log('Submitted From', { ...form })
 
     const payload = {
       reservationSessionId: props.session.id,
@@ -177,7 +181,7 @@ const handleSubmit = async () => {
         <ul class="reservation-summary-details">
           <li class="reservation-summary-detail">
             <CalendarDays v-bind:size="16" aria-hidden="true" />
-            Day {{ session.day }}
+            {{ dayLabel }}
           </li>
           <li class="reservation-summary-detail">
             <Clock v-bind:size="16" aria-hidden="true" />
@@ -266,7 +270,7 @@ const handleSubmit = async () => {
           class="btn btn-primary btn-lg form-grid-full"
           v-bind:disabled="submitStatus === 'sending'"
         >
-          <template v-if="submitStatus === 'sending'">Sending…</template>
+          <template v-if="submitStatus === 'sending'">Sending...</template>
           <template v-else>{{ isWaitList ? 'Join Waitlist' : 'Confirm Reservation' }}</template>
         </button>
       </form>

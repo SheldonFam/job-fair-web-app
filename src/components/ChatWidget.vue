@@ -19,11 +19,18 @@ const messageText = ref('')
 const isPending = ref(false)
 const messageList = ref<HTMLElement | null>(null)
 const messageInput = ref<HTMLElement | null>(null)
+const chatButton = ref<HTMLButtonElement | null>(null)
 
 const openChatBot = async () => {
   isOpen.value = true
   await scrollToBottom()
   messageInput.value?.focus()
+}
+
+const closeChatBot = async () => {
+  isOpen.value = false
+  await nextTick()
+  chatButton.value?.focus()
 }
 
 const scrollToBottom = async () => {
@@ -80,6 +87,7 @@ const sendMessage = async (text: string) => {
 <template>
   <button
     v-if="!isOpen"
+    ref="chatButton"
     type="button"
     class="chat-button"
     aria-label="Open chat"
@@ -88,7 +96,12 @@ const sendMessage = async (text: string) => {
     <MessageCircle v-bind:size="28" aria-hidden="true" />
   </button>
 
-  <section v-else class="chat-window" aria-label="CareerConnect Assistant">
+  <section
+    v-else
+    class="chat-window"
+    aria-label="CareerConnect Assistant"
+    v-on:keydown.esc="closeChatBot"
+  >
     <header class="chat-header">
       <span class="chat-avatar" aria-hidden="true">
         <Bot v-bind:size="22" />
@@ -104,7 +117,7 @@ const sendMessage = async (text: string) => {
         type="button"
         class="icon-button chat-close"
         aria-label="Close chat"
-        v-on:click="isOpen = false"
+        v-on:click="closeChatBot"
       >
         <X v-bind:size="20" aria-hidden="true" />
       </button>
@@ -251,6 +264,11 @@ const sendMessage = async (text: string) => {
 
 .chat-close:hover {
   background: rgba(255, 255, 255, 0.25);
+}
+
+/* a white outline, because the usual blue one cannot be seen on the blue header */
+.chat-close:focus-visible {
+  outline-color: var(--white);
 }
 
 /* message list: takes the space left over and scrolls */

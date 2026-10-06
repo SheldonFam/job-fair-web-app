@@ -156,7 +156,7 @@ const clearFilters = () => {
         <h3 class="exhibitors-empty-title">No exhibitors found</h3>
         <p class="exhibitors-empty-text">Try a different name, booth number or job role.</p>
         <button type="button" class="btn btn-outline btn-sm" v-on:click="clearFilters">
-          Clear filters
+          Clear Filters
         </button>
       </div>
     </div>
@@ -307,6 +307,7 @@ const clearFilters = () => {
 }
 
 .exhibitor-map-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -315,6 +316,13 @@ const clearFilters = () => {
   color: var(--primary);
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* the text is small, so an invisible area around it makes the link easier to tap */
+.exhibitor-map-link::before {
+  content: '';
+  position: absolute;
+  inset: -12px -8px;
 }
 
 .exhibitor-map-link:hover {
@@ -362,6 +370,11 @@ const clearFilters = () => {
   .exhibitors-industries {
     flex-wrap: nowrap;
     overflow-x: auto;
+  }
+
+  /* the roles line wraps onto more lines, so it is not cut off after a few letters */
+  .exhibitor-roles {
+    white-space: normal;
   }
 }
 </style>

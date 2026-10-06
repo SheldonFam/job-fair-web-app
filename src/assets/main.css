@@ -23,6 +23,7 @@
   --border: #e2e8f0;
   --border-medium: #cbd5e1;
   --border-strong: #94a3b8;
+  --border-input: #7f8ea3;
   --white: #ffffff;
   --surface: var(--white);
   --surface-alt: #f8fafc;
@@ -259,6 +260,12 @@ a {
   background: var(--border);
 }
 
+.icon-button:disabled {
+  background: var(--surface-muted);
+  color: var(--border-strong);
+  cursor: not-allowed;
+}
+
 /* pill button used for filters (session days, exhibitor industries) */
 .filter-chip {
   display: inline-flex;
@@ -362,7 +369,7 @@ a {
   width: 100%;
   min-height: 46px;
   padding: 10px 12px;
-  border: 1.5px solid var(--border-strong);
+  border: 1.5px solid var(--border-input);
   border-radius: var(--radius);
   background-color: var(--surface);
   color: var(--heading);

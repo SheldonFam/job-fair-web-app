@@ -65,11 +65,12 @@ const mapBooths = booths.map((booth) => {
 /* the drawing with the booths on top.
    --floor-map-zoom is 1 by default; the lightbox raises it to make the map bigger.
    min-width keeps the booths big enough to tap; on small screens the parent scrolls sideways.
+   The lightbox sets --floor-map-min-width to 0, so the whole map fits it at 100% zoom.
    container-type lets the booth text size follow the map width (the cqw unit below). */
 .floor-map {
   position: relative;
   width: calc(100% * var(--floor-map-zoom, 1));
-  min-width: calc(960px * var(--floor-map-zoom, 1));
+  min-width: calc(var(--floor-map-min-width, 960px) * var(--floor-map-zoom, 1));
   container-type: inline-size;
 }
 
@@ -108,5 +109,13 @@ button.floor-map-booth:hover {
   background: var(--white);
   font-weight: 500;
   color: var(--muted);
+}
+
+/* when the map is drawn very small (the phone overview in the lightbox),
+   the booth codes no longer fit inside the booths, so they are hidden */
+@container (max-width: 600px) {
+  .floor-map-booth {
+    font-size: 0;
+  }
 }
 </style>
