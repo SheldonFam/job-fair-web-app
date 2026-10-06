@@ -9,7 +9,7 @@ const isOpen = ref(false)
 
 const messages = ref<ChatMessage[]>([])
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const suggestions = ['dates', 'register', 'floorPlan', 'packages']
 
@@ -55,7 +55,7 @@ const sendMessage = async (text: string) => {
     const response = await fetch('/api/chat.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: messages.value }),
+      body: JSON.stringify({ messages: messages.value, language: locale.value }),
     })
 
     const result = await response.json()
