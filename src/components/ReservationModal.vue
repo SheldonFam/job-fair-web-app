@@ -7,7 +7,7 @@ import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{ open: boolean; session: Session | null }>()
-const emit = defineEmits<{ close: [] }>()
+const emit = defineEmits<{ close: []; reserved: [sessionId: string] }>()
 
 const { t, locale } = useI18n()
 
@@ -30,6 +30,11 @@ const errors = reactive({
 })
 
 const submitStatus = ref<'idle' | 'sending' | 'sent' | 'failed'>('idle')
+
+const bookedAsWaitlist = ref(false)
+const showWaitlistText = computed(() =>
+  submitStatus.value === 'sent' ? bookedAsWaitlist.value : isWaitList.value,
+)
 
 const hasSubmitted = ref(false)
 
@@ -133,7 +138,13 @@ const handleSubmit = async () => {
     }
 
     submittedEmail.value = payload.reservationEmail
+    bookedAsWaitlist.value = isWaitList.value
     submitStatus.value = 'sent'
+
+    // a waitlist booking does not take a seat
+    if (!bookedAsWaitlist.value) {
+      emit('reserved', props.session.id)
+    }
     resetForm()
 
     // the form is replaced by the thank-you view, so move the keyboard focus to its button
@@ -149,16 +160,16 @@ const handleSubmit = async () => {
 <template>
   <BaseModal
     v-bind:open="open"
-    v-bind:title="isWaitList ? t('reservation.titleWaitlist') : t('reservation.titleReserve')"
+    v-bind:title="showWaitlistText ? t('reservation.titleWaitlist') : t('reservation.titleReserve')"
     v-on:close="emit('close')"
   >
     <!-- thank-you view, shown after a successful submit -->
     <div v-if="submitStatus === 'sent'" class="form-success" role="status">
       <CircleCheck class="form-success-icon" v-bind:size="56" aria-hidden="true" />
       <h3 class="form-success-title">
-        {{ isWaitList ? t('reservation.successWaitlist') : t('reservation.successBooked') }}
+        {{ showWaitlistText ? t('reservation.successWaitlist') : t('reservation.successBooked') }}
       </h3>
-      <p v-if="isWaitList">
+      <p v-if="showWaitlistText">
         {{ t('reservation.waitlistEmailTo') }}
         <strong>{{ submittedEmail }}</strong>
       </p>

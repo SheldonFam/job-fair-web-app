@@ -21,8 +21,10 @@ const selectedDay = ref(1)
 
 const isReservationOpen = ref(false)
 
+const sessionList = ref(sessions)
+
 const sessionsOfSelectedType = computed(() => {
-  return sessions.filter((session) => session.type === selectedType.value)
+  return sessionList.value.filter((session) => session.type === selectedType.value)
 })
 
 const visibleSessions = computed(() => {
@@ -34,6 +36,20 @@ const selectedSession = ref<Session | null>(null)
 const openReservation = (session: Session) => {
   selectedSession.value = session
   isReservationOpen.value = true
+}
+// To show on UI reduce the slots
+const reduceSeat = (sessionId: string) => {
+  const session = sessionList.value.find((item) => item.id === sessionId)
+  if (!session || session.seatsLeft === 0) return
+
+  session.seatsLeft -= 1
+  if (session.seatsLeft === 0) {
+    session.status = 'full'
+  } else if (session.seatsLeft <= 5) {
+    session.status = 'almostFull'
+  } else {
+    session.status = 'available'
+  }
 }
 </script>
 
@@ -157,6 +173,7 @@ const openReservation = (session: Session) => {
       v-bind:open="isReservationOpen"
       v-on:close="isReservationOpen = false"
       v-bind:session="selectedSession"
+      v-on:reserved="reduceSeat"
     />
   </section>
 </template>
