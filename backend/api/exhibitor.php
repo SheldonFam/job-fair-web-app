@@ -1,5 +1,7 @@
 <?php
 
+// Saves an application from the "Be Our Exhibitor" form.
+
 header('Content-Type:application/json');
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
@@ -76,12 +78,20 @@ try{
     $pdo = require __DIR__ . '/../database.php';
     
     $statement = $pdo->prepare(
-        'INSERT INTO exhibitor_applications (company_name, contact_person, email,phone,industry,booth_package) VALUES (?,?,?,?,?,?)'
+        'INSERT INTO exhibitor_applications (company_name, contact_person, email, phone, industry, booth_package)
+         VALUES (:companyName, :contactPerson, :email, :phone, :industry, :boothPackage)'
     );
 
-    $statement->execute([$companyName,$contactPerson,$email,$phone,$industry,$boothPackage]);
+    $statement->execute([
+        'companyName' => $companyName,
+        'contactPerson' => $contactPerson,
+        'email' => $email,
+        'phone' => $phone,
+        'industry' => $industry,
+        'boothPackage' => $boothPackage,
+    ]);
 
-    echo json_encode(['success' => true]);
+    echo json_encode(['success' => true, 'message' => 'Your application has been received.']);
 }catch (PDOException $exception){
     http_response_code(500);
     echo json_encode(['success'=>false,'message'=>'Could not save your application']);

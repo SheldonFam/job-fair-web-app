@@ -1,5 +1,6 @@
 <?php
 
+// Saves a message from the contact form.
 
 header('Content-Type:application/json');
 
@@ -69,11 +70,19 @@ try{
     $pdo = require __DIR__ . '/../database.php';
 
     $statement = $pdo->prepare(
-        'INSERT INTO contact_messages (name,email,phone,subject,message) VALUES (?,?,?,?,?)'
+        'INSERT INTO contact_messages (name, email, phone, subject, message)
+         VALUES (:name, :email, :phone, :subject, :message)'
     );
-    $statement->execute([$name,$email,$phoneToSave,$subject,$message]);
 
-    echo json_encode(['success'=>true]);
+    $statement->execute([
+        'name' => $name,
+        'email' => $email,
+        'phone' => $phoneToSave,
+        'subject' => $subject,
+        'message' => $message,
+    ]);
+
+    echo json_encode(['success' => true, 'message' => 'Your message has been sent.']);
 }catch (PDOException $exception){
     http_response_code(500);
     echo json_encode(['success' => false,'message'=>'Could not save your message.']);

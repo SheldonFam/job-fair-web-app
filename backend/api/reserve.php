@@ -1,5 +1,6 @@
 <?php
 
+// Saves a job matching or career talk reservation (or a waitlist booking).
 
 header('Content-Type: application/json');
 
@@ -73,11 +74,19 @@ try {
     $pdo = require __DIR__ . '/../database.php';
 
     $statement = $pdo->prepare(
-        'INSERT INTO reservations (session_id, name, email, phone, is_waitlist) VALUES (?, ?, ?, ?, ?)'
+        'INSERT INTO reservations (session_id, name, email, phone, is_waitlist)
+         VALUES (:sessionId, :name, :email, :phone, :isWaitlist)'
     );
-    $statement->execute([$sessionId, $name, $email, $phone, $isWaitlistToSave]);
 
-    echo json_encode(['success' => true]);
+    $statement->execute([
+        'sessionId' => $sessionId,
+        'name' => $name,
+        'email' => $email,
+        'phone' => $phone,
+        'isWaitlist' => $isWaitlistToSave,
+    ]);
+
+    echo json_encode(['success' => true, 'message' => 'Your reservation has been saved.']);
 } catch (PDOException $exception) {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'Could not save your reservation.']);

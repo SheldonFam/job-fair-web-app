@@ -1,5 +1,7 @@
 <?php
 
+// Connects to MySQL using the settings in config.php and returns the connection ($pdo).
+
 $config = require __DIR__ . '/config.php';
 
 $pdo = new PDO(

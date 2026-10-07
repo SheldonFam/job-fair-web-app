@@ -1,5 +1,7 @@
 <?php
 
+// Sends the visitor's chat messages to the Groq API and returns the chatbot's reply.
+
 header('Content-Type:application/json');
 
 if($_SERVER['REQUEST_METHOD']!== 'POST'){
