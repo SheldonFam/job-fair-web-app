@@ -26,9 +26,7 @@ const matchesHall = (exhibitor: Exhibitor) =>
 
 // the search looks at the company name, the booth number and the job roles
 const matchesSearch = (exhibitor: Exhibitor) => {
-  console.log('exhibitor', exhibitor)
   const keyword = searchText.value.trim().toLowerCase()
-  console.log(keyword)
 
   return (
     exhibitor.name.toLowerCase().includes(keyword) ||

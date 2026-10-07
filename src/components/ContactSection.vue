@@ -92,7 +92,6 @@ const handleSubmit = async () => {
 
   try {
     submitStatus.value = 'sending'
-    console.log('Submitted From', { ...form })
 
     const payload = {
       contactName: form.contactName.trim(),

@@ -28,7 +28,6 @@ export const useModal = (isOpen: () => boolean, panel: Ref<HTMLElement | null>) 
   })
 
   const keepFocusInside = (event: KeyboardEvent) => {
-    console.log(event)
     const items = panel.value?.querySelectorAll<HTMLElement>(focusableItems)
     if (!items) return
 

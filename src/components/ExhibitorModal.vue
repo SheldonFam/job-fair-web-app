@@ -124,7 +124,6 @@ const handleSubmit = async () => {
 
   try {
     submitStatus.value = 'sending'
-    console.log('Submitted From', { ...form })
 
     const payload = {
       exhibitorCompanyName: form.exhibitorCompanyName.trim(),
